@@ -1,5 +1,5 @@
 function DisplayTrack({
-  currentTrack,
+  currentlyPlaying,
   audioRef,
   setDuration,
   progressBarRef,
@@ -14,15 +14,15 @@ function DisplayTrack({
   return (
     <div>
       <audio
-        src={currentTrack ? currentTrack.audio : null}
+        src={currentlyPlaying ? currentlyPlaying.audio : null}
         ref={audioRef}
         onLoadedMetadata={onLoadedMetadata}
         onEnded={handleNext}
       />
       <div className="audio-info">
         <div className="text">
-          <p className="title">{currentTrack ? currentTrack.title : '--'}</p>
-          <p>{currentTrack ? currentTrack.username : '--'}</p>
+          <p className="title">{currentlyPlaying ? currentlyPlaying.title : '--'}</p>
+          <p>{currentlyPlaying ? currentlyPlaying.username : '--'}</p>
         </div>
       </div>
     </div>

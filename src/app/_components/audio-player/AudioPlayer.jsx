@@ -1,26 +1,30 @@
 'use client';
 import { useRef, useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { setPlayingTrack } from '@/app/_states/tracks/action';
 import DisplayTrack from './DisplayTrack';
 import ProgressBar from './ProgressBar';
 import Controls from './Control';
 
 function AudioPlayer() {
-  const tracks = useSelector((states) => states.tracks);
-  const [trackIndex, setTrackIndex] = useState(
-    parseInt(localStorage.getItem('tracks-queue-index')) || 0
+  const { currentlyPlaying = {}, tracks = [] } = useSelector(
+    (states) => states.tracks
   );
-  const [currentTrack, setCurrentTrack] = useState(tracks[trackIndex]);
+  const [trackIndex, setTrackIndex] = useState(0);
   const [timeProgress, setTimeProgress] = useState(0);
   const [duration, setDuration] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
+
+  const dispatch = useDispatch();
 
   const audioRef = useRef();
   const progressBarRef = useRef();
 
   useEffect(() => {
-    setCurrentTrack(tracks[trackIndex]);
-  }, [tracks, trackIndex]);
+    setTrackIndex(
+      tracks.findIndex((track) => track.id === currentlyPlaying.id)
+    );
+  }, [currentlyPlaying.id, tracks]);
 
   const handleNext = () => {
     if (trackIndex < tracks.length - 1) {
@@ -28,11 +32,22 @@ function AudioPlayer() {
         localStorage.setItem('tracks-queue-index', parseInt(prev) + 1);
         return parseInt(prev) + 1;
       });
-      setCurrentTrack(tracks[trackIndex + 1]);
+      dispatch(setPlayingTrack(tracks[trackIndex + 1].id));
     }
 
     if (trackIndex >= tracks.length - 1) {
       setIsPlaying(false);
+    }
+  };
+
+  const handlePrevious = () => {
+    if (trackIndex !== 0) {
+      setTrackIndex((prev) => {
+        localStorage.setItem('tracks-queue-index', parseInt(prev) - 1);
+        return parseInt(prev) - 1;
+      });
+      dispatch(setPlayingTrack(tracks[trackIndex - 1].id));
+      localStorage.setItem('tracks-queue-index', trackIndex);
     }
   };
 
@@ -45,7 +60,7 @@ function AudioPlayer() {
         <>
           <DisplayTrack
             {...{
-              currentTrack,
+              currentlyPlaying,
               audioRef,
               setDuration,
               progressBarRef,
@@ -58,10 +73,7 @@ function AudioPlayer() {
               progressBarRef,
               duration,
               setTimeProgress,
-              tracks,
-              trackIndex,
-              setTrackIndex,
-              setCurrentTrack,
+              handlePrevious,
               handleNext,
               isPlaying,
               setIsPlaying,

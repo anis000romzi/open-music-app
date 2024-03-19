@@ -5,10 +5,7 @@ function Controls({
   progressBarRef,
   duration,
   setTimeProgress,
-  tracks,
-  trackIndex,
-  setTrackIndex,
-  setCurrentTrack,
+  handlePrevious,
   handleNext,
   isPlaying,
   setIsPlaying,
@@ -44,17 +41,6 @@ function Controls({
     }
     playAnimationRef.current = requestAnimationFrame(repeat);
   }, [isPlaying, audioRef, repeat]);
-
-  const handlePrevious = () => {
-    if (trackIndex !== 0) {
-      setTrackIndex((prev) => {
-        localStorage.setItem('tracks-queue-index', parseInt(prev) - 1);
-        return parseInt(prev) - 1;
-      });
-      setCurrentTrack(tracks[trackIndex - 1]);
-      localStorage.setItem('tracks-queue-index', trackIndex);
-    }
-  };
 
   useEffect(() => {
     if (audioRef) {
