@@ -16,11 +16,11 @@ function Register() {
   };
 
   return (
-    <div>
+    <main>
       <h1>Register Page</h1>
       <RegisterInput register={onRegister} />
       <Link href="/login">Back to login</Link>
-    </div>
+    </main>
   );
 }
 

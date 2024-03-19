@@ -23,7 +23,7 @@ function ChangeEmail() {
   };
 
   return (
-    <div>
+    <main>
       <h1>Change Email Page</h1>
       <input
         type="email"
@@ -34,7 +34,7 @@ function ChangeEmail() {
       <button type="button" onClick={() => changeEmail(authUser.id, email)}>
         Change email
       </button>
-    </div>
+    </main>
   );
 }
 

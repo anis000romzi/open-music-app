@@ -18,13 +18,13 @@ function Login() {
   }
 
   return (
-    <div>
+    <main>
       <h1>Login Page</h1>
       <Link href="/">{'<'}</Link>
       <LoginInput login={onLogin} />
       <Link href="/register">Register</Link>
       <Link href="/forgotpassword">Forgot password?</Link>
-    </div>
+    </main>
   );
 }
 

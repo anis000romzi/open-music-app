@@ -39,7 +39,7 @@ function ForgotPassword() {
 
   if (!userId) {
     return (
-      <div>
+      <main>
         <h1>Forgot Password Page</h1>
         <input
           type="text"
@@ -50,12 +50,12 @@ function ForgotPassword() {
         <button type="button" onClick={() => submitEmail(email)}>
           Submit
         </button>
-      </div>
+      </main>
     );
   }
 
   return (
-    <div>
+    <main>
       <h1>Forgot Password Page</h1>
       <p>OTP code sent to {email}</p>
       <input
@@ -76,7 +76,7 @@ function ForgotPassword() {
       >
         Reset password
       </button>
-    </div>
+    </main>
   );
 }
 
