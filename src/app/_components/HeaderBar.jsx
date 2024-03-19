@@ -19,6 +19,26 @@ function HeaderBar({ authUser, logOut }) {
           <button onClick={logOut}>{authUser.username}</button>
         )}
       </div>
+      <nav
+        id="navigationDrawer"
+        className="header-bar__nav"
+      >
+        <ul>
+          <li>
+            <Link href="/">Home</Link>
+          </li>
+          <li>
+            <Link href="/search">Search</Link>
+          </li>
+          {authUser === null ? (
+            ''
+          ) : (
+            <li>
+              <Link href="/collections">Collections</Link>
+            </li>
+          )}
+        </ul>
+      </nav>
     </header>
   );
 }
