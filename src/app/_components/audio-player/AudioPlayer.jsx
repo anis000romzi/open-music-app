@@ -34,10 +34,6 @@ function AudioPlayer() {
       });
       dispatch(setPlayingTrack(tracks[trackIndex + 1].id));
     }
-
-    if (trackIndex >= tracks.length - 1) {
-      setIsPlaying(false);
-    }
   };
 
   const handlePrevious = () => {

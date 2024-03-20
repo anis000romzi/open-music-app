@@ -6,6 +6,7 @@ import userDetailReducer from './userDetail/reducer';
 import popularAlbumsReducer from './popularAlbums/reducer';
 import albumDetailReducer from './albumDetail/reducer';
 import tracksReducer from './tracks/reducer';
+import songsReducer from './songs/reducer';
 
 const store = configureStore({
   reducer: {
@@ -13,6 +14,7 @@ const store = configureStore({
     isPreload: isPreloadReducer,
     users: usersReducer,
     userDetail: userDetailReducer,
+    songs: songsReducer,
     popularAlbums: popularAlbumsReducer,
     albumDetail: albumDetailReducer,
     tracks: tracksReducer,

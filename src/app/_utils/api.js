@@ -291,6 +291,21 @@ const api = (() => {
     return data;
   }
 
+  async function getSongs(title) {
+    const response = await fetch(`${BASE_URL}/songs?title=${title}`);
+
+    const responseJson = await response.json();
+    const { status, message } = responseJson;
+
+    if (status !== 'success') {
+      throw new Error(message);
+    }
+
+    const { data: songs } = responseJson;
+
+    return songs;
+  }
+
   return {
     putRefreshToken,
     getRefreshToken,
@@ -307,6 +322,7 @@ const api = (() => {
     getPopularAlbums,
     getAlbumById,
     getUserById,
+    getSongs,
   };
 })();
 
