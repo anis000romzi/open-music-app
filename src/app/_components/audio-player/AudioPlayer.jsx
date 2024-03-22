@@ -50,7 +50,12 @@ function AudioPlayer() {
   return (
     <div
       className="audio-player"
-      style={{ position: 'fixed', bottom: '0', width: '100%' }}
+      style={{
+        position: 'fixed',
+        bottom: '0',
+        width: '100%',
+        backgroundColor: 'black',
+      }}
     >
       {tracks.length > 0 ? (
         <>

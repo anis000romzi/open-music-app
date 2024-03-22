@@ -44,7 +44,7 @@ function AlbumDetail() {
         <div>
           <section>
             <Image
-              src={albumDetail.cover ? albumDetail.cover : defaultImage}
+              src={albumDetail.coverUrl ? albumDetail.coverUrl : defaultImage}
               width={200}
               height={200}
               alt="Album cover"

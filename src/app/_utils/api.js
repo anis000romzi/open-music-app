@@ -306,6 +306,99 @@ const api = (() => {
     return songs;
   }
 
+  async function createAlbum(name, year) {
+    const response = await _fetchWithAuth(`${BASE_URL}/albums`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        name,
+        year,
+      }),
+    });
+
+    const responseJson = await response.json();
+    const { status, message } = responseJson;
+
+    if (status !== 'success') {
+      throw new Error(message);
+    }
+
+    const { data } = responseJson;
+
+    return data;
+  }
+
+  async function addAlbumCover(id, file) {
+    const formData = new FormData();
+    formData.append('cover', file);
+
+    const response = await _fetchWithAuth(`${BASE_URL}/albums/${id}/covers`, {
+      method: 'POST',
+      body: formData,
+    });
+
+    const responseJson = await response.json();
+    const { status, message } = responseJson;
+
+    if (status !== 'success') {
+      throw new Error(message);
+    }
+
+    const { data } = responseJson;
+
+    return data;
+  }
+
+  async function createSong({ title, year, genre, albumId }) {
+    const response = await _fetchWithAuth(`${BASE_URL}/songs`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        title,
+        year,
+        genre,
+        duration: 0,
+        albumId,
+      }),
+    });
+
+    const responseJson = await response.json();
+    const { status, message } = responseJson;
+
+    if (status !== 'success') {
+      throw new Error(message);
+    }
+
+    const { data } = responseJson;
+
+    return data;
+  }
+
+  async function addSongAudio(id, file) {
+    const formData = new FormData();
+    formData.append('audio', file);
+
+    const response = await _fetchWithAuth(`${BASE_URL}/songs/${id}/audios`, {
+      method: 'POST',
+      body: formData,
+    });
+
+    const responseJson = await response.json();
+    const { status, message } = responseJson;
+
+    if (status !== 'success') {
+      throw new Error(message);
+    }
+
+    const { data } = responseJson;
+
+    return data;
+  }
+
   return {
     putRefreshToken,
     getRefreshToken,
@@ -323,6 +416,10 @@ const api = (() => {
     getAlbumById,
     getUserById,
     getSongs,
+    createAlbum,
+    addAlbumCover,
+    createSong,
+    addSongAudio,
   };
 })();
 

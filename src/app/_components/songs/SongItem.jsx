@@ -1,10 +1,10 @@
-function SongItem({ id, title, username, onPlay }) {
+function SongItem({ id, title, artist, onPlay }) {
   return (
     <div className="song-item">
       <p>
         <strong>{title}</strong>
       </p>
-      <p>{username}</p>
+      <p>{artist}</p>
       <button type="button" onClick={() => onPlay(id)}>PLAY</button>
     </div>
   );
