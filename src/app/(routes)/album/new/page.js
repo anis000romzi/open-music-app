@@ -4,6 +4,9 @@ import { redirect, useRouter } from 'next/navigation';
 import useInput from '@/app/_hooks/useInput';
 import { useState } from 'react';
 import api from '@/app/_utils/api';
+import styles from '../../../_styles/input.module.css';
+import Image from 'next/image';
+import defaultImage from '../../../_assets/default-image.png';
 
 function NewAlbumm() {
   const authUser = useSelector((states) => states.authUser);
@@ -38,8 +41,7 @@ function NewAlbumm() {
 
   return (
     <main>
-      <h1>New Album Page</h1>
-      <form>
+      <form className={styles.new_album_input}>
         <input
           type="text"
           value={name}
@@ -57,6 +59,12 @@ function NewAlbumm() {
           id="cover"
           name="cover"
           onChange={handleFileChange}
+        />
+        <Image
+          src={file ? URL.createObjectURL(file) : defaultImage}
+          width={200}
+          height={200}
+          alt="Album cover"
         />
         <button type="button" onClick={() => addAlbum({ name, year, file })}>
           Create Album

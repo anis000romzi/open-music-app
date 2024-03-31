@@ -8,7 +8,9 @@ import SongsList from '@/app/_components/songs/SongsList';
 import {
   setNewTracksQueue,
   setPlayingTrack,
+  setIsPlaying,
 } from '@/app/_states/tracks/action';
+import styles from '../../_styles/input.module.css';
 
 function Search() {
   const [keyword, onKeywordChange] = useInput('');
@@ -49,6 +51,7 @@ function Search() {
       setNewTracksQueue(songs.songs.filter((song) => song.id === songId))
     );
     dispatch(setPlayingTrack(songId));
+    dispatch(setIsPlaying());
     localStorage.setItem(
       'tracks-queue-index',
       tracks.findIndex((track) => track.id === songId)
@@ -57,8 +60,7 @@ function Search() {
 
   return (
     <main>
-      <h1>Search Page</h1>
-      <form onSubmit={onSearch}>
+      <form onSubmit={onSearch} className={styles.search_input}>
         <input
           type="text"
           placeholder="Search ..."
