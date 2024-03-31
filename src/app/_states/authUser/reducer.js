@@ -11,6 +11,11 @@ function authUserReducer(authUser = null, action = {}) {
         ...authUser,
         is_active: true,
       };
+    case ActionType.CHANGE_EMAIL_AUTH_USER:
+      return {
+        ...authUser,
+        email: action.payload.email,
+      };
     default:
       return authUser;
   }

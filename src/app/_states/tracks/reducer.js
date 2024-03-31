@@ -11,6 +11,11 @@ function tracksReducer(tracks = {}, action = {}) {
           (track) => track.id === action.payload.songId
         )[0],
       };
+    case ActionType.SET_IS_PLAYING:
+      return {
+        ...tracks,
+        isPlaying: !tracks.isPlaying,
+      };
     default:
       return tracks;
   }

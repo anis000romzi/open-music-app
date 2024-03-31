@@ -1,6 +1,7 @@
 const ActionType = {
   RECEIVE_TRACKS: 'RECEIVE_TRACKS',
   SET_PLAYING_TRACK: 'SET_PLAYING_TRACK',
+  SET_IS_PLAYING: 'SET_IS_PLAYING',
 };
 
 function receiveTracksActionCreator(tracks) {
@@ -21,6 +22,12 @@ function setPlayingTrackActionCreator(songId) {
   };
 }
 
+function setIsPlayingActionCreator() {
+  return {
+    type: ActionType.SET_IS_PLAYING,
+  };
+}
+
 function getTracksQueue() {
   return async (dispatch) => {
     try {
@@ -37,7 +44,11 @@ function setNewTracksQueue(tracks) {
     try {
       localStorage.setItem(
         'tracks-queue',
-        JSON.stringify({ currentlyPlaying: tracks[0], tracks })
+        JSON.stringify({
+          currentlyPlaying: tracks[0],
+          tracks,
+          isPlaying: false,
+        })
       );
       localStorage.setItem('tracks-queue-index', 0);
       dispatch(getTracksQueue());
@@ -60,6 +71,26 @@ function setPlayingTrack(songId) {
           currentlyPlaying: tracks.tracks.filter(
             (track) => track.id === songId
           )[0],
+          isPlaying: false,
+        })
+      );
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+}
+
+function setIsPlaying() {
+  return async (dispatch, getState) => {
+    const { tracks } = getState();
+
+    dispatch(setIsPlayingActionCreator());
+    try {
+      localStorage.setItem(
+        'tracks-queue',
+        JSON.stringify({
+          ...tracks,
+          isPlaying: !tracks.isPlaying,
         })
       );
     } catch (error) {
@@ -75,4 +106,5 @@ export {
   getTracksQueue,
   setNewTracksQueue,
   setPlayingTrack,
+  setIsPlaying,
 };
