@@ -8,6 +8,11 @@ const nextConfig = {
         port: '5000',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'ui-avatars.com',
+        pathname: '/**',
+      },
     ],
   },
 };
