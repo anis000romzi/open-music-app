@@ -1,6 +1,7 @@
 import { Outfit } from 'next/font/google';
 import './globals.css';
-import { StoreProvider } from './StoreProvider';
+import { ReduxProvider } from './ReduxProvider';
+import ProgressBarProvider from './ProgressBarProvider';
 import AudioPlayerWrapper from './_components/audio-player/AudioPlayerWrapper';
 import AuthWrapper from './_components/AuthWrapper';
 
@@ -13,15 +14,17 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <StoreProvider>
+    <ReduxProvider>
       <html lang="en">
         <body className={outfit.className}>
-          <AuthWrapper>
-            {children}
-            <AudioPlayerWrapper />
-          </AuthWrapper>
+          <ProgressBarProvider>
+            <AuthWrapper>
+              {children}
+              <AudioPlayerWrapper />
+            </AuthWrapper>
+          </ProgressBarProvider>
         </body>
       </html>
-    </StoreProvider>
+    </ReduxProvider>
   );
 }
