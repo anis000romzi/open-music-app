@@ -1,0 +1,128 @@
+.login_input {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 80%;
+  gap: 5px;
+}
+
+.login_input input {
+  width: 100%;
+  height: 50px;
+  font-size: 1em;
+  border: none;
+  background-color: #EDEDED;
+  color: #111111;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.login_input button {
+  background-color: #FFE74C;
+  color: #111111;
+  padding: 10px;
+  border: none;
+  font-size: 1em;
+  font-weight: bold;
+  width: 50%;
+  margin-top: 10px;
+  border-radius: 10px;
+}
+
+.login_input .register_button {
+  background-color: #000000;
+  color: #FFE74C;
+  padding: 10px;
+  border: #FFE74C 1px solid;
+  font-size: 1em;
+  font-weight: bold;
+  width: 50%;
+  border-radius: 10px;
+}
+
+.register_input {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 80%;
+  gap: 5px;
+}
+
+.register_input input {
+  width: 100%;
+  height: 50px;
+  font-size: 1em;
+  border: none;
+  background-color: #EDEDED;
+  color: #111111;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.register_input button {
+  background-color: #FFE74C;
+  color: #111111;
+  padding: 10px;
+  border: none;
+  font-size: 1em;
+  font-weight: bold;
+  width: 50%;
+  margin-top: 10px;
+  border-radius: 10px;
+}
+
+.search_input {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  gap: 5px;
+}
+
+.search_input input {
+  width: 80%;
+  height: 50px;
+  font-size: 1em;
+  border: none;
+  background-color: #EDEDED;
+  color: #111111;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.new_album_input {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  gap: 5px;
+}
+
+.new_album_input input {
+  width: 80%;
+  height: 50px;
+  font-size: 1em;
+  border: none;
+  background-color: #EDEDED;
+  color: #111111;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.new_album_input button {
+  background-color: #FFE74C;
+  color: #111111;
+  padding: 10px;
+  border: none;
+  font-size: 1em;
+  font-weight: bold;
+  width: 50%;
+  margin-top: 10px;
+  border-radius: 10px;
+}

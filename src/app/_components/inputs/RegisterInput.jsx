@@ -1,4 +1,5 @@
 import useInput from '../../_hooks/useInput';
+import styles from '../../_styles/input.module.css'
 
 function RegisterInput({ register }) {
   const [email, onEmailChange] = useInput('');
@@ -7,7 +8,7 @@ function RegisterInput({ register }) {
   const [password, onPasswordChange] = useInput('');
 
   return (
-    <form className="register-input">
+    <form className={styles.register_input}>
       <input
         type="text"
         value={email}
@@ -31,6 +32,7 @@ function RegisterInput({ register }) {
         value={password}
         onChange={onPasswordChange}
         placeholder="Password"
+        autoComplete="on"
       />
       <button
         type="button"

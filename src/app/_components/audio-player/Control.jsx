@@ -1,4 +1,12 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
+import {
+  FaPlay,
+  FaPause,
+  FaVolumeXmark,
+  FaVolumeLow,
+  FaVolumeHigh,
+} from 'react-icons/fa6';
+import styles from '../../_styles/player.module.css';
 
 function Controls({
   audioRef,
@@ -50,18 +58,24 @@ function Controls({
   }, [volume, audioRef, muteVolume]);
 
   return (
-    <div className="controls-wrapper">
+    <div className={styles.controls_wrapper}>
       <div className="controls">
         <button onClick={handlePrevious}>PREVIOUS</button>
 
         <button onClick={togglePlayPause}>
-          {isPlaying ? 'PAUSE' : 'PLAY'}
+          {isPlaying ? <FaPause /> : <FaPlay />}
         </button>
         <button onClick={handleNext}>NEXT</button>
       </div>
       <div className="volume">
         <button onClick={() => setMuteVolume((prev) => !prev)}>
-          {muteVolume || volume < 5 ? 'OFF' : volume < 40 ? '+' : '++'}
+          {muteVolume || volume < 5 ? (
+            <FaVolumeXmark />
+          ) : volume < 50 ? (
+            <FaVolumeLow />
+          ) : (
+            <FaVolumeHigh />
+          )}
         </button>
         <input
           type="range"
@@ -70,7 +84,7 @@ function Controls({
           value={volume}
           onChange={(e) => setVolume(e.target.value)}
           style={{
-            background: `linear-gradient(to right, #f50 ${volume}%, #ccc ${volume}%)`,
+            background: `linear-gradient(to right, #FFFFFF ${volume}%, #212121 ${volume}%)`,
           }}
         />
       </div>

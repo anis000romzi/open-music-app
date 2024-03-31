@@ -1,9 +1,14 @@
+import { FaPlay, FaPause } from 'react-icons/fa6';
+import styles from '../../_styles/player.module.css';
+
 function DisplayTrack({
   currentlyPlaying,
   audioRef,
   setDuration,
   progressBarRef,
   handleNext,
+  isPlaying,
+  togglePlayPause,
 }) {
   const onLoadedMetadata = () => {
     const seconds = audioRef.current.duration;
@@ -12,7 +17,7 @@ function DisplayTrack({
   };
 
   return (
-    <div>
+    <div className={styles.track}>
       <audio
         src={currentlyPlaying ? currentlyPlaying.audio : null}
         ref={audioRef}
@@ -20,11 +25,16 @@ function DisplayTrack({
         onEnded={handleNext}
       />
       <div className="audio-info">
-        <div className="text">
-          <p className="title">{currentlyPlaying ? currentlyPlaying.title : '--'}</p>
-          <p>{currentlyPlaying ? currentlyPlaying.username : '--'}</p>
-        </div>
+        <p className={styles.title}>
+          {currentlyPlaying ? currentlyPlaying.title : '--'}
+        </p>
+        <p className={styles.artist}>
+          {currentlyPlaying ? currentlyPlaying.artist : '--'}
+        </p>
       </div>
+      <button className={styles.play_button_mobile} onClick={togglePlayPause}>
+        {isPlaying ? <FaPause /> : <FaPlay />}
+      </button>
     </div>
   );
 }

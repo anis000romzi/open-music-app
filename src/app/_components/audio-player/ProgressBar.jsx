@@ -1,3 +1,5 @@
+import styles from '../../_styles/player.module.css'
+
 function ProgressBar({ progressBarRef, audioRef, timeProgress, duration }) {
   const handleProgressChange = () => {
     audioRef.current.currentTime = progressBarRef.current.value;
@@ -16,14 +18,14 @@ function ProgressBar({ progressBarRef, audioRef, timeProgress, duration }) {
 
   return (
     <div className="progress">
-      <span className="time current">{formatTime(timeProgress)}</span>
+      <span className={`${styles.time} current`}>{formatTime(timeProgress)}</span>
       <input
         type="range"
         ref={progressBarRef}
         defaultValue="0"
         onChange={handleProgressChange}
       />
-      <span className="time">{formatTime(duration)}</span>
+      <span className={styles.time}>{formatTime(duration)}</span>
     </div>
   );
 }

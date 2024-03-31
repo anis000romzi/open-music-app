@@ -1,0 +1,128 @@
+.header_bar {
+  padding: 0 16px;
+  transition: all 0.3s;
+  background-color: #111111;
+  color: #d9d9d9;
+  width: 100%;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 10px;
+  position: sticky;
+  top: 0;
+}
+
+.header_bar__menu {
+  display: flex;
+  align-items: center;
+}
+
+.header_bar__menu button {
+  background-color: transparent;
+  border: none;
+  font-size: 1.5em;
+  padding: 8px;
+  cursor: pointer;
+}
+
+.header_bar__login {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.header_bar__login img {
+  border-radius: 50%;
+}
+
+.header_bar__login button {
+  background-color: #111111;
+  color: #ffe74c;
+  border: solid 1px #ffe74c;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1em;
+  font-weight: bold;
+  border-radius: 10px;
+  padding: 7px;
+}
+
+.dropdown {
+  position: relative;
+}
+
+.dropdown_buttons {
+  position: absolute;
+  min-width: 130px;
+  display: none;
+  right: -10px;
+  background-color: #111111;
+  border-radius: 10px;
+}
+
+.dropdown_buttons.show {
+  display: flex;
+  flex-direction: column;
+}
+
+.dropdown_buttons a {
+  padding: 10px;
+}
+
+.header_bar__nav {
+  position: absolute;
+  top: 48px;
+  left: -220px;
+  width: 200px;
+  height: 100vh;
+  transition: all 0.3s;
+  padding: 8px;
+  background-color: #111111;
+  overflow: hidden;
+}
+
+.header_bar__nav.open {
+  left: 0px;
+}
+
+.header_bar__nav ul {
+  list-style: none;
+  padding-left: 10px;
+  margin: 10px 0;
+}
+
+.header_bar__nav ul li {
+  margin: 20px;
+}
+
+.header_bar__nav ul li a {
+  font-size: 1.1em;
+  font-weight: bold;
+  color: #d9d9d9;
+  padding: 10px;
+  margin-bottom: 5px;
+  width: 100%;
+}
+
+.header_bar__nav ul li button {
+  transition: all 0.3s;
+  display: flex;
+  text-align: left;
+  color: #d9d9d9;
+  gap: 10px;
+  border: none;
+  align-items: center;
+  background-color: transparent;
+  cursor: pointer;
+  font-size: 0.8em;
+  font-weight: bold;
+  width: 100%;
+}
+
+.header_bar__nav ul li button img {
+  border-radius: 50%;
+  height: 50px;
+  width: auto;
+}

@@ -12,8 +12,10 @@ function AuthWrapper({ children }) {
     return null;
   }
 
-  if (authUser && !authUser.is_active && pathname !== '/activate') {
-    redirect('/activate');
+  if (authUser && !authUser.is_active) {
+    if (pathname !== '/changeemail' && pathname !== '/activate') {
+      redirect('/activate');
+    }
   }
 
   return (

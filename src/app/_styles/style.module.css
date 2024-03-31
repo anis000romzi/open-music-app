@@ -1,0 +1,138 @@
+.popular_album {
+  font-size: 1.7em;
+  font-weight: bold;
+  padding: 16px 16px 0px 16px;
+}
+
+.albums_list {
+  display: flex;
+  flex-direction: row;
+  margin-top: 16px;
+  overflow-x: scroll;
+}
+
+.album_item {
+  padding: 0;
+  margin-left: 16px;
+}
+
+.album_item p {
+  font-weight: bold;
+  font-size: 1.2em;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 150px;
+  text-overflow: ellipsis;
+}
+
+.album_item a {
+  color: #978e8e;
+  font-size: 0.9em;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 150px;
+  text-overflow: ellipsis;
+  display: inline-block;
+}
+
+.add_content_button {
+  font-size: 25px;
+  position: fixed;
+  bottom: 80px;
+  right: 16px;
+  background-color: #FFE74C;
+  color: #111111;
+  border: 0;
+  border-radius: 50%;
+  width: 55px;
+  height: 55px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login_page {
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+}
+
+.login_page .login_back {
+  font-size: 25px;
+  position: absolute;
+  top: 10px;
+  left: 16px;
+  border: 0;
+  border-radius: 50%;
+  width: 55px;
+  height: 55px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login_page h1 {
+  font-size: 1.5em;
+  margin-bottom: 20px;
+}
+
+.register_page {
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+}
+
+.register_page h1 {
+  font-size: 1.5em;
+  margin-bottom: 20px;
+}
+
+.album_detail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+.album_detail p {
+  color: #978e8e;
+}
+
+.album_detail button {
+  font-size: 25px;
+  background-color: #FFE74C;
+  color: #111111;
+  border: 0;
+  border-radius: 50%;
+  margin-top: 10px;
+  width: 55px;
+  height: 55px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.user_detail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 20px;
+}
+
+.user_detail img {
+  border-radius: 50%;
+  width: auto;
+}
+
+.user_detail p {
+  margin: 20px 0;
+}
+
+.user_discography h2 {
+  padding: 16px 16px 0px 16px;
+}

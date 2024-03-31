@@ -1,19 +1,24 @@
 'use client';
 import { useRef, useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { setPlayingTrack } from '@/app/_states/tracks/action';
+import { setPlayingTrack, setIsPlaying } from '@/app/_states/tracks/action';
 import DisplayTrack from './DisplayTrack';
 import ProgressBar from './ProgressBar';
 import Controls from './Control';
+import styles from '../../_styles/player.module.css';
+import DetailTrack from './DetailTrack';
 
 function AudioPlayer() {
-  const { currentlyPlaying = {}, tracks = [] } = useSelector(
-    (states) => states.tracks
-  );
+  const {
+    currentlyPlaying = {},
+    tracks = [],
+    isPlaying,
+  } = useSelector((states) => states.tracks);
   const [trackIndex, setTrackIndex] = useState(0);
   const [timeProgress, setTimeProgress] = useState(0);
   const [duration, setDuration] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(false);
+  // const [isPlaying, setIsPlaying] = useState(false);
+  const [isDetailOpen, setIsDetailOpen] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -47,18 +52,37 @@ function AudioPlayer() {
     }
   };
 
+  const togglePlayPause = (event) => {
+    event.stopPropagation();
+    dispatch(setIsPlaying());
+  };
+
   return (
     <div
-      className="audio-player"
-      style={{
-        position: 'fixed',
-        bottom: '0',
-        width: '100%',
-        backgroundColor: 'black',
+      className={styles.audio_player}
+      onClick={(event) => {
+        if (event.target.nodeName === 'INPUT') {
+          return;
+        }
+        setIsDetailOpen((current) => !current);
       }}
     >
       {tracks.length > 0 ? (
         <>
+          <DetailTrack
+            {...{
+              currentlyPlaying,
+              audioRef,
+              progressBarRef,
+              duration,
+              setTimeProgress,
+              handlePrevious,
+              handleNext,
+              isPlaying,
+              setIsPlaying,
+              isDetailOpen,
+            }}
+          />
           <DisplayTrack
             {...{
               currentlyPlaying,
@@ -66,6 +90,8 @@ function AudioPlayer() {
               setDuration,
               progressBarRef,
               handleNext,
+              isPlaying,
+              togglePlayPause,
             }}
           />
           <Controls

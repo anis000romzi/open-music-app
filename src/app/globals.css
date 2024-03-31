@@ -95,10 +95,106 @@ body {
     rgb(var(--background-start-rgb));
 }
 
+main {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
 a {
   color: inherit;
   text-decoration: none;
 }
+
+a:hover {
+  text-decoration: underline;
+}
+
+/** CUSTOM INPUT RANGE **/
+
+input[type="range"] {
+  --range-progress: 0;
+  appearance: none;
+  -webkit-appearance: none;
+  position: relative;
+  background:#212121;
+  width: 100%;
+  height: 3px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+/* Input range - firefox */
+input[type="range"]::-moz-range-track {
+  position: relative;
+  background:#212121;
+  width: 100%;
+  height: 3px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+/* played progress length - Chrome & safari*/
+input[type="range"]::before {
+  content: '';
+  height: 3px;
+  background: #FFFFFF;
+  width: var(--range-progress);
+  border-bottom-left-radius: 3px;
+  border-top-left-radius: 3px;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/* played progress length - firefox */
+input[type="range"]::-moz-range-progress {
+  background: #FFFFFF;
+  border-bottom-left-radius: 3px;
+  border-top-left-radius: 3px;
+  height: 3px;
+}
+
+/* slider thumb - chrome and safari */
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  height: 3px;
+  width: 3px;
+  /* border-radius: 50%; */
+  border: none;
+  background-color: #FFFFFF;
+  cursor: pointer;
+  position: relative;
+}
+
+/* slider thumb - chrome and safari */
+input[type="range"]:hover::-webkit-slider-thumb {
+  height: 8px;
+  width: 8px;
+  border-radius: 50%;
+}
+
+/* dragging thumb - chrome and safari */
+input[type="range"]:active::-webkit-slider-thumb {
+  transform: scale(1.2);
+}
+
+/* slider thumb - firefox */
+input[type="range"]::-moz-range-thumb {
+  height: 8px;
+  width: 8px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  cursor: pointer;
+  border: transparent;
+  position: relative;
+}
+/* dragging thumb - firefox */
+input[type="range"]:active::-moz-range-thumb {
+  transform: scale(1.2);
+}
+
+/** CUSTOM INPUT RANGE **/
 
 @media (prefers-color-scheme: dark) {
   html {
