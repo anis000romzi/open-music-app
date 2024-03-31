@@ -4,7 +4,7 @@ const ActionType = {
   SET_AUTH_USER: 'SET_AUTH_USER',
   UNSET_AUTH_USER: 'UNSET_AUTH_USER',
   ACTIVATE_AUTH_USER: 'ACTIVATE_AUTH_USER',
-  CHANGE_EMAIL_AUTH_USER: 'CHANGE_EMAIL_AUTH_USER'
+  CHANGE_EMAIL_AUTH_USER: 'CHANGE_EMAIL_AUTH_USER',
 };
 
 function setAuthUserActionCreator(authUser) {
@@ -34,11 +34,11 @@ function activateAuthUserActionCreator(userId) {
   };
 }
 
-function changeEmailAuthUserActionCreator(userId) {
+function changeEmailAuthUserActionCreator(email) {
   return {
     type: ActionType.CHANGE_EMAIL_AUTH_USER,
     payload: {
-      userId,
+      email,
     },
   };
 }
@@ -84,12 +84,26 @@ function asyncActivateUser(userId, otp) {
   };
 }
 
+function asyncChangeEmailUser(userId, email) {
+  return async (dispatch) => {
+    try {
+      api.changeEmail(userId, email);
+
+      dispatch(changeEmailAuthUserActionCreator(email));
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+}
+
 export {
   ActionType,
   setAuthUserActionCreator,
   unsetAuthUserActionCreator,
   activateAuthUserActionCreator,
+  changeEmailAuthUserActionCreator,
   asyncSetAuthUser,
   asyncUnsetAuthUser,
   asyncActivateUser,
+  asyncChangeEmailUser,
 };
