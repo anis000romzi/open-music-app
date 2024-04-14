@@ -12,14 +12,14 @@
   height: 50px;
   font-size: 1em;
   border: none;
-  background-color: #EDEDED;
+  background-color: #ededed;
   color: #111111;
   padding: 10px;
   border-radius: 10px;
 }
 
 .login_input button {
-  background-color: #FFE74C;
+  background-color: #ffe74c;
   color: #111111;
   padding: 10px;
   border: none;
@@ -32,9 +32,9 @@
 
 .login_input .register_button {
   background-color: #000000;
-  color: #FFE74C;
+  color: #ffe74c;
   padding: 10px;
-  border: #FFE74C 1px solid;
+  border: #ffe74c 1px solid;
   font-size: 1em;
   font-weight: bold;
   width: 50%;
@@ -55,14 +55,14 @@
   height: 50px;
   font-size: 1em;
   border: none;
-  background-color: #EDEDED;
+  background-color: #ededed;
   color: #111111;
   padding: 10px;
   border-radius: 10px;
 }
 
 .register_input button {
-  background-color: #FFE74C;
+  background-color: #ffe74c;
   color: #111111;
   padding: 10px;
   border: none;
@@ -88,7 +88,7 @@
   height: 50px;
   font-size: 1em;
   border: none;
-  background-color: #EDEDED;
+  background-color: #ededed;
   color: #111111;
   padding: 10px;
   border-radius: 10px;
@@ -109,14 +109,84 @@
   height: 50px;
   font-size: 1em;
   border: none;
-  background-color: #EDEDED;
+  background-color: #ededed;
   color: #111111;
   padding: 10px;
   border-radius: 10px;
 }
 
 .new_album_input button {
-  background-color: #FFE74C;
+  background-color: #ffe74c;
+  color: #111111;
+  padding: 10px;
+  border: none;
+  font-size: 1em;
+  font-weight: bold;
+  width: 50%;
+  margin-top: 10px;
+  border-radius: 10px;
+}
+
+.new_song_input {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  gap: 5px;
+}
+
+.new_song_input input {
+  width: 80%;
+  height: 50px;
+  font-size: 1em;
+  border: none;
+  background-color: #ededed;
+  color: #111111;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.new_song_input button {
+  background-color: #ffe74c;
+  color: #111111;
+  padding: 10px;
+  border: none;
+  font-size: 1em;
+  font-weight: bold;
+  width: 50%;
+  margin-top: 10px;
+  border-radius: 10px;
+}
+
+.verification_input {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 70%;
+  gap: 5px;
+}
+
+.verification_input input {
+  width: 100%;
+  height: 50px;
+  font-size: 1em;
+  border: none;
+  background-color: #ededed;
+  color: #111111;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.verification_input input::-webkit-outer-spin-button,
+.verification_input input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+.verification_input button {
+  background-color: #ffe74c;
   color: #111111;
   padding: 10px;
   border: none;

@@ -6,8 +6,8 @@ import { useParams } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import { asyncReceiveAlbumDetail } from '@/app/_states/albumDetail/action';
+import { asyncGetPlaylists } from '@/app/_states/playlists/action';
 import {
-  getTracksQueue,
   setNewTracksQueue,
   setPlayingTrack,
   setIsPlaying,
@@ -17,15 +17,15 @@ import defaultImage from '../../../_assets/default-image.png';
 import styles from '../../../_styles/style.module.css';
 
 function AlbumDetail() {
+  const playlists = useSelector((states) => states.playlists);
   const albumDetail = useSelector((states) => states.albumDetail);
-  const { tracks = [] } = useSelector((states) => states.tracks);
 
   const dispatch = useDispatch();
   const { id } = useParams();
 
   useEffect(() => {
+    dispatch(asyncGetPlaylists());
     dispatch(asyncReceiveAlbumDetail(id));
-    dispatch(getTracksQueue());
   }, [dispatch, id]);
 
   const playAll = (tracks) => {
@@ -39,7 +39,7 @@ function AlbumDetail() {
     dispatch(setIsPlaying());
     localStorage.setItem(
       'tracks-queue-index',
-      tracks.findIndex((track) => track.id === songId)
+      albumDetail.songs.findIndex((track) => track.id === songId)
     );
   };
 
@@ -65,7 +65,11 @@ function AlbumDetail() {
               <FaPlay />
             </button>
           </section>
-          <SongsList songs={albumDetail.songs} onClickHandler={playTrack} />
+          <SongsList
+            songs={albumDetail.songs}
+            onPlayHandler={playTrack}
+            playlists={playlists}
+          />
         </>
       )}
     </main>

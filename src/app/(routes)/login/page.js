@@ -26,7 +26,9 @@ function Login() {
         <FaAngleLeft />
       </Link>
       <LoginInput login={onLogin} />
-      <Link href="/forgotpassword">Forgot password?</Link>
+      <Link className={styles.forgot_password} href="/forgotpassword">
+        Forgot password?
+      </Link>
     </main>
   );
 }

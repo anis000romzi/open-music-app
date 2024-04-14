@@ -16,6 +16,13 @@ function tracksReducer(tracks = {}, action = {}) {
         ...tracks,
         isPlaying: !tracks.isPlaying,
       };
+    case ActionType.DELETE_TRACK:
+      return {
+        ...tracks,
+        tracks: tracks.tracks.filter(
+          (track) => track.id !== action.payload.songId
+        ),
+      };
     default:
       return tracks;
   }

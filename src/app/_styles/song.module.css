@@ -15,17 +15,16 @@
   padding: 10px 0;
 }
 
-.song_item button {
-    font-size: 25px;
-    background-color: transparent;
-    color: #FFE74C;
-    border: 0;
-    width: 44px;
-    height: 44px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.song_item .show_dropdown_menu {
+  font-size: 20px;
+  background-color: transparent;
+  border: 0;
+  width: 44px;
+  height: 44px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .song_info strong {
@@ -37,4 +36,34 @@
   font-size: 0.9em;
   overflow: hidden;
   white-space: nowrap;
+}
+
+.dropdown {
+  position: relative;
+}
+
+.dropdown_buttons {
+  position: absolute;
+  min-width: 150px;
+  display: none;
+  right: 30px;
+  bottom: -50px;
+  background-color: #111111;
+  border-radius: 10px;
+  z-index: 99;
+}
+
+.dropdown_buttons.show {
+  display: flex;
+  flex-direction: column;
+}
+
+.dropdown_buttons button {
+  padding: 10px;
+  font-size: 1em;
+  background-color: transparent;
+  border: none;
+  display: flex;
+  gap: 10px;
+  align-items: center;
 }

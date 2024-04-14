@@ -17,7 +17,7 @@ function useOpenNav() {
     };
   }, []);
 
-  return { ref, navOpen, setNavOpen };
+  return [ ref, navOpen, setNavOpen ];
 }
 
 export default useOpenNav;

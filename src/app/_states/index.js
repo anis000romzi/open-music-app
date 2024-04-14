@@ -7,6 +7,8 @@ import popularAlbumsReducer from './popularAlbums/reducer';
 import albumDetailReducer from './albumDetail/reducer';
 import tracksReducer from './tracks/reducer';
 import songsReducer from './songs/reducer';
+import playlistsReducer from './playlists/reducer';
+import playlistDetailReducer from './playlistDetail/reducer';
 
 const store = configureStore({
   reducer: {
@@ -18,6 +20,8 @@ const store = configureStore({
     popularAlbums: popularAlbumsReducer,
     albumDetail: albumDetailReducer,
     tracks: tracksReducer,
+    playlists: playlistsReducer,
+    playlistDetail: playlistDetailReducer,
   },
 });
 

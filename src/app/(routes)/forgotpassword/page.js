@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { redirect } from 'next/navigation';
 import useInput from '@/app/_hooks/useInput';
 import api from '@/app/_utils/api';
+import styles from '../../_styles/style.module.css';
 
 function ForgotPassword() {
   const authUser = useSelector((states) => states.authUser);
@@ -39,8 +40,8 @@ function ForgotPassword() {
 
   if (!userId) {
     return (
-      <main>
-        <h1>Forgot Password Page</h1>
+      <main className={styles.forgot_password_page}>
+        <h1>Forgot Password</h1>
         <input
           type="text"
           value={email}
@@ -55,9 +56,15 @@ function ForgotPassword() {
   }
 
   return (
-    <main>
-      <h1>Forgot Password Page</h1>
-      <p>OTP code sent to {email}</p>
+    <main className={styles.forgot_password_page}>
+      <h1>Reset Password</h1>
+      <p>
+        OTP code sent to{' '}
+        {email.replace(
+          /([a-zA-Z]{2})(.*)(?=[a-zA-Z]{2}@)/,
+          (match, p1) => p1 + '****'
+        )}
+      </p>
       <input
         type="password"
         value={password}

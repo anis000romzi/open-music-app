@@ -1,14 +1,18 @@
+'use client';
 import { useState, useEffect, useRef, useCallback } from 'react';
-import {
-  FaCaretLeft,
-  FaCaretRight,
-  FaVolumeXmark,
-  FaVolumeLow,
-  FaVolumeHigh,
-} from 'react-icons/fa6';
+import { FaVolumeXmark, FaVolumeLow, FaVolumeHigh } from 'react-icons/fa6';
+import { useDispatch } from 'react-redux';
+import { BiSkipPrevious, BiSkipNext } from 'react-icons/bi';
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import Image from 'next/image';
+import {
+  setNewTracksQueue,
+  setPlayingTrack,
+  setIsPlaying,
+} from '@/app/_states/tracks/action';
 import styles from '../../_styles/player.module.css';
 import defaultImage from '../../_assets/default-image.png';
+import TracksList from '../tracks/TracksList';
 
 function DetailTrack({
   currentlyPlaying,
@@ -19,15 +23,14 @@ function DetailTrack({
   handlePrevious,
   handleNext,
   isPlaying,
-  setIsPlaying,
   isDetailOpen,
+  tracks,
+  deleteTrackFromQueue,
 }) {
   const [volume, setVolume] = useState(60);
   const [muteVolume, setMuteVolume] = useState(false);
 
-  const togglePlayPause = () => {
-    setIsPlaying((prev) => !prev);
-  };
+  const dispatch = useDispatch();
 
   const playAnimationRef = useRef();
 
@@ -44,6 +47,16 @@ function DetailTrack({
       playAnimationRef.current = requestAnimationFrame(repeat);
     }
   }, [audioRef, duration, progressBarRef, setTimeProgress]);
+
+  const playTrack = (songId) => {
+    dispatch(setNewTracksQueue(tracks));
+    dispatch(setPlayingTrack(songId));
+    dispatch(setIsPlaying());
+    localStorage.setItem(
+      'tracks-queue-index',
+      tracks.findIndex((track) => track.id === songId)
+    );
+  };
 
   useEffect(() => {
     if (isPlaying) {
@@ -62,51 +75,67 @@ function DetailTrack({
   }, [volume, audioRef, muteVolume]);
 
   return (
-    <>
-      <div
-        onClick={(event) => event.stopPropagation()}
-        className={`${styles.detail_track} ${isDetailOpen ? styles.open : ''}`}
-      >
-        <div className="detail_track_info">
-          <Image src={defaultImage} width={200} height={200} alt="Cover" />
-          <p className={styles.detail_track_title}>
-            {currentlyPlaying ? currentlyPlaying.title : '--'}
-          </p>
-          <p className={styles.detail_track_artist}>
-            {currentlyPlaying ? currentlyPlaying.artist : '--'}
-          </p>
-        </div>
-        <div className={styles.controls}>
-          <button onClick={handlePrevious}>
-            <FaCaretLeft />
-          </button>
-          <button onClick={handleNext}>
-            <FaCaretRight />
-          </button>
-        </div>
-        <div className={styles.volume}>
-          <button onClick={() => setMuteVolume((prev) => !prev)}>
-            {muteVolume || volume < 5 ? (
-              <FaVolumeXmark />
-            ) : volume < 55 ? (
-              <FaVolumeLow />
-            ) : (
-              <FaVolumeHigh />
-            )}
-          </button>
-          <input
-            type="range"
-            min={0}
-            max={100}
-            value={volume}
-            onChange={(e) => setVolume(e.target.value)}
-            style={{
-              background: `linear-gradient(to right, #FFFFFF ${volume}%, #212121 ${volume}%)`,
-            }}
+    <div
+      onClick={(event) => event.stopPropagation()}
+      className={`${styles.detail_track} ${isDetailOpen ? styles.open : ''}`}
+    >
+      <Tabs className="Tabs">
+        <TabList>
+          <Tab>Info</Tab>
+          <Tab>Queue</Tab>
+        </TabList>
+        <TabPanel>
+          <div className={styles.detail_track_info}>
+            <div className={styles.info}>
+              <Image src={defaultImage} width={200} height={200} alt="Cover" />
+              <p className={styles.detail_track_title}>
+                {currentlyPlaying ? currentlyPlaying.title : '--'}
+              </p>
+              <p className={styles.detail_track_artist}>
+                {currentlyPlaying ? currentlyPlaying.artist : '--'}
+              </p>
+            </div>
+            <div className={styles.controls}>
+              <button onClick={handlePrevious}>
+                <BiSkipPrevious />
+              </button>
+              <button onClick={handleNext}>
+                <BiSkipNext />
+              </button>
+            </div>
+            <div className={styles.volume}>
+              <button onClick={() => setMuteVolume((prev) => !prev)}>
+                {muteVolume || volume < 5 ? (
+                  <FaVolumeXmark />
+                ) : volume < 55 ? (
+                  <FaVolumeLow />
+                ) : (
+                  <FaVolumeHigh />
+                )}
+              </button>
+              <input
+                type="range"
+                min={0}
+                max={100}
+                value={volume}
+                onChange={(e) => setVolume(e.target.value)}
+                style={{
+                  background: `linear-gradient(to right, #FFFFFF ${volume}%, #212121 ${volume}%)`,
+                }}
+              />
+            </div>
+          </div>
+        </TabPanel>
+        <TabPanel>
+          <TracksList
+            tracks={tracks}
+            onPlayHandler={playTrack}
+            onDeleteHandler={deleteTrackFromQueue}
+            currentlyPlaying={currentlyPlaying}
           />
-        </div>
-      </div>
-    </>
+        </TabPanel>
+      </Tabs>
+    </div>
   );
 }
 

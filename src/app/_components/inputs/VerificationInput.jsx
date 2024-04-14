@@ -1,12 +1,17 @@
 import useInput from '../../_hooks/useInput';
+import styles from '../../_styles/input.module.css'
 
 function VerificationInput({ userId, verify }) {
-  const [code, onCodeChange] = useInput('');
+  const [code, onCodeChange, setCode] = useInput('');
+
+  if (code.length > 6) {
+    setCode(code.slice(0, 6))
+  }
 
   return (
-    <form className="verification-input">
+    <form className={styles.verification_input}>
       <input
-        type="text"
+        type="number"
         value={code}
         onChange={onCodeChange}
         placeholder="Enter OTP code"

@@ -42,7 +42,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  text-align: center;
+  /* text-align: center; */
   top: 88vh;
   left: 0px;
   width: 100vw;
@@ -73,14 +73,13 @@
   justify-content: center;
 }
 
-
 .detail_track .controls button {
   display: flex;
   border: none;
   align-items: center;
   justify-content: center;
   background-color: transparent;
-  font-size: 1.5em;
+  font-size: 3em;
   width: 38px;
   cursor: pointer;
 }
@@ -100,6 +99,14 @@
   font-size: 1.3em;
   width: 38px;
   cursor: pointer;
+}
+
+.detail_track_info {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .time {

@@ -27,6 +27,12 @@ function NewAlbumm() {
 
   const addAlbum = async ({ name, year, file }) => {
     try {
+      if (file) {
+        if (file.size > 512000) {
+          throw new Error('File is too big');
+        }
+      }
+
       const { albumId } = await api.createAlbum(name, year);
 
       if (file) {

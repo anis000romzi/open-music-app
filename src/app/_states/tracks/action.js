@@ -1,6 +1,7 @@
 const ActionType = {
   RECEIVE_TRACKS: 'RECEIVE_TRACKS',
   SET_PLAYING_TRACK: 'SET_PLAYING_TRACK',
+  DELETE_TRACK: 'DELETE_TRACK',
   SET_IS_PLAYING: 'SET_IS_PLAYING',
 };
 
@@ -16,6 +17,15 @@ function receiveTracksActionCreator(tracks) {
 function setPlayingTrackActionCreator(songId) {
   return {
     type: ActionType.SET_PLAYING_TRACK,
+    payload: {
+      songId,
+    },
+  };
+}
+
+function deleteTrackActionCreator(songId) {
+  return {
+    type: ActionType.DELETE_TRACK,
     payload: {
       songId,
     },
@@ -80,6 +90,25 @@ function setPlayingTrack(songId) {
   };
 }
 
+function deleteTrack(songId) {
+  return async (dispatch, getState) => {
+    const { tracks } = getState();
+
+    dispatch(deleteTrackActionCreator(songId));
+    try {
+      localStorage.setItem(
+        'tracks-queue',
+        JSON.stringify({
+          ...tracks,
+          tracks: tracks.tracks.filter((track) => track.id !== songId),
+        })
+      );
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+}
+
 function setIsPlaying() {
   return async (dispatch, getState) => {
     const { tracks } = getState();
@@ -107,4 +136,5 @@ export {
   setNewTracksQueue,
   setPlayingTrack,
   setIsPlaying,
+  deleteTrack,
 };

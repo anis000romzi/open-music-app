@@ -1,7 +1,11 @@
 'use client';
 import { useRef, useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { setPlayingTrack, setIsPlaying } from '@/app/_states/tracks/action';
+import {
+  setPlayingTrack,
+  setIsPlaying,
+  deleteTrack,
+} from '@/app/_states/tracks/action';
 import DisplayTrack from './DisplayTrack';
 import ProgressBar from './ProgressBar';
 import Controls from './Control';
@@ -17,7 +21,6 @@ function AudioPlayer() {
   const [trackIndex, setTrackIndex] = useState(0);
   const [timeProgress, setTimeProgress] = useState(0);
   const [duration, setDuration] = useState(0);
-  // const [isPlaying, setIsPlaying] = useState(false);
   const [isDetailOpen, setIsDetailOpen] = useState(false);
 
   const dispatch = useDispatch();
@@ -33,23 +36,32 @@ function AudioPlayer() {
 
   const handleNext = () => {
     if (trackIndex < tracks.length - 1) {
-      setTrackIndex((prev) => {
-        localStorage.setItem('tracks-queue-index', parseInt(prev) + 1);
-        return parseInt(prev) + 1;
-      });
+      localStorage.setItem(
+        'tracks-queue-index',
+        tracks.findIndex((track) => track.id === currentlyPlaying.id) + 1
+      );
+      setTrackIndex(
+        tracks.findIndex((track) => track.id === currentlyPlaying.id) + 1
+      );
       dispatch(setPlayingTrack(tracks[trackIndex + 1].id));
     }
   };
 
   const handlePrevious = () => {
     if (trackIndex !== 0) {
-      setTrackIndex((prev) => {
-        localStorage.setItem('tracks-queue-index', parseInt(prev) - 1);
-        return parseInt(prev) - 1;
-      });
+      localStorage.setItem(
+        'tracks-queue-index',
+        tracks.findIndex((track) => track.id === currentlyPlaying.id) - 1
+      );
+      setTrackIndex(
+        tracks.findIndex((track) => track.id === currentlyPlaying.id) - 1
+      );
       dispatch(setPlayingTrack(tracks[trackIndex - 1].id));
-      localStorage.setItem('tracks-queue-index', trackIndex);
     }
+  };
+
+  const deleteTrackFromQueue = (songId) => {
+    dispatch(deleteTrack(songId));
   };
 
   const togglePlayPause = (event) => {
@@ -81,6 +93,8 @@ function AudioPlayer() {
               isPlaying,
               setIsPlaying,
               isDetailOpen,
+              tracks,
+              deleteTrackFromQueue,
             }}
           />
           <DisplayTrack

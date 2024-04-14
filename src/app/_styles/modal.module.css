@@ -1,0 +1,71 @@
+.modal {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal_content {
+  border: 1px solid #111111;
+  width: 500px;
+  height: 50vh;
+  background-color: #111111;
+  border-radius: 15px;
+  margin: 10px;
+}
+
+.modal_close button {
+  font-size: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 20px;
+  background-color: transparent;
+  border: none;
+  width: 55px;
+  height: 55px;
+}
+
+.modal_children {
+  padding: 10px;
+}
+
+.modal_children form {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  gap: 5px;
+}
+
+.modal_children input {
+  width: 80%;
+  height: 50px;
+  font-size: 1em;
+  border: none;
+  background-color: #ededed;
+  color: #111111;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.modal_children .playlist_item {
+  font-size: 1.1em;
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  margin: 10px 0;
+}
+
+.modal_children .playlist_item button {
+  background-color: transparent;
+  border: none;
+}

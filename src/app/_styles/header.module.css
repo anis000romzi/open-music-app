@@ -71,9 +71,38 @@
   padding: 10px;
 }
 
+.profile_menu {
+  position: relative;
+}
+
+.profile_menu_buttons {
+  position: absolute;
+  min-width: 130px;
+  display: none;
+  right: -10px;
+  background-color: #111111;
+  border-radius: 10px;
+}
+
+.profile_menu_buttons.show {
+  display: flex;
+  flex-direction: column;
+}
+
+.profile_menu_buttons button {
+  color: #d9d9d9;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  font-size: 1em;
+  padding: 10px;
+  font-weight: normal;
+  width: 100%;
+}
+
 .header_bar__nav {
   position: absolute;
-  top: 48px;
+  top: 45px;
   left: -220px;
   width: 200px;
   height: 100vh;

@@ -87,7 +87,7 @@ function asyncActivateUser(userId, otp) {
 function asyncChangeEmailUser(userId, email) {
   return async (dispatch) => {
     try {
-      api.changeEmail(userId, email);
+      await api.changeEmail(userId, email);
 
       dispatch(changeEmailAuthUserActionCreator(email));
     } catch (error) {

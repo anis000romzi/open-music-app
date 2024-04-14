@@ -1,19 +1,29 @@
 'use client';
+import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { redirect, useRouter } from 'next/navigation';
 import useInput from '@/app/_hooks/useInput';
-import { useState } from 'react';
 import api from '@/app/_utils/api';
-import Image from 'next/image';
+import styles from '../../../_styles/input.module.css';
 
 function NewSong() {
   const authUser = useSelector((states) => states.authUser);
+  const router = useRouter();
   const [title, onTitleChange] = useInput('');
   const [year, onYearChange] = useInput('');
   const [genre, onGenreChange] = useInput('');
   const [album, onAlbumChange] = useInput(null);
   const [file, setFile] = useState(null);
-  const router = useRouter();
+  const [ownedAlbum, setOwnedAlbum] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const albums = await api.getAlbumsByArtist(authUser.id);
+      setOwnedAlbum(albums);
+    };
+
+    fetchData();
+  }, [authUser.id]);
 
   if (!authUser || !authUser.is_active) {
     redirect('/');
@@ -31,6 +41,10 @@ function NewSong() {
         throw new Error('File cannot be empty');
       }
 
+      if (file.size > 51200000) {
+        throw new Error('File is too big');
+      }
+
       const { songId } = await api.createSong({ title, year, genre, albumId });
       await api.addSongAudio(songId, file);
 
@@ -42,8 +56,7 @@ function NewSong() {
 
   return (
     <main>
-      <h1>New Song Page</h1>
-      <form>
+      <form className={styles.new_song_input}>
         <input
           type="text"
           value={title}
@@ -71,7 +84,7 @@ function NewSong() {
         <label htmlFor="album">Insert to album</label>
         <select id="album" name="album" onChange={onAlbumChange}>
           <option value="">Single</option>
-          {authUser.albums.map((album) => (
+          {ownedAlbum.map((album) => (
             <option key={album.id} value={album.id}>
               {album.name}
             </option>

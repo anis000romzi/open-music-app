@@ -11,6 +11,12 @@ const api = (() => {
   }
 
   async function _fetchWithAuth(url, options = {}) {
+    if (accessToken) {
+      if (isTokenExpired(accessToken)) {
+        await generateAccessToken(getRefreshToken());
+      }
+    }
+
     return fetch(url, {
       ...options,
       headers: {
@@ -18,6 +24,23 @@ const api = (() => {
         Authorization: `Bearer ${accessToken}`,
       },
     });
+  }
+
+  function isTokenExpired(token) {
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    const jsonPayload = decodeURIComponent(
+      atob(base64)
+        .split('')
+        .map(function (c) {
+          return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        })
+        .join('')
+    );
+
+    const { iat } = JSON.parse(jsonPayload);
+    const expired = Math.floor(Date.now() / 1000) - iat;
+    return expired > 1800;
   }
 
   async function generateAccessToken(refreshToken) {
@@ -276,8 +299,27 @@ const api = (() => {
     return album;
   }
 
+  async function getAlbumsByArtist(userId) {
+    const response = await fetch(`${BASE_URL}/albums/artist/${userId}`);
+
+    const responseJson = await response.json();
+    const { status, message } = responseJson;
+
+    if (status !== 'success') {
+      throw new Error(message);
+    }
+
+    const {
+      data: { albums },
+    } = responseJson;
+
+    return albums;
+  }
+
   async function getUserById(id) {
-    const response = await fetch(`${BASE_URL}/users/${id}`);
+    const response = await fetch(`${BASE_URL}/users/${id}`, {
+      cache: 'no-store',
+    });
 
     const responseJson = await response.json();
     const { status, message } = responseJson;
@@ -292,7 +334,7 @@ const api = (() => {
   }
 
   async function getSongs(title) {
-    const response = await fetch(`${BASE_URL}/songs?title=${title}`);
+    const response = await fetch(`${BASE_URL}/songs?title=${title}&artist=${title}`);
 
     const responseJson = await response.json();
     const { status, message } = responseJson;
@@ -399,6 +441,101 @@ const api = (() => {
     return data;
   }
 
+  async function createPlaylist(name) {
+    const response = await _fetchWithAuth(`${BASE_URL}/playlists`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        name,
+      }),
+    });
+
+    const responseJson = await response.json();
+    const { status, message } = responseJson;
+
+    if (status !== 'success') {
+      throw new Error(message);
+    }
+
+    const { data } = responseJson;
+
+    return data;
+  }
+
+  async function getPlaylists() {
+    const response = await _fetchWithAuth(`${BASE_URL}/playlists`);
+
+    const responseJson = await response.json();
+    const { status, message } = responseJson;
+
+    if (status !== 'success') {
+      throw new Error(message);
+    }
+
+    const {
+      data: { playlists },
+    } = responseJson;
+
+    return playlists;
+  }
+
+  async function getPlaylistById(id) {
+    const response = await _fetchWithAuth(`${BASE_URL}/playlists/${id}`);
+
+    const responseJson = await response.json();
+    const { status, message } = responseJson;
+
+    if (status !== 'success') {
+      throw new Error(message);
+    }
+
+    const {
+      data: { playlist },
+    } = responseJson;
+
+    return playlist;
+  }
+
+  async function addSongToPlaylist(id, songId) {
+    const response = await _fetchWithAuth(`${BASE_URL}/playlists/${id}/songs`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        songId,
+      }),
+    });
+
+    const responseJson = await response.json();
+    const { status, message } = responseJson;
+
+    if (status !== 'success') {
+      throw new Error(message);
+    }
+  }
+
+  async function deleteSongFromPlaylist(id, songId) {
+    const response = await _fetchWithAuth(`${BASE_URL}/playlists/${id}/songs`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        songId,
+      }),
+    });
+
+    const responseJson = await response.json();
+    const { status, message } = responseJson;
+
+    if (status !== 'success') {
+      throw new Error(message);
+    }
+  }
+
   return {
     putRefreshToken,
     getRefreshToken,
@@ -414,12 +551,18 @@ const api = (() => {
     getOwnProfile,
     getPopularAlbums,
     getAlbumById,
+    getAlbumsByArtist,
     getUserById,
     getSongs,
     createAlbum,
     addAlbumCover,
     createSong,
     addSongAudio,
+    createPlaylist,
+    getPlaylists,
+    getPlaylistById,
+    addSongToPlaylist,
+    deleteSongFromPlaylist,
   };
 })();
 

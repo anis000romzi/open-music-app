@@ -40,7 +40,7 @@
   position: fixed;
   bottom: 80px;
   right: 16px;
-  background-color: #FFE74C;
+  background-color: #ffe74c;
   color: #111111;
   border: 0;
   border-radius: 50%;
@@ -78,6 +78,14 @@
   margin-bottom: 20px;
 }
 
+.login_page .forgot_password {
+  color: #ffe74c;
+  margin-top: 10px;
+  font-size: 0.9em;
+  font-weight: bold;
+  text-decoration: underline;
+}
+
 .register_page {
   align-items: center;
   text-align: center;
@@ -87,6 +95,14 @@
 .register_page h1 {
   font-size: 1.5em;
   margin-bottom: 20px;
+}
+
+.register_page a {
+  color: #ffe74c;
+  margin-top: 10px;
+  font-size: 0.9em;
+  font-weight: bold;
+  text-decoration: underline;
 }
 
 .album_detail {
@@ -102,7 +118,7 @@
 
 .album_detail button {
   font-size: 25px;
-  background-color: #FFE74C;
+  background-color: #ffe74c;
   color: #111111;
   border: 0;
   border-radius: 50%;
@@ -135,4 +151,142 @@
 
 .user_discography h2 {
   padding: 16px 16px 0px 16px;
+}
+
+.activate_page {
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+}
+
+.activate_page h1 {
+  font-size: 1.5em;
+  margin-bottom: 20px;
+}
+
+.activate_page > p {
+  font-size: 0.9em;
+  margin-bottom: 20px;
+}
+
+.activate_page > p > a {
+  color: #ffe74c;
+  margin-top: 10px;
+  font-size: 0.9em;
+  font-weight: bold;
+  margin: 0;
+  text-decoration: underline;
+}
+
+.activate_page > .activate_page__send {
+  background-color: #000000;
+  color: #ffe74c;
+  padding: 10px;
+  margin-top: 5px;
+  border: #ffe74c 1px solid;
+  font-size: 1em;
+  font-weight: bold;
+  border-radius: 10px;
+}
+
+.activate_page > .activate_page__logout {
+  font-size: 25px;
+  position: absolute;
+  top: 10px;
+  left: 16px;
+  border: 0;
+  border-radius: 50%;
+  width: 55px;
+  height: 55px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  border: none;
+}
+
+.change_email_page {
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.change_email_page h1 {
+  font-size: 1.5em;
+  margin-bottom: 20px;
+}
+
+.change_email_page input {
+  width: 80%;
+  height: 50px;
+  font-size: 1em;
+  border: none;
+  background-color: #ededed;
+  color: #111111;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.change_email_page button {
+  background-color: #ffe74c;
+  color: #111111;
+  padding: 10px;
+  border: none;
+  font-size: 1em;
+  font-weight: bold;
+  width: 50%;
+  border-radius: 10px;
+}
+
+.change_email_page .change_email_page__back {
+  font-size: 25px;
+  position: absolute;
+  top: 10px;
+  left: 16px;
+  border: 0;
+  border-radius: 50%;
+  width: 55px;
+  height: 55px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  border: none;
+}
+
+.forgot_password_page {
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.forgot_password_page h1 {
+  font-size: 1.5em;
+  margin-bottom: 20px;
+}
+
+.forgot_password_page input {
+  width: 80%;
+  height: 50px;
+  font-size: 1em;
+  border: none;
+  background-color: #ededed;
+  color: #111111;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.forgot_password_page button {
+  background-color: #ffe74c;
+  color: #111111;
+  padding: 10px;
+  border: none;
+  font-size: 1em;
+  font-weight: bold;
+  width: 50%;
+  border-radius: 10px;
 }

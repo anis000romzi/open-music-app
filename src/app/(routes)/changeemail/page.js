@@ -1,12 +1,11 @@
 'use client';
+import Link from 'next/link';
+import { FaAngleLeft } from 'react-icons/fa6';
 import { useSelector, useDispatch } from 'react-redux';
 import { redirect, useRouter } from 'next/navigation';
-import {
-  changeEmailAuthUserActionCreator,
-  asyncChangeEmailUser,
-} from '@/app/_states/authUser/action';
+import { asyncChangeEmailUser } from '@/app/_states/authUser/action';
 import useInput from '@/app/_hooks/useInput';
-import api from '@/app/_utils/api';
+import styles from '../../_styles/style.module.css';
 
 function ChangeEmail() {
   const authUser = useSelector((states) => states.authUser);
@@ -25,8 +24,11 @@ function ChangeEmail() {
   };
 
   return (
-    <main>
-      <h1>Change Email Page</h1>
+    <main className={styles.change_email_page}>
+      <h1>Change Email</h1>
+      <Link className={styles.change_email_page__back} href="/">
+        <FaAngleLeft />
+      </Link>
       <input
         type="email"
         value={email}
