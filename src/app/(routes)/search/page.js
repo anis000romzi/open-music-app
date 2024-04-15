@@ -1,37 +1,40 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { usePathname, useSearchParams, useRouter } from 'next/navigation';
 import useInput from '@/app/_hooks/useInput';
 import SongsList from '@/app/_components/songs/SongsList';
 import { asyncGetPlaylists } from '@/app/_states/playlists/action';
 import {
+  asyncGetSongs,
+  asyncLikeSong,
+  asyncDeleteLikeSong,
+} from '@/app/_states/songs/action';
+import {
   setNewTracksQueue,
   setPlayingTrack,
   setIsPlaying,
 } from '@/app/_states/tracks/action';
 import styles from '../../_styles/input.module.css';
-import api from '@/app/_utils/api';
 
 function Search() {
   const pathname = usePathname();
   const dispatch = useDispatch();
   const router = useRouter();
 
-  const [songs, setSongs] = useState([]);
+  const songs = useSelector((states) => states.songs);
   const playlists = useSelector((states) => states.playlists);
+  const authUser = useSelector((states) => states.authUser);
 
   const searchParams = useSearchParams();
   const [keyword, onKeywordChange] = useInput(searchParams.get('query') || '');
 
   useEffect(() => {
     dispatch(asyncGetPlaylists());
-    const fetchData = async () => {
-      const songs = await api.getSongs(searchParams.get('query'));
-      setSongs(songs);
-    };
+  }, [dispatch]);
 
-    fetchData();
+  useEffect(() => {
+    dispatch(asyncGetSongs(searchParams.get('query')));
   }, [searchParams, dispatch]);
 
   const onSearch = async (event) => {
@@ -49,20 +52,24 @@ function Search() {
 
     const queryString = params.toString();
     const updatedPath = queryString ? `${pathname}?${queryString}` : pathname;
-
     router.push(updatedPath);
-
-    const songs = await api.getSongs(searchParams.get('query'));
-    setSongs(songs);
   };
 
   const playSong = (songId) => {
     dispatch(
-      setNewTracksQueue(songs.songs.filter((song) => song.id === songId))
+      setNewTracksQueue(songs.filter((song) => song.id === songId))
     );
     dispatch(setPlayingTrack(songId));
     dispatch(setIsPlaying());
     localStorage.setItem('tracks-queue-index', 0);
+  };
+
+  const onLike = (id) => {
+    dispatch(asyncLikeSong(id));
+  };
+
+  const onDeleteLike = (id) => {
+    dispatch(asyncDeleteLikeSong(id));
   };
 
   return (
@@ -80,9 +87,12 @@ function Search() {
       <section>
         <h2>Songs</h2>
         <SongsList
-          songs={songs.songs}
+          songs={songs}
           onPlayHandler={playSong}
           playlists={playlists}
+          authUser={authUser ? authUser.id : ''}
+          onLike={onLike}
+          onDeleteLike={onDeleteLike}
         />
       </section>
     </main>

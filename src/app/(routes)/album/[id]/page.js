@@ -5,7 +5,11 @@ import { FaPlay } from 'react-icons/fa6';
 import { useParams } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
-import { asyncReceiveAlbumDetail } from '@/app/_states/albumDetail/action';
+import {
+  asyncReceiveAlbumDetail,
+  asyncAlbumDetailLikeSong,
+  asyncDeleteAlbumDetailLikeSong,
+} from '@/app/_states/albumDetail/action';
 import { asyncGetPlaylists } from '@/app/_states/playlists/action';
 import {
   setNewTracksQueue,
@@ -19,6 +23,7 @@ import styles from '../../../_styles/style.module.css';
 function AlbumDetail() {
   const playlists = useSelector((states) => states.playlists);
   const albumDetail = useSelector((states) => states.albumDetail);
+  const authUser = useSelector((states) => states.authUser);
 
   const dispatch = useDispatch();
   const { id } = useParams();
@@ -41,6 +46,14 @@ function AlbumDetail() {
       'tracks-queue-index',
       albumDetail.songs.findIndex((track) => track.id === songId)
     );
+  };
+
+  const onLike = (id) => {
+    dispatch(asyncAlbumDetailLikeSong(id));
+  };
+
+  const onDeleteLike = (id) => {
+    dispatch(asyncDeleteAlbumDetailLikeSong(id));
   };
 
   return (
@@ -69,6 +82,9 @@ function AlbumDetail() {
             songs={albumDetail.songs}
             onPlayHandler={playTrack}
             playlists={playlists}
+            authUser={authUser ? authUser.id : ''}
+            onLike={onLike}
+            onDeleteLike={onDeleteLike}
           />
         </>
       )}

@@ -9,13 +9,26 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-top: 1px solid #3a3a3a;
-  /* border-bottom: 1px solid #978e8e;
-  background-color: #111111; */
   padding: 10px 0;
 }
 
 .song_item .show_dropdown_menu {
+  font-size: 20px;
+  background-color: transparent;
+  border: 0;
+  width: 44px;
+  height: 44px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.song_item .song_buttons {
+  display: flex;
+}
+
+.song_item .song_buttons > button {
   font-size: 20px;
   background-color: transparent;
   border: 0;

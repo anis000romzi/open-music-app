@@ -8,9 +8,16 @@ import Modal from '../Modal';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import modalStyles from '../../_styles/modal.module.css';
-import { BsCheckSquareFill, BsSquare } from "react-icons/bs";
+import { BsCheckSquareFill, BsSquare } from 'react-icons/bs';
 
-function SongsList({ songs, onPlayHandler, playlists }) {
+function SongsList({
+  songs,
+  onPlayHandler,
+  playlists,
+  authUser,
+  onLike,
+  onDeleteLike,
+}) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [songId, setSongId] = useState(false);
   const dispatch = useDispatch();
@@ -38,6 +45,9 @@ function SongsList({ songs, onPlayHandler, playlists }) {
               onPlay={onPlayHandler}
               onOpen={openCloseModal}
               setSong={setSongId}
+              authUser={authUser}
+              onLike={onLike}
+              onDeleteLike={onDeleteLike}
             />
           ))}
       </div>

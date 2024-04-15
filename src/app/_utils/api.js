@@ -333,8 +333,10 @@ const api = (() => {
     return data;
   }
 
-  async function getSongs(title) {
-    const response = await fetch(`${BASE_URL}/songs?title=${title}&artist=${title}`);
+  async function getSongs(query) {
+    const response = await fetch(
+      `${BASE_URL}/songs?title=${query}&artist=${query}`
+    );
 
     const responseJson = await response.json();
     const { status, message } = responseJson;
@@ -343,9 +345,37 @@ const api = (() => {
       throw new Error(message);
     }
 
-    const { data: songs } = responseJson;
+    const {
+      data: { songs },
+    } = responseJson;
 
     return songs;
+  }
+
+  async function likeSong(id) {
+    const response = await _fetchWithAuth(`${BASE_URL}/songs/${id}/likes`, {
+      method: 'POST',
+    });
+
+    const responseJson = await response.json();
+    const { status, message } = responseJson;
+
+    if (status !== 'success') {
+      throw new Error(message);
+    }
+  }
+
+  async function deleteLikeSong(id) {
+    const response = await _fetchWithAuth(`${BASE_URL}/songs/${id}/likes`, {
+      method: 'DELETE',
+    });
+
+    const responseJson = await response.json();
+    const { status, message } = responseJson;
+
+    if (status !== 'success') {
+      throw new Error(message);
+    }
   }
 
   async function createAlbum(name, year) {
@@ -554,6 +584,8 @@ const api = (() => {
     getAlbumsByArtist,
     getUserById,
     getSongs,
+    likeSong,
+    deleteLikeSong,
     createAlbum,
     addAlbumCover,
     createSong,
