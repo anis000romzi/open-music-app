@@ -561,6 +561,38 @@ const api = (() => {
     return data;
   }
 
+  async function editPlaylist(id, name) {
+    const response = await _fetchWithAuth(`${BASE_URL}/playlists/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        name,
+      }),
+    });
+
+    const responseJson = await response.json();
+    const { status, message } = responseJson;
+
+    if (status !== 'success') {
+      throw new Error(message);
+    }
+  }
+
+  async function deletePlaylist(id) {
+    const response = await _fetchWithAuth(`${BASE_URL}/playlists/${id}`, {
+      method: 'DELETE',
+    });
+
+    const responseJson = await response.json();
+    const { status, message } = responseJson;
+
+    if (status !== 'success') {
+      throw new Error(message);
+    }
+  }
+
   async function getPlaylists() {
     const response = await _fetchWithAuth(`${BASE_URL}/playlists`);
 
@@ -662,6 +694,8 @@ const api = (() => {
     createSong,
     addSongAudio,
     createPlaylist,
+    editPlaylist,
+    deletePlaylist,
     getPlaylists,
     getPlaylistById,
     addSongToPlaylist,

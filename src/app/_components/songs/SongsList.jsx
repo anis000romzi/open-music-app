@@ -64,9 +64,9 @@ function SongsList({
               }
             >
               {playlist.songs.includes(songId) ? (
-                <BsSquare />
-              ) : (
                 <BsCheckSquareFill />
+              ) : (
+                <BsSquare />
               )}
               <p>{playlist.name}</p>
             </div>

@@ -1,22 +1,29 @@
 'use client';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { useSelector, useDispatch } from 'react-redux';
+import { AiOutlineEdit } from 'react-icons/ai';
 import { asyncReceivePlaylistDetail } from '@/app/_states/playlistDetail/action';
+import { asyncGetPlaylists } from '@/app/_states/playlists/action';
 import {
   setNewTracksQueue,
   setPlayingTrack,
   setIsPlaying,
 } from '@/app/_states/tracks/action';
 import SongsList from '@/app/_components/songs/SongsList';
+import styles from '../../../_styles/style.module.css';
 
 function PlaylistDetail() {
+  const playlists = useSelector((states) => states.playlists);
   const playlistDetail = useSelector((states) => states.playlistDetail);
+  const authUser = useSelector((states) => states.authUser);
+  const [edit, setEdit] = useState(false);
 
   const dispatch = useDispatch();
   const { id } = useParams();
 
   useEffect(() => {
+    dispatch(asyncGetPlaylists());
     dispatch(asyncReceivePlaylistDetail(id));
   }, [dispatch, id]);
 
@@ -36,11 +43,26 @@ function PlaylistDetail() {
   };
 
   return (
-    <main>
+    <main className={styles.playlist_page}>
       {playlistDetail && (
         <>
-          <h1>{playlistDetail.name}</h1>
-          <SongsList songs={playlistDetail.songs} onPlayHandler={playTrack} />
+          <div className={styles.playlist_title}>
+            <h1>
+              {playlistDetail.name}{' '}
+              <button
+                type="button"
+                onClick={() => setEdit((current) => !current)}
+              >
+                <AiOutlineEdit />
+              </button>
+            </h1>
+          </div>
+          <SongsList
+            songs={playlistDetail.songs}
+            onPlayHandler={playTrack}
+            playlists={playlists}
+            authUser={authUser ? authUser.id : ''}
+          />
         </>
       )}
     </main>

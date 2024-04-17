@@ -4,6 +4,10 @@ function playlistsReducer(playlists = [], action = {}) {
   switch (action.type) {
     case ActionType.RECEIVE_PLAYLISTS:
       return action.payload.playlists;
+    case ActionType.DELETE_PLAYLIST:
+      return playlists.filter(
+        (playlist) => playlist.id !== action.payload.playlistId
+      );
     case ActionType.ADD_SONG_TO_PLAYLIST:
       return playlists.map((playlist) => {
         if (playlist.id === action.payload.playlistId) {

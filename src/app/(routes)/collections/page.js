@@ -1,13 +1,16 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { TbPlaylistAdd } from 'react-icons/tb';
 import {
   asyncGetPlaylists,
   asyncAddPlaylist,
+  asyncDeletePlaylist,
 } from '@/app/_states/playlists/action';
 import useInput from '@/app/_hooks/useInput';
 import Modal from '@/app/_components/Modal';
 import PlaylistsList from '@/app/_components/playlists/PlaylistsList';
+import styles from '../../_styles/style.module.css';
 
 function Collections() {
   const playlists = useSelector((states) => states.playlists);
@@ -28,15 +31,22 @@ function Collections() {
     setIsModalOpen(false);
   };
 
+  const deletePlaylist = (playlistId) => {
+    dispatch(asyncDeletePlaylist(playlistId));
+  };
+
   useEffect(() => {
     dispatch(asyncGetPlaylists());
   }, [dispatch]);
 
   return (
     <main>
-      <h1>Collection Page</h1>
-      <button type="button" onClick={() => openModal()}>
-        add playlist
+      <button
+        type="button"
+        className={styles.add_playlist_button}
+        onClick={() => openModal()}
+      >
+        <TbPlaylistAdd />
       </button>
       <section>
         <h2>Liked Songs</h2>
@@ -48,8 +58,10 @@ function Collections() {
         <h2>Followed Artists</h2>
       </section>
       <section>
-        <h2>Playlists</h2>
-        <PlaylistsList playlists={playlists} />
+        <PlaylistsList
+          playlists={playlists}
+          onDeletePlaylist={deletePlaylist}
+        />
       </section>
       <Modal isModalOpen={isModalOpen} onClose={closeModal}>
         <form>

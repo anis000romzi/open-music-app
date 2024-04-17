@@ -1,12 +1,17 @@
 import PlaylistItem from './PlaylistItem';
+import styles from '../../_styles/playlist.module.css';
 
-function PlaylistsList({ playlists }) {
+function PlaylistsList({ playlists, onDeletePlaylist }) {
   return (
-    <section>
+    <div className={styles.playlist_list}>
       {playlists.map((playlist) => (
-        <PlaylistItem key={playlist.id} {...playlist} />
+        <PlaylistItem
+          key={playlist.id}
+          {...playlist}
+          onDelete={onDeletePlaylist}
+        />
       ))}
-    </section>
+    </div>
   );
 }
 

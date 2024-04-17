@@ -3,6 +3,7 @@ import api from '@/app/_utils/api';
 const ActionType = {
   RECEIVE_PLAYLISTS: 'RECEIVE_PLAYLISTS',
   ADD_PLAYLIST: 'ADD_PLAYLIST',
+  DELETE_PLAYLIST: 'DELETE_PLAYLIST',
   ADD_SONG_TO_PLAYLIST: 'ADD_SONG_TO_PLAYLIST',
   DELETE_SONG_FROM_PLAYLIST: 'DELETE_SONG_FROM_PLAYLIST',
 };
@@ -21,6 +22,15 @@ function addPlaylistActionCreator(playlist) {
     type: ActionType.ADD_PLAYLIST,
     payload: {
       playlist,
+    },
+  };
+}
+
+function deletePlaylistActionCreator(playlistId) {
+  return {
+    type: ActionType.DELETE_PLAYLIST,
+    payload: {
+      playlistId,
     },
   };
 }
@@ -69,6 +79,17 @@ function asyncAddPlaylist(name) {
   };
 }
 
+function asyncDeletePlaylist(playlistId) {
+  return async (dispatch) => {
+    try {
+      await api.deletePlaylist(playlistId)
+      dispatch(deletePlaylistActionCreator(playlistId));
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+}
+
 function asyncAddSongToPlaylist(playlistId, songId) {
   return async (dispatch) => {
     dispatch(addSongToPlaylistActionCreator(playlistId, songId));
@@ -96,10 +117,12 @@ function asyncDeleteSongFromPlaylist(playlistId, songId) {
 export {
   ActionType,
   receivePlaylistsActionCreator,
+  deletePlaylistActionCreator,
   addSongToPlaylistActionCreator,
   deleteSongFromPlaylistActionCreator,
   asyncGetPlaylists,
   asyncAddPlaylist,
+  asyncDeletePlaylist,
   asyncAddSongToPlaylist,
   asyncDeleteSongFromPlaylist,
 };
