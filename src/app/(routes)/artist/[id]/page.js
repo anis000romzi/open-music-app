@@ -36,10 +36,12 @@ function Artist() {
             </p>
           </section>
           <section className={styles.user_discography}>
-            <h2>Discography</h2>
             <div>
-              <p>Albums</p>
+              <h2>Albums</h2>
               <AlbumsList albums={userDetail.albums} />
+            </div>
+            <div>
+              <h2>Singles</h2>
             </div>
           </section>
         </>

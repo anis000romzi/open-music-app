@@ -5,6 +5,8 @@ const ActionType = {
   UNSET_AUTH_USER: 'UNSET_AUTH_USER',
   ACTIVATE_AUTH_USER: 'ACTIVATE_AUTH_USER',
   CHANGE_EMAIL_AUTH_USER: 'CHANGE_EMAIL_AUTH_USER',
+  EDIT_AUTH_USER: 'EDIT_AUTH_USER',
+  CHANGE_PICTURE_AUTH_USER: 'CHANGE_PICTURE_AUTH_USER',
 };
 
 function setAuthUserActionCreator(authUser) {
@@ -39,6 +41,25 @@ function changeEmailAuthUserActionCreator(email) {
     type: ActionType.CHANGE_EMAIL_AUTH_USER,
     payload: {
       email,
+    },
+  };
+}
+
+function editAuthUserActionCreator(fullname, description) {
+  return {
+    type: ActionType.EDIT_AUTH_USER,
+    payload: {
+      fullname,
+      description,
+    },
+  };
+}
+
+function changePictureAuthUserActionCreator(file) {
+  return {
+    type: ActionType.CHANGE_PICTURE_AUTH_USER,
+    payload: {
+      file,
     },
   };
 }
@@ -96,14 +117,41 @@ function asyncChangeEmailUser(userId, email) {
   };
 }
 
+function asyncEditAuthUser({ id, fullname, description }) {
+  return async (dispatch) => {
+    try {
+      await api.editUser({ id, fullname, description });
+
+      dispatch(editAuthUserActionCreator(fullname, description));
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+}
+
+function asyncChangePictureAuthUser(id, file) {
+  return async (dispatch) => {
+    try {
+      const { fileLocation } = await api.addUserPicture(id, file);
+
+      dispatch(changePictureAuthUserActionCreator(fileLocation));
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+}
+
 export {
   ActionType,
   setAuthUserActionCreator,
   unsetAuthUserActionCreator,
   activateAuthUserActionCreator,
   changeEmailAuthUserActionCreator,
+  changePictureAuthUserActionCreator,
   asyncSetAuthUser,
   asyncUnsetAuthUser,
   asyncActivateUser,
   asyncChangeEmailUser,
+  asyncEditAuthUser,
+  asyncChangePictureAuthUser,
 };

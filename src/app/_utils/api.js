@@ -98,6 +98,47 @@ const api = (() => {
     return userId;
   }
 
+  async function editUser({ id, fullname, description }) {
+    const response = await _fetchWithAuth(`${BASE_URL}/users/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        fullname,
+        description,
+      }),
+    });
+
+    const responseJson = await response.json();
+    const { status, message } = responseJson;
+
+    if (status !== 'success') {
+      throw new Error(message);
+    }
+  }
+
+  async function addUserPicture(id, file) {
+    const formData = new FormData();
+    formData.append('picture', file);
+
+    const response = await _fetchWithAuth(`${BASE_URL}/users/${id}/pictures`, {
+      method: 'POST',
+      body: formData,
+    });
+
+    const responseJson = await response.json();
+    const { status, message } = responseJson;
+
+    if (status !== 'success') {
+      throw new Error(message);
+    }
+
+    const { data } = responseJson;
+
+    return data;
+  }
+
   async function sendActivationCode(userId) {
     const response = await fetch(`${BASE_URL}/authentications/verifications`, {
       method: 'POST',
@@ -597,6 +638,8 @@ const api = (() => {
     getRefreshToken,
     generateAccessToken,
     register,
+    editUser,
+    addUserPicture,
     sendActivationCode,
     activateUser,
     login,

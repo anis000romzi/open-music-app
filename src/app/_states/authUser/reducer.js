@@ -16,6 +16,17 @@ function authUserReducer(authUser = null, action = {}) {
         ...authUser,
         email: action.payload.email,
       };
+    case ActionType.EDIT_AUTH_USER:
+      return {
+        ...authUser,
+        fullname: action.payload.fullname,
+        description: action.payload.description,
+      };
+    case ActionType.CHANGE_PICTURE_AUTH_USER:
+      return {
+        ...authUser,
+        picture: action.payload.file,
+      };
     default:
       return authUser;
   }
