@@ -8,10 +8,12 @@ function AlbumItem({ id, artistid, name, artist, cover }) {
     <div className={styles.album_item}>
       <Link href={`/album/${id}`}>
         <Image
+          className={styles.album_cover}
           src={cover ? cover : defaultImage}
           width={150}
           height={150}
           alt="Album cover"
+          priority
         />
       </Link>
       <p>{name}</p>

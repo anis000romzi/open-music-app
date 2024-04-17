@@ -299,6 +299,32 @@ const api = (() => {
     return album;
   }
 
+  async function likeAlbum(albumId) {
+    const response = await _fetchWithAuth(`${BASE_URL}/albums/${albumId}/likes`, {
+      method: 'POST'
+    });
+
+    const responseJson = await response.json();
+    const { status, message } = responseJson;
+
+    if (status !== 'success') {
+      throw new Error(message);
+    }
+  }
+
+  async function deleteLikeAlbum(albumId) {
+    const response = await _fetchWithAuth(`${BASE_URL}/albums/${albumId}/likes`, {
+      method: 'DELETE'
+    });
+
+    const responseJson = await response.json();
+    const { status, message } = responseJson;
+
+    if (status !== 'success') {
+      throw new Error(message);
+    }
+  }
+
   async function getAlbumsByArtist(userId) {
     const response = await fetch(`${BASE_URL}/albums/artist/${userId}`);
 
@@ -581,6 +607,8 @@ const api = (() => {
     getOwnProfile,
     getPopularAlbums,
     getAlbumById,
+    likeAlbum,
+    deleteLikeAlbum,
     getAlbumsByArtist,
     getUserById,
     getSongs,

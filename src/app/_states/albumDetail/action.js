@@ -3,8 +3,10 @@ import api from '@/app/_utils/api';
 const ActionType = {
   RECEIVE_ALBUM_DETAIL: 'RECEIVE_ALBUM_DETAIL',
   CLEAR_ALBUM_DETAIL: 'CLEAR_ALBUM_DETAIL',
+  LIKE_ALBUM_DETAIL: 'LIKE_ALBUM_DETAIL',
+  DELETE_LIKE_ALBUM_DETAIL: 'DELETE_LIKE_ALBUM_DETAIL',
   LIKE_ALBUM_DETAIL_SONG: 'LIKE_ALBUM_DETAIL_SONG',
-  DELETE_ALBUM_DETAIL_LIKE_SONG: 'DELETE_LIKE_SONG',
+  DELETE_ALBUM_DETAIL_LIKE_SONG: 'DELETE_ALBUM_DETAIL_LIKE_SONG',
 };
 
 function receiveAlbumDetailActionCreator(albumDetail) {
@@ -19,6 +21,24 @@ function receiveAlbumDetailActionCreator(albumDetail) {
 function clearAlbumDetailActionCreator() {
   return {
     type: ActionType.CLEAR_ALBUM_DETAIL,
+  };
+}
+
+function likeAlbumDetailActionCreator(userId) {
+  return {
+    type: ActionType.LIKE_ALBUM_DETAIL,
+    payload: {
+      userId,
+    },
+  };
+}
+
+function deleteLikeAlbumDetailActionCreator(userId) {
+  return {
+    type: ActionType.DELETE_LIKE_ALBUM_DETAIL,
+    payload: {
+      userId,
+    },
   };
 }
 
@@ -54,6 +74,32 @@ function asyncReceiveAlbumDetail(albumId) {
   };
 }
 
+function asyncLikeAlbumDetail(albumId) {
+  return async (dispatch, getState) => {
+    const { authUser } = getState();
+    dispatch(likeAlbumDetailActionCreator(authUser.id));
+    try {
+      await api.likeAlbum(albumId);
+    } catch (error) {
+      alert(error.message);
+      dispatch(deleteLikeAlbumDetailActionCreator(authUser.id));
+    }
+  };
+}
+
+function asyncDeleteLikeAlbumDetail(albumId) {
+  return async (dispatch, getState) => {
+    const { authUser } = getState();
+    dispatch(deleteLikeAlbumDetailActionCreator(authUser.id));
+    try {
+      await api.deleteLikeAlbum(albumId);
+    } catch (error) {
+      alert(error.message);
+      dispatch(likeAlbumDetailActionCreator(authUser.id));
+    }
+  };
+}
+
 function asyncAlbumDetailLikeSong(songId) {
   return async (dispatch, getState) => {
     const { authUser } = getState();
@@ -84,7 +130,11 @@ export {
   ActionType,
   receiveAlbumDetailActionCreator,
   clearAlbumDetailActionCreator,
+  likeAlbumDetailActionCreator,
+  deleteLikeAlbumDetailActionCreator,
   asyncReceiveAlbumDetail,
+  asyncLikeAlbumDetail,
+  asyncDeleteLikeAlbumDetail,
   asyncAlbumDetailLikeSong,
   asyncDeleteAlbumDetailLikeSong,
 };

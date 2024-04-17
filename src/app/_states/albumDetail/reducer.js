@@ -6,6 +6,16 @@ function albumDetailReducer(albumDetail = null, action = {}) {
       return action.payload.albumDetail;
     case ActionType.CLEAR_ALBUM_DETAIL:
       return null;
+    case ActionType.LIKE_ALBUM_DETAIL:
+      return {
+        ...albumDetail,
+        likes: albumDetail.likes.concat([action.payload.userId]),
+      };
+    case ActionType.DELETE_LIKE_ALBUM_DETAIL:
+      return {
+        ...albumDetail,
+        likes: albumDetail.likes.filter((id) => id !== action.payload.userId),
+      };
     case ActionType.LIKE_ALBUM_DETAIL_SONG:
       return {
         ...albumDetail,
