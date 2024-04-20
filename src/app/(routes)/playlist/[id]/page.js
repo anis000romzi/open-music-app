@@ -2,8 +2,11 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { useSelector, useDispatch } from 'react-redux';
-import { AiOutlineEdit } from 'react-icons/ai';
-import { asyncReceivePlaylistDetail } from '@/app/_states/playlistDetail/action';
+import { AiOutlineEdit, AiOutlineClose, AiOutlineCheck } from 'react-icons/ai';
+import {
+  asyncReceivePlaylistDetail,
+  asyncEditPlaylistDetail,
+} from '@/app/_states/playlistDetail/action';
 import { asyncGetPlaylists } from '@/app/_states/playlists/action';
 import {
   setNewTracksQueue,
@@ -12,20 +15,30 @@ import {
 } from '@/app/_states/tracks/action';
 import SongsList from '@/app/_components/songs/SongsList';
 import styles from '../../../_styles/style.module.css';
+import useInput from '@/app/_hooks/useInput';
 
 function PlaylistDetail() {
+  const dispatch = useDispatch();
+  const authUser = useSelector((states) => states.authUser);
   const playlists = useSelector((states) => states.playlists);
   const playlistDetail = useSelector((states) => states.playlistDetail);
-  const authUser = useSelector((states) => states.authUser);
   const [edit, setEdit] = useState(false);
+  const [playlistName, onPlaylistNameChange, setPlaylistName] = useInput();
 
-  const dispatch = useDispatch();
   const { id } = useParams();
+
+  if (!authUser || !authUser.is_active) {
+    redirect('/');
+  }
 
   useEffect(() => {
     dispatch(asyncGetPlaylists());
     dispatch(asyncReceivePlaylistDetail(id));
   }, [dispatch, id]);
+
+  const editPlaylist = (id, name) => {
+    dispatch(asyncEditPlaylistDetail(id, name));
+  };
 
   const playAll = (tracks) => {
     dispatch(setNewTracksQueue(tracks));
@@ -47,13 +60,37 @@ function PlaylistDetail() {
       {playlistDetail && (
         <>
           <div className={styles.playlist_title}>
+            {edit ? (
+              <form>
+                <input
+                  type="text"
+                  value={playlistName}
+                  onChange={onPlaylistNameChange}
+                  placeholder="Playlist Name"
+                />
+                <button
+                  type="button"
+                  onClick={() => {
+                    editPlaylist(playlistDetail.id, playlistName);
+                    setEdit(false);
+                  }}
+                >
+                  <AiOutlineCheck />
+                </button>
+              </form>
+            ) : (
+              ''
+            )}
             <h1>
-              {playlistDetail.name}{' '}
+              {edit ? '' : playlistDetail.name}{' '}
               <button
                 type="button"
-                onClick={() => setEdit((current) => !current)}
+                onClick={() => {
+                  setPlaylistName(playlistDetail.name);
+                  setEdit((current) => !current);
+                }}
               >
-                <AiOutlineEdit />
+                {edit ? <AiOutlineClose /> : <AiOutlineEdit />}
               </button>
             </h1>
           </div>

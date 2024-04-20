@@ -6,6 +6,11 @@ function playlistDetailReducer(playlistDetail = null, action = {}) {
       return action.payload.playlistDetail;
     case ActionType.CLEAR_PLAYLIST_DETAIL:
       return null;
+    case ActionType.EDIT_PLAYLIST_DETAIL:
+      return {
+        ...playlistDetail,
+        name: action.payload.name,
+      };
     default:
       return playlistDetail;
   }

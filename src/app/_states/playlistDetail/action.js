@@ -3,6 +3,7 @@ import api from '@/app/_utils/api';
 const ActionType = {
   RECEIVE_PLAYLIST_DETAIL: 'RECEIVE_PLAYLIST_DETAIL',
   CLEAR_PLAYLIST_DETAIL: 'CLEAR_PLAYLIST_DETAIL',
+  EDIT_PLAYLIST_DETAIL: 'EDIT_PLAYLIST_DETAIL'
 };
 
 function receivePlaylistDetailActionCreator(playlistDetail) {
@@ -23,6 +24,15 @@ function clearPlaylistDetailActionCreator(playlistDetail) {
   };
 }
 
+function editPlaylistDetailActionCreator(name) {
+  return {
+    type: ActionType.EDIT_PLAYLIST_DETAIL,
+    payload: {
+      name,
+    },
+  };
+}
+
 function asyncReceivePlaylistDetail(playlistId) {
   return async (dispatch) => {
     dispatch(clearPlaylistDetailActionCreator());
@@ -35,9 +45,22 @@ function asyncReceivePlaylistDetail(playlistId) {
   };
 }
 
+function asyncEditPlaylistDetail(playlistId, name) {
+  return async (dispatch) => {
+    try {
+      await api.editPlaylist(playlistId, name);
+      dispatch(editPlaylistDetailActionCreator(name));
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+}
+
 export {
   ActionType,
   receivePlaylistDetailActionCreator,
   clearPlaylistDetailActionCreator,
+  editPlaylistDetailActionCreator,
   asyncReceivePlaylistDetail,
+  asyncEditPlaylistDetail,
 };
