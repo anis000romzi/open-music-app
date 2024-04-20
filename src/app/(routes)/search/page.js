@@ -30,8 +30,10 @@ function Search() {
   const [keyword, onKeywordChange] = useInput(searchParams.get('query') || '');
 
   useEffect(() => {
-    dispatch(asyncGetPlaylists());
-  }, [dispatch]);
+    if (authUser) {
+      dispatch(asyncGetPlaylists());
+    }
+  }, [dispatch, authUser]);
 
   useEffect(() => {
     dispatch(asyncGetSongs(searchParams.get('query')));
@@ -85,6 +87,9 @@ function Search() {
         />
       </form>
       <section>
+      {
+        songs.length > 0 &&
+        <>
         <h2>Songs</h2>
         <SongsList
           songs={songs}
@@ -94,6 +99,8 @@ function Search() {
           onLike={onLike}
           onDeleteLike={onDeleteLike}
         />
+        </>
+      }
       </section>
     </main>
   );

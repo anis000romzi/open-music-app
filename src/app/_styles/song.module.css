@@ -44,7 +44,8 @@
   font-size: 1.1em;
 }
 
-.song_info p {
+.song_info a {
+  display: block;
   color: #978e8e;
   font-size: 0.9em;
   overflow: hidden;

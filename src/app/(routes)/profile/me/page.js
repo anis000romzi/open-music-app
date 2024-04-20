@@ -13,12 +13,17 @@ function Profile() {
   const dispatch = useDispatch();
   const authUser = useSelector((states) => states.authUser);
   const [edit, setEdit] = useState(false);
-  const [fullname, onFullnameChange] = useInput(
-    authUser ? authUser.fullname : ''
-  );
-  const [description, onDescriptionChange] = useInput(
-    authUser ? authUser.description : ''
-  );
+  const [fullname, onFullnameChange] = useInput(authUser ? authUser.fullname : '');
+  const [description, onDescriptionChange] = useInput(authUser ? authUser.description : '');
+  // const [description, setDescription] = useState(authUser ? authUser.description : '');
+
+  if (!authUser || !authUser.is_active) {
+    redirect('/');
+  }
+
+  // const onInputDescription = ({ target }) => {
+  //   setDescription(target.innerHTML);
+  // };
 
   const editUser = ({ id, fullname, description }) => {
     dispatch(asyncEditAuthUser({ id, fullname, description }));
@@ -29,14 +34,16 @@ function Profile() {
   };
 
   return (
-    <main className={styles.main}>
+    <main className={styles.profile_page}>
       {authUser && (
         <>
           <Image
+            className={styles.profile_picture}
             src={authUser.picture}
             width={100}
             height={100}
             alt="Profile picture"
+            priority
           />
           {edit ? (
             <form>
@@ -54,6 +61,11 @@ function Profile() {
                 onChange={onFullnameChange}
                 placeholder="Fullname"
               />
+              {/* <div
+                data-placeholder="Write your note here ..."
+                contentEditable
+                onInput={onInputDescription}
+              >{description}</div> */}
               <textarea
                 value={description}
                 onChange={onDescriptionChange}
@@ -70,17 +82,22 @@ function Profile() {
               </button>
             </form>
           ) : (
-            <div>
-              <h1>{authUser.fullname}</h1>
-              <em>@{authUser.username}</em>
-              <br />
-              <em>email: {authUser.email}</em>
-              <p>
+            <div className={styles.profile_info}>
+              <div className={styles.profile_info__name}>
+                <h1>{authUser.fullname}</h1>
+                <em>@{authUser.username}</em>
+              </div>
+              <p className={styles.profile_info__description}>
                 {authUser.description ? authUser.description : 'No description'}
               </p>
+              <span>email: {authUser.email}</span>
             </div>
           )}
-          <button type="button" onClick={() => setEdit((current) => !current)}>
+          <button
+            className={`${styles.edit_button} ${edit ? styles.active : ''}`}
+            type="button"
+            onClick={() => setEdit((current) => !current)}
+          >
             {edit ? 'Cancel' : 'Edit'}
           </button>
         </>

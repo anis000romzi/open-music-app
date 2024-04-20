@@ -32,12 +32,15 @@ function AlbumDetail() {
   const dispatch = useDispatch();
   const { id } = useParams();
 
-  const isAlbumLiked = albumDetail && albumDetail.likes.includes(authUser.id);
+  const isAlbumLiked =
+    albumDetail && albumDetail.likes.includes(authUser ? authUser.id : '');
 
   useEffect(() => {
-    dispatch(asyncGetPlaylists());
+    if (authUser) {
+      dispatch(asyncGetPlaylists());
+    }
     dispatch(asyncReceiveAlbumDetail(id));
-  }, [dispatch, id]);
+  }, [dispatch, id, authUser]);
 
   const playAll = (tracks) => {
     dispatch(setNewTracksQueue(tracks));
@@ -90,19 +93,23 @@ function AlbumDetail() {
               - {albumDetail.year}
             </p>
             <div className={styles.album_detail_buttons}>
-              <button
-                className={styles.like_album_button}
-                type="button"
-                onClick={() => {
-                  if (isAlbumLiked) {
-                    onDeleteLikeAlbum(albumDetail.id);
-                  } else {
-                    onLikeAlbum(albumDetail.id);
-                  }
-                }}
-              >
-                {isAlbumLiked ? <AiFillHeart /> : <AiOutlineHeart />}
-              </button>
+              {authUser ? (
+                <button
+                  className={styles.like_album_button}
+                  type="button"
+                  onClick={() => {
+                    isAlbumLiked
+                      ? onDeleteLikeAlbum(albumDetail.id)
+                      : onLikeAlbum(albumDetail.id);
+                  }}
+                >
+                  {isAlbumLiked ? <AiFillHeart /> : <AiOutlineHeart />}
+                </button>
+              ) : (
+                <span>
+                  <AiFillHeart /> {albumDetail.likes.length}
+                </span>
+              )}
               <div>
                 <button
                   className={`${styles.shuffle_button} ${

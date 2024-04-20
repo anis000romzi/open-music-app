@@ -13,7 +13,6 @@
 
 .album_item {
   padding: 0;
-  margin-left: 16px;
 }
 
 .album_item p {
@@ -156,6 +155,7 @@
 }
 
 .album_detail_buttons .shuffle_button {
+  color: #978e8e;
   font-size: 25px;
   background-color: transparent;
   border: 0;
@@ -356,10 +356,80 @@
   gap: 5px;
 }
 
+.playlist_page .playlist_title input {
+  background-color: transparent;
+  border: none;
+  font-size: 1.2em;
+  font-weight: bold;
+  width: 80%;
+  font-family: inherit;
+}
+
 .playlist_page .playlist_title button {
   cursor: pointer;
   display: inline-block;
   background-color: transparent;
   border: none;
   font-size: 0.8em;
+}
+
+.playlist_page .playlist_title form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 80%;
+}
+
+.playlist_page .playlist_title form button {
+  font-size: 1.5em;
+}
+
+.profile_page {
+  align-items: center;
+  text-align: center;
+  gap: 10px;
+}
+
+.profile_page .profile_picture {
+  margin-top: 20px;
+}
+
+.profile_info {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.profile_info > span {
+  font-size: 0.9em;
+}
+
+.profile_info__name em {
+  color: #978e8e;
+}
+
+.profile_info__description {
+  white-space: pre-line
+}
+
+.profile_page .edit_button {
+  background-color: #ffe74c;
+  color: #111111;
+  padding: 10px;
+  border: none;
+  font-size: 1em;
+  font-weight: bold;
+  width: 50%;
+  border-radius: 10px;
+}
+
+.profile_page .edit_button.active {
+  background-color: transparent;
+  color: #ffe74c;
+  border: #ffe74c 1px solid;
+}
+
+.profile_page form {
+  display: flex;
+  flex-direction: column;
 }

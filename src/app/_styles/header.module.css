@@ -8,6 +8,7 @@
   grid-template-columns: auto 1fr auto;
   gap: 10px;
   position: sticky;
+  z-index: 1;
   top: 0;
 }
 
