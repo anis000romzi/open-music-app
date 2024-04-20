@@ -46,6 +46,17 @@ function asyncGetSongs(title) {
   };
 }
 
+function asyncGetLikedSongs() {
+  return async (dispatch) => {
+    try {
+      const songs = await api.getLikedSongs();
+      dispatch(receiveSongsActionCreator(songs));
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+}
+
 function asyncLikeSong(songId) {
   return async (dispatch, getState) => {
     const { authUser } = getState();
@@ -76,6 +87,7 @@ export {
   ActionType,
   receiveSongsActionCreator,
   asyncGetSongs,
+  asyncGetLikedSongs,
   asyncLikeSong,
   asyncDeleteLikeSong,
 };

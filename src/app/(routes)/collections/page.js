@@ -2,21 +2,30 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { TbPlaylistAdd } from 'react-icons/tb';
+import Link from 'next/link';
 import {
   asyncGetPlaylists,
   asyncAddPlaylist,
   asyncDeletePlaylist,
 } from '@/app/_states/playlists/action';
+import { asyncGetLikedSongs } from '@/app/_states/songs/action';
 import useInput from '@/app/_hooks/useInput';
 import Modal from '@/app/_components/Modal';
 import PlaylistsList from '@/app/_components/playlists/PlaylistsList';
 import styles from '../../_styles/style.module.css';
 
 function Collections() {
+  const dispatch = useDispatch();
+  const authUser = useSelector((states) => states.authUser);
+  const songs = useSelector((states) => states.songs);
   const playlists = useSelector((states) => states.playlists);
+
   const [name, onNameChange] = useInput('');
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const dispatch = useDispatch();
+
+  if (!authUser || !authUser.is_active) {
+    redirect('/');
+  }
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -37,6 +46,7 @@ function Collections() {
 
   useEffect(() => {
     dispatch(asyncGetPlaylists());
+    dispatch(asyncGetLikedSongs());
   }, [dispatch]);
 
   return (
@@ -49,7 +59,10 @@ function Collections() {
         <TbPlaylistAdd />
       </button>
       <section>
-        <h2>Liked Songs</h2>
+        <Link href={`collections/songs`}>
+          <h2>Liked Songs</h2>
+          <p>{songs.length} song(s)</p>
+        </Link>
       </section>
       <section>
         <h2>Liked Albums</h2>
