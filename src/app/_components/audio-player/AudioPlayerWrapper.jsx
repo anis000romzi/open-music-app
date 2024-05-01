@@ -2,7 +2,7 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { usePathname } from 'next/navigation';
-import { getTracksQueue } from '@/app/_states/tracks/action';
+import { getTracksQueue } from '@/app/_states/queue/action';
 import AudioPlayer from './AudioPlayer';
 
 function AudioPlayerWrapper() {

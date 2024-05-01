@@ -1,31 +1,31 @@
 const ActionType = {
-  RECEIVE_TRACKS: 'RECEIVE_TRACKS',
-  SET_PLAYING_TRACK: 'SET_PLAYING_TRACK',
-  DELETE_TRACK: 'DELETE_TRACK',
+  RECEIVE_QUEUE: 'RECEIVE_QUEUE',
+  SET_PLAYING_SONG_IN_QUEUE: 'SET_PLAYING_SONG_IN_QUEUE',
+  DELETE_SONG_FROM_QUEUE: 'DELETE_SONG_FROM_QUEUE',
   SET_IS_PLAYING: 'SET_IS_PLAYING',
 };
 
-function receiveTracksActionCreator(tracks) {
+function receiveQueueActionCreator(queue) {
   return {
-    type: ActionType.RECEIVE_TRACKS,
+    type: ActionType.RECEIVE_QUEUE,
     payload: {
-      tracks,
+      queue,
     },
   };
 }
 
-function setPlayingTrackActionCreator(songId) {
+function setPlayingSongInQueueActionCreator(songId) {
   return {
-    type: ActionType.SET_PLAYING_TRACK,
+    type: ActionType.SET_PLAYING_SONG_IN_QUEUE,
     payload: {
       songId,
     },
   };
 }
 
-function deleteTrackActionCreator(songId) {
+function deleteSongFromQueueActionCreator(songId) {
   return {
-    type: ActionType.DELETE_TRACK,
+    type: ActionType.DELETE_SONG_FROM_QUEUE,
     payload: {
       songId,
     },
@@ -41,22 +41,22 @@ function setIsPlayingActionCreator() {
 function getTracksQueue() {
   return async (dispatch) => {
     try {
-      const tracks = localStorage.getItem('tracks-queue');
-      dispatch(receiveTracksActionCreator(tracks ? JSON.parse(tracks) : {}));
+      const queue = localStorage.getItem('tracks-queue');
+      dispatch(receiveQueueActionCreator(queue ? JSON.parse(queue) : {}));
     } catch (error) {
       alert(error.message);
     }
   };
 }
 
-function setNewTracksQueue(tracks) {
+function setNewTracksQueue(queue) {
   return async (dispatch) => {
     try {
       localStorage.setItem(
         'tracks-queue',
         JSON.stringify({
-          currentlyPlaying: tracks[0],
-          tracks,
+          currentlyPlaying: queue[0],
+          queue,
           isPlaying: false,
         })
       );
@@ -68,17 +68,17 @@ function setNewTracksQueue(tracks) {
   };
 }
 
-function setPlayingTrack(songId) {
+function setPlayingSongInQueue(songId) {
   return async (dispatch, getState) => {
-    const { tracks } = getState();
+    const { queue } = getState();
 
-    dispatch(setPlayingTrackActionCreator(songId));
+    dispatch(setPlayingSongInQueueActionCreator(songId));
     try {
       localStorage.setItem(
         'tracks-queue',
         JSON.stringify({
-          ...tracks,
-          currentlyPlaying: tracks.tracks.filter(
+          ...queue,
+          currentlyPlaying: queue.queue.filter(
             (track) => track.id === songId
           )[0],
           isPlaying: false,
@@ -90,17 +90,17 @@ function setPlayingTrack(songId) {
   };
 }
 
-function deleteTrack(songId) {
+function deleteSongFromQueue(songId) {
   return async (dispatch, getState) => {
-    const { tracks } = getState();
+    const { queue } = getState();
 
-    dispatch(deleteTrackActionCreator(songId));
+    dispatch(deleteSongFromQueueActionCreator(songId));
     try {
       localStorage.setItem(
         'tracks-queue',
         JSON.stringify({
-          ...tracks,
-          tracks: tracks.tracks.filter((track) => track.id !== songId),
+          ...queue,
+          queue: queue.queue.filter((track) => track.id !== songId),
         })
       );
     } catch (error) {
@@ -111,15 +111,15 @@ function deleteTrack(songId) {
 
 function setIsPlaying() {
   return async (dispatch, getState) => {
-    const { tracks } = getState();
+    const { queue } = getState();
 
     dispatch(setIsPlayingActionCreator());
     try {
       localStorage.setItem(
         'tracks-queue',
         JSON.stringify({
-          ...tracks,
-          isPlaying: !tracks.isPlaying,
+          ...queue,
+          isPlaying: !queue.isPlaying,
         })
       );
     } catch (error) {
@@ -130,11 +130,11 @@ function setIsPlaying() {
 
 export {
   ActionType,
-  receiveTracksActionCreator,
-  setPlayingTrackActionCreator,
+  receiveQueueActionCreator,
+  setPlayingSongInQueueActionCreator,
   getTracksQueue,
   setNewTracksQueue,
-  setPlayingTrack,
+  setPlayingSongInQueue,
   setIsPlaying,
-  deleteTrack,
+  deleteSongFromQueue,
 };

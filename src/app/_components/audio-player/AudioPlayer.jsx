@@ -2,10 +2,10 @@
 import { useRef, useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
-  setPlayingTrack,
+  setPlayingSongInQueue,
   setIsPlaying,
-  deleteTrack,
-} from '@/app/_states/tracks/action';
+  deleteSongFromQueue,
+} from '@/app/_states/queue/action';
 import DisplayTrack from './DisplayTrack';
 import ProgressBar from './ProgressBar';
 import Controls from './Control';
@@ -13,55 +13,55 @@ import styles from '../../_styles/player.module.css';
 import DetailTrack from './DetailTrack';
 
 function AudioPlayer() {
+  const dispatch = useDispatch();
   const {
     currentlyPlaying = {},
-    tracks = [],
+    queue = [],
     isPlaying,
-  } = useSelector((states) => states.tracks);
+  } = useSelector((states) => states.queue);
+
   const [trackIndex, setTrackIndex] = useState(0);
   const [timeProgress, setTimeProgress] = useState(0);
   const [duration, setDuration] = useState(0);
   const [isDetailOpen, setIsDetailOpen] = useState(false);
 
-  const dispatch = useDispatch();
-
   const audioRef = useRef();
   const progressBarRef = useRef();
 
   useEffect(() => {
-    setTrackIndex(
-      tracks.findIndex((track) => track.id === currentlyPlaying.id)
-    );
-  }, [currentlyPlaying.id, tracks]);
+    setTrackIndex(queue.findIndex((track) => track.id === currentlyPlaying.id));
+  }, [currentlyPlaying.id, queue]);
 
-  const handleNext = () => {
-    if (trackIndex < tracks.length - 1) {
+  const handleNext = (event) => {
+    event.stopPropagation();
+    if (trackIndex < queue.length - 1) {
       localStorage.setItem(
         'tracks-queue-index',
-        tracks.findIndex((track) => track.id === currentlyPlaying.id) + 1
+        queue.findIndex((track) => track.id === currentlyPlaying.id) + 1
       );
       setTrackIndex(
-        tracks.findIndex((track) => track.id === currentlyPlaying.id) + 1
+        queue.findIndex((track) => track.id === currentlyPlaying.id) + 1
       );
-      dispatch(setPlayingTrack(tracks[trackIndex + 1].id));
+      dispatch(setPlayingSongInQueue(queue[trackIndex + 1].id));
     }
   };
 
-  const handlePrevious = () => {
+  const handlePrevious = (event) => {
+    event.stopPropagation();
     if (trackIndex !== 0) {
       localStorage.setItem(
         'tracks-queue-index',
-        tracks.findIndex((track) => track.id === currentlyPlaying.id) - 1
+        queue.findIndex((track) => track.id === currentlyPlaying.id) - 1
       );
       setTrackIndex(
-        tracks.findIndex((track) => track.id === currentlyPlaying.id) - 1
+        queue.findIndex((track) => track.id === currentlyPlaying.id) - 1
       );
-      dispatch(setPlayingTrack(tracks[trackIndex - 1].id));
+      dispatch(setPlayingSongInQueue(queue[trackIndex - 1].id));
     }
   };
 
   const deleteTrackFromQueue = (songId) => {
-    dispatch(deleteTrack(songId));
+    dispatch(deleteSongFromQueue(songId));
   };
 
   const togglePlayPause = (event) => {
@@ -79,7 +79,7 @@ function AudioPlayer() {
         setIsDetailOpen((current) => !current);
       }}
     >
-      {tracks.length > 0 ? (
+      {queue.length > 0 ? (
         <>
           <DetailTrack
             {...{
@@ -93,7 +93,7 @@ function AudioPlayer() {
               isPlaying,
               setIsPlaying,
               isDetailOpen,
-              tracks,
+              queue,
               deleteTrackFromQueue,
             }}
           />

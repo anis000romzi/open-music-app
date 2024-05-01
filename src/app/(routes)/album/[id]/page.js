@@ -16,9 +16,9 @@ import {
 import { asyncGetPlaylists } from '@/app/_states/playlists/action';
 import {
   setNewTracksQueue,
-  setPlayingTrack,
+  setPlayingSongInQueue,
   setIsPlaying,
-} from '@/app/_states/tracks/action';
+} from '@/app/_states/queue/action';
 import SongsList from '@/app/_components/songs/SongsList';
 import defaultImage from '../../../_assets/default-image.png';
 import styles from '../../../_styles/style.module.css';
@@ -42,14 +42,14 @@ function AlbumDetail() {
     dispatch(asyncReceiveAlbumDetail(id));
   }, [dispatch, id, authUser]);
 
-  const playAll = (tracks) => {
+  const playAllSong = (tracks) => {
     dispatch(setNewTracksQueue(tracks));
     dispatch(setIsPlaying());
   };
 
-  const playTrack = (songId) => {
+  const playSong = (songId) => {
     dispatch(setNewTracksQueue(albumDetail.songs));
-    dispatch(setPlayingTrack(songId));
+    dispatch(setPlayingSongInQueue(songId));
     dispatch(setIsPlaying());
     localStorage.setItem(
       'tracks-queue-index',
@@ -123,7 +123,7 @@ function AlbumDetail() {
                 <button
                   className={styles.play_all_button}
                   type="button"
-                  onClick={() => playAll(albumDetail.songs)}
+                  onClick={() => playAllSong(albumDetail.songs)}
                 >
                   <FaPlay />
                 </button>
@@ -132,7 +132,7 @@ function AlbumDetail() {
           </section>
           <SongsList
             songs={albumDetail.songs}
-            onPlayHandler={playTrack}
+            onPlayHandler={playSong}
             playlists={playlists}
             authUser={authUser ? authUser.id : ''}
             onLike={onLikeSong}

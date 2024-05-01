@@ -7,12 +7,12 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import Image from 'next/image';
 import {
   setNewTracksQueue,
-  setPlayingTrack,
+  setPlayingSongInQueue,
   setIsPlaying,
-} from '@/app/_states/tracks/action';
+} from '@/app/_states/queue/action';
+import TracksList from '../tracks/TracksList';
 import styles from '../../_styles/player.module.css';
 import defaultImage from '../../_assets/default-image.png';
-import TracksList from '../tracks/TracksList';
 
 function DetailTrack({
   currentlyPlaying,
@@ -24,7 +24,7 @@ function DetailTrack({
   handleNext,
   isPlaying,
   isDetailOpen,
-  tracks,
+  queue,
   deleteTrackFromQueue,
 }) {
   const [volume, setVolume] = useState(60);
@@ -49,12 +49,12 @@ function DetailTrack({
   }, [audioRef, duration, progressBarRef, setTimeProgress]);
 
   const playTrack = (songId) => {
-    dispatch(setNewTracksQueue(tracks));
-    dispatch(setPlayingTrack(songId));
+    dispatch(setNewTracksQueue(queue));
+    dispatch(setPlayingSongInQueue(songId));
     dispatch(setIsPlaying());
     localStorage.setItem(
       'tracks-queue-index',
-      tracks.findIndex((track) => track.id === songId)
+      queue.findIndex((track) => track.id === songId)
     );
   };
 
@@ -128,7 +128,7 @@ function DetailTrack({
         </TabPanel>
         <TabPanel>
           <TracksList
-            tracks={tracks}
+            tracks={queue}
             onPlayHandler={playTrack}
             onDeleteHandler={deleteTrackFromQueue}
             currentlyPlaying={currentlyPlaying}

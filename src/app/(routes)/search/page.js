@@ -12,9 +12,9 @@ import {
 } from '@/app/_states/songs/action';
 import {
   setNewTracksQueue,
-  setPlayingTrack,
+  setPlayingSongInQueue,
   setIsPlaying,
-} from '@/app/_states/tracks/action';
+} from '@/app/_states/queue/action';
 import styles from '../../_styles/input.module.css';
 
 function Search() {
@@ -58,10 +58,8 @@ function Search() {
   };
 
   const playSong = (songId) => {
-    dispatch(
-      setNewTracksQueue(songs.filter((song) => song.id === songId))
-    );
-    dispatch(setPlayingTrack(songId));
+    dispatch(setNewTracksQueue(songs.filter((song) => song.id === songId)));
+    dispatch(setPlayingSongInQueue(songId));
     dispatch(setIsPlaying());
     localStorage.setItem('tracks-queue-index', 0);
   };

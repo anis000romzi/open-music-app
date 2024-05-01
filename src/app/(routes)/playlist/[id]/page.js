@@ -10,9 +10,9 @@ import {
 import { asyncGetPlaylists } from '@/app/_states/playlists/action';
 import {
   setNewTracksQueue,
-  setPlayingTrack,
+  setPlayingSongInQueue,
   setIsPlaying,
-} from '@/app/_states/tracks/action';
+} from '@/app/_states/queue/action';
 import SongsList from '@/app/_components/songs/SongsList';
 import styles from '../../../_styles/style.module.css';
 import useInput from '@/app/_hooks/useInput';
@@ -47,7 +47,7 @@ function PlaylistDetail() {
 
   const playTrack = (songId) => {
     dispatch(setNewTracksQueue(playlistDetail.songs));
-    dispatch(setPlayingTrack(songId));
+    dispatch(setPlayingSongInQueue(songId));
     dispatch(setIsPlaying());
     localStorage.setItem(
       'tracks-queue-index',
