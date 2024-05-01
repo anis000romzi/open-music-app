@@ -7,23 +7,24 @@ import {
 } from '@/app/_states/authUser/action';
 import Image from 'next/image';
 import useInput from '@/app/_hooks/useInput';
+import { redirect } from 'next/navigation';
+import Link from 'next/link';
 import styles from '../../../_styles/style.module.css';
 
 function Profile() {
   const dispatch = useDispatch();
   const authUser = useSelector((states) => states.authUser);
   const [edit, setEdit] = useState(false);
-  const [fullname, onFullnameChange] = useInput(authUser ? authUser.fullname : '');
-  const [description, onDescriptionChange] = useInput(authUser ? authUser.description : '');
-  // const [description, setDescription] = useState(authUser ? authUser.description : '');
+  const [fullname, onFullnameChange] = useInput(
+    authUser ? authUser.fullname : ''
+  );
+  const [description, onDescriptionChange] = useInput(
+    authUser ? authUser.description : ''
+  );
 
   if (!authUser || !authUser.is_active) {
     redirect('/');
   }
-
-  // const onInputDescription = ({ target }) => {
-  //   setDescription(target.innerHTML);
-  // };
 
   const editUser = ({ id, fullname, description }) => {
     dispatch(asyncEditAuthUser({ id, fullname, description }));
@@ -61,11 +62,6 @@ function Profile() {
                 onChange={onFullnameChange}
                 placeholder="Fullname"
               />
-              {/* <div
-                data-placeholder="Write your note here ..."
-                contentEditable
-                onInput={onInputDescription}
-              >{description}</div> */}
               <textarea
                 value={description}
                 onChange={onDescriptionChange}
@@ -100,6 +96,8 @@ function Profile() {
           >
             {edit ? 'Cancel' : 'Edit'}
           </button>
+          <Link href="/profile/me/albums">Albums: {authUser.albums}</Link>
+          <Link href="/profile/me/songs">Songs: {authUser.songs}</Link>
         </>
       )}
     </main>
