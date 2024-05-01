@@ -3,21 +3,26 @@ import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { TbPlaylistAdd } from 'react-icons/tb';
 import Link from 'next/link';
+import Image from 'next/image';
 import {
   asyncGetPlaylists,
   asyncAddPlaylist,
   asyncDeletePlaylist,
 } from '@/app/_states/playlists/action';
+import { asyncGetLikedAlbums } from '@/app/_states/albums/action';
 import { asyncGetLikedSongs } from '@/app/_states/songs/action';
 import useInput from '@/app/_hooks/useInput';
 import Modal from '@/app/_components/Modal';
+import LikedAlbumsList from '@/app/_components/albums/LikedAlbumsList';
 import PlaylistsList from '@/app/_components/playlists/PlaylistsList';
 import styles from '../../_styles/style.module.css';
+import whiteRedHeart from '../../_assets/white-heart-red-background.jpg';
 
 function Collections() {
   const dispatch = useDispatch();
   const authUser = useSelector((states) => states.authUser);
   const songs = useSelector((states) => states.songs);
+  const albums = useSelector((states) => states.albums);
   const playlists = useSelector((states) => states.playlists);
 
   const [name, onNameChange] = useInput('');
@@ -46,6 +51,7 @@ function Collections() {
 
   useEffect(() => {
     dispatch(asyncGetPlaylists());
+    dispatch(asyncGetLikedAlbums());
     dispatch(asyncGetLikedSongs());
   }, [dispatch]);
 
@@ -58,18 +64,26 @@ function Collections() {
       >
         <TbPlaylistAdd />
       </button>
-      <section>
+      <h1 className={styles.your_collection}>Your Collection</h1>
+      <section className={styles.liked_songs}>
+        <Image
+          src={whiteRedHeart}
+          width={70}
+          height={70}
+          alt="Liked Songs"
+          priority
+        />
         <Link href={`collections/songs`}>
-          <h2>Liked Songs</h2>
+          <strong>Liked Songs</strong>
           <p>{songs.length} song(s)</p>
         </Link>
       </section>
       <section>
-        <h2>Liked Albums</h2>
+        <LikedAlbumsList albums={albums} />
       </section>
-      <section>
+      {/* <section>
         <h2>Followed Artists</h2>
-      </section>
+      </section> */}
       <section>
         <PlaylistsList
           playlists={playlists}
