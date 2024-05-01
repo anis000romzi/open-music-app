@@ -42,6 +42,16 @@ function albumDetailReducer(albumDetail = null, action = {}) {
           return song;
         }),
       };
+    case ActionType.DELETE_SONG_FROM_ALBUM:
+      return {
+        ...albumDetail,
+        songs: albumDetail.songs.filter((song) => song.id !== action.payload.songId)
+      }
+    case ActionType.ADD_SONGS_TO_ALBUM:
+      return {
+        ...albumDetail,
+        songs: albumDetail.songs.concat(action.payload.songs),
+      };
     default:
       return albumDetail;
   }
