@@ -5,7 +5,7 @@ import usersReducer from './users/reducer';
 import userDetailReducer from './userDetail/reducer';
 import popularAlbumsReducer from './popularAlbums/reducer';
 import albumDetailReducer from './albumDetail/reducer';
-import tracksReducer from './tracks/reducer';
+import queueReducer from './queue/reducer';
 import songsReducer from './songs/reducer';
 import playlistsReducer from './playlists/reducer';
 import playlistDetailReducer from './playlistDetail/reducer';
@@ -19,7 +19,7 @@ const store = configureStore({
     songs: songsReducer,
     popularAlbums: popularAlbumsReducer,
     albumDetail: albumDetailReducer,
-    tracks: tracksReducer,
+    queue: queueReducer,
     playlists: playlistsReducer,
     playlistDetail: playlistDetailReducer,
   },
