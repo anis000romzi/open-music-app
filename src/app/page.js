@@ -2,11 +2,11 @@
 import styles from './_styles/style.module.css';
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { asyncGetPopularAlbums } from './_states/popularAlbums/action';
+import { asyncGetPopularAlbums } from './_states/albums/action';
 import AlbumsList from './_components/albums/AlbumsList';
 
 export default function Home() {
-  const popularAlbums = useSelector((states) => states.popularAlbums);
+  const albums = useSelector((states) => states.albums);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -14,10 +14,13 @@ export default function Home() {
   }, [dispatch]);
 
   return (
-    <main className={styles.main}>
+    <main>
       <section className="popular-album">
         <h2 className={styles.popular_album}>Popular Albums</h2>
-        <AlbumsList albums={popularAlbums} />
+        <AlbumsList albums={albums} />
+      </section>
+      <section className="popular-artist">
+        <h2 className={styles.popular_album}>Popular Artists</h2>
       </section>
     </main>
   );

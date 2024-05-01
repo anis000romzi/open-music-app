@@ -3,7 +3,7 @@ import authUserReducer from './authUser/reducer';
 import isPreloadReducer from './isPreload/reducer';
 import usersReducer from './users/reducer';
 import userDetailReducer from './userDetail/reducer';
-import popularAlbumsReducer from './popularAlbums/reducer';
+import albumsReducer from './albums/reducer';
 import albumDetailReducer from './albumDetail/reducer';
 import queueReducer from './queue/reducer';
 import songsReducer from './songs/reducer';
@@ -17,7 +17,7 @@ const store = configureStore({
     users: usersReducer,
     userDetail: userDetailReducer,
     songs: songsReducer,
-    popularAlbums: popularAlbumsReducer,
+    albums: albumsReducer,
     albumDetail: albumDetailReducer,
     queue: queueReducer,
     playlists: playlistsReducer,
