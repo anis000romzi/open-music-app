@@ -17,7 +17,7 @@ function ProgressBar({ progressBarRef, audioRef, timeProgress, duration }) {
   };
 
   return (
-    <div className="progress">
+    <div className={styles.progress}>
       <span className={`${styles.time} current`}>{formatTime(timeProgress)}</span>
       <input
         type="range"

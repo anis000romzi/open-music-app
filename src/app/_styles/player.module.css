@@ -27,6 +27,13 @@
   cursor: pointer;
 }
 
+.track .info {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  padding: 0 10px;
+}
+
 .track .title {
   font-weight: bold;
   font-size: 1.2em;
@@ -68,13 +75,13 @@
   font-size: 0.9em;
 }
 
-.detail_track .controls {
+.detail_track .controls_detail {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.detail_track .controls button {
+.detail_track .controls_detail button {
   display: flex;
   border: none;
   align-items: center;
@@ -85,13 +92,13 @@
   cursor: pointer;
 }
 
-.detail_track .volume {
+.detail_track .volume_detail {
   display: flex;
   align-items: center;
   gap: 5px;
 }
 
-.detail_track .volume button {
+.detail_track .volume_detail button {
   display: flex;
   border: none;
   align-items: center;
@@ -112,4 +119,113 @@
 
 .time {
   display: none;
+}
+
+.progress input {
+  width: 100%;
+}
+
+.volume_audio button {
+  display: none;
+}
+
+.volume_audio input {
+  display: none;
+}
+
+@media screen and (min-width: 700px) {
+  .audio_player .controls_wrapper {
+    display: block;
+  }
+
+  .time {
+    display: inline-block;
+    font-size: 0.8em;
+  }
+
+  .progress {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .track .title {
+    font-weight: bold;
+    font-size: 1em;
+    overflow: hidden;
+    white-space: nowrap;
+    width: 150px;
+    text-overflow: ellipsis;
+  }
+
+  .track .artist {
+    color: #978e8e;
+    font-size: 0.8em;
+  }
+
+  .track .play_button_mobile {
+    display: none;
+  }
+
+  .detail_track .controls_detail button {
+    display: none;
+  }
+
+  .controls_wrapper .control_buttons {
+    display: flex;
+  }
+
+  .controls_wrapper button {
+    display: flex;
+    border: none;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    font-size: 1.5em;
+    width: 38px;
+    cursor: pointer;
+  }
+
+  .progress {
+    width: 70%;
+  }
+
+  .music_control {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 80%;
+    gap: 5px;
+  }
+
+  .music_bar {
+    display: flex;
+    height: 60px;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .volume_audio {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 10px;
+  }
+  
+  .volume_audio button {
+    display: flex;
+    border: none;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    font-size: 1em;
+    width: 38px;
+    cursor: pointer;
+  }
+  
+  .volume_audio input {
+    display: block;
+    width: 70%;
+  }
 }

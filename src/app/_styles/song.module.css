@@ -40,6 +40,12 @@
   justify-content: center;
 }
 
+.song_info {
+  display: flex;
+  align-items: center;
+  gap: 10px
+}
+
 .song_info strong {
   font-size: 1.1em;
 }
@@ -50,6 +56,8 @@
   font-size: 0.9em;
   overflow: hidden;
   white-space: nowrap;
+  width: 150px;
+  text-overflow: ellipsis;
 }
 
 .dropdown {

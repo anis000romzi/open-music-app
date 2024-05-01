@@ -1,0 +1,67 @@
+.albums_list {
+  display: flex;
+  flex-direction: row;
+  margin-top: 16px;
+  overflow-x: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.albums_list::-webkit-scrollbar {
+  display: none;
+}
+
+.album_item {
+  padding: 0;
+  margin: 0 5px;
+}
+
+.album_item p {
+  font-weight: bold;
+  font-size: 1.2em;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 150px;
+  text-overflow: ellipsis;
+}
+
+.album_item a {
+  color: #978e8e;
+  font-size: 0.9em;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 150px;
+  text-overflow: ellipsis;
+  display: inline-block;
+}
+
+.editable_album_item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.liked_album_item {
+  padding: 5px 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.liked_album_item p {
+  font-weight: bold;
+  font-size: 1em;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 150px;
+  text-overflow: ellipsis;
+}
+
+.liked_album_item a {
+  color: #978e8e;
+  font-size: 0.9em;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  display: inline-block;
+}

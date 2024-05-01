@@ -87,7 +87,14 @@ function DetailTrack({
         <TabPanel>
           <div className={styles.detail_track_info}>
             <div className={styles.info}>
-              <Image src={defaultImage} width={200} height={200} alt="Cover" />
+              <Image
+                src={
+                  currentlyPlaying.cover ? currentlyPlaying.cover : defaultImage
+                }
+                width={200}
+                height={200}
+                alt="Cover"
+              />
               <p className={styles.detail_track_title}>
                 {currentlyPlaying ? currentlyPlaying.title : '--'}
               </p>
@@ -95,7 +102,7 @@ function DetailTrack({
                 {currentlyPlaying ? currentlyPlaying.artist : '--'}
               </p>
             </div>
-            <div className={styles.controls}>
+            <div className={styles.controls_detail}>
               <button onClick={handlePrevious}>
                 <BiSkipPrevious />
               </button>
@@ -103,7 +110,7 @@ function DetailTrack({
                 <BiSkipNext />
               </button>
             </div>
-            <div className={styles.volume}>
+            <div className={styles.volume_detail}>
               <button onClick={() => setMuteVolume((prev) => !prev)}>
                 {muteVolume || volume < 5 ? (
                   <FaVolumeXmark />

@@ -7,10 +7,11 @@ import {
   deleteSongFromQueue,
 } from '@/app/_states/queue/action';
 import DisplayTrack from './DisplayTrack';
+import DetailTrack from './DetailTrack';
 import ProgressBar from './ProgressBar';
 import Controls from './Control';
+import Volume from './Volume';
 import styles from '../../_styles/player.module.css';
-import DetailTrack from './DetailTrack';
 
 function AudioPlayer() {
   const dispatch = useDispatch();
@@ -97,32 +98,37 @@ function AudioPlayer() {
               deleteTrackFromQueue,
             }}
           />
-          <DisplayTrack
-            {...{
-              currentlyPlaying,
-              audioRef,
-              setDuration,
-              progressBarRef,
-              handleNext,
-              isPlaying,
-              togglePlayPause,
-            }}
-          />
-          <Controls
-            {...{
-              audioRef,
-              progressBarRef,
-              duration,
-              setTimeProgress,
-              handlePrevious,
-              handleNext,
-              isPlaying,
-              setIsPlaying,
-            }}
-          />
-          <ProgressBar
-            {...{ progressBarRef, audioRef, timeProgress, duration }}
-          />
+          <div className={styles.music_bar}>
+            <DisplayTrack
+              {...{
+                currentlyPlaying,
+                audioRef,
+                setDuration,
+                progressBarRef,
+                handleNext,
+                isPlaying,
+                togglePlayPause,
+              }}
+            />
+            <div className={styles.music_control}>
+              <Controls
+                {...{
+                  audioRef,
+                  progressBarRef,
+                  duration,
+                  setTimeProgress,
+                  handlePrevious,
+                  handleNext,
+                  isPlaying,
+                  togglePlayPause,
+                }}
+              />
+              <ProgressBar
+                {...{ progressBarRef, audioRef, timeProgress, duration }}
+              />
+            </div>
+            <Volume audioRef={audioRef} />
+          </div>
         </>
       ) : (
         'Play a music!'

@@ -14,7 +14,7 @@ const Modal = ({ isModalOpen, onClose, children }) => {
             <AiOutlineClose />
           </button>
         </div>
-        <main className={styles.modal_children}>{children}</main>
+        <div className={styles.modal_children}>{children}</div>
       </article>
     </section>
   );

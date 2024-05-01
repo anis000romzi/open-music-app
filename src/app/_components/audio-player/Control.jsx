@@ -1,11 +1,6 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
-import {
-  FaPlay,
-  FaPause,
-  FaVolumeXmark,
-  FaVolumeLow,
-  FaVolumeHigh,
-} from 'react-icons/fa6';
+import { useEffect, useRef, useCallback } from 'react';
+import { FaPlay, FaPause } from 'react-icons/fa6';
+import { BiSkipPrevious, BiSkipNext } from 'react-icons/bi';
 import styles from '../../_styles/player.module.css';
 
 function Controls({
@@ -16,15 +11,8 @@ function Controls({
   handlePrevious,
   handleNext,
   isPlaying,
-  setIsPlaying,
+  togglePlayPause,
 }) {
-  const [volume, setVolume] = useState(60);
-  const [muteVolume, setMuteVolume] = useState(false);
-
-  const togglePlayPause = () => {
-    setIsPlaying((prev) => !prev);
-  };
-
   const playAnimationRef = useRef();
 
   const repeat = useCallback(() => {
@@ -50,43 +38,19 @@ function Controls({
     playAnimationRef.current = requestAnimationFrame(repeat);
   }, [isPlaying, audioRef, repeat]);
 
-  useEffect(() => {
-    if (audioRef) {
-      audioRef.current.volume = volume / 100;
-      audioRef.current.muted = muteVolume;
-    }
-  }, [volume, audioRef, muteVolume]);
-
   return (
     <div className={styles.controls_wrapper}>
-      <div className="controls">
-        <button onClick={handlePrevious}>PREVIOUS</button>
+      <div className={styles.control_buttons}>
+        <button onClick={handlePrevious}>
+          <BiSkipPrevious />
+        </button>
 
         <button onClick={togglePlayPause}>
           {isPlaying ? <FaPause /> : <FaPlay />}
         </button>
-        <button onClick={handleNext}>NEXT</button>
-      </div>
-      <div className="volume">
-        <button onClick={() => setMuteVolume((prev) => !prev)}>
-          {muteVolume || volume < 5 ? (
-            <FaVolumeXmark />
-          ) : volume < 50 ? (
-            <FaVolumeLow />
-          ) : (
-            <FaVolumeHigh />
-          )}
+        <button onClick={handleNext}>
+          <BiSkipNext />
         </button>
-        <input
-          type="range"
-          min={0}
-          max={100}
-          value={volume}
-          onChange={(e) => setVolume(e.target.value)}
-          style={{
-            background: `linear-gradient(to right, #FFFFFF ${volume}%, #212121 ${volume}%)`,
-          }}
-        />
       </div>
     </div>
   );

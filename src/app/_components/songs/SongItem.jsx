@@ -3,15 +3,18 @@ import { CgPlayListAdd } from 'react-icons/cg';
 import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
 import { CiFlag1 } from 'react-icons/ci';
 import Link from 'next/link';
+import Image from 'next/image';
 import useOpenNav from '@/app/_hooks/useOpenNav';
+import defaultImage from '../../_assets/default-image.png';
 import styles from '../../_styles/song.module.css';
 
 function SongItem({
   id,
   title,
-  artistid,
+  artist_id,
   artist,
   likes,
+  cover,
   onPlay,
   onOpen,
   setSong,
@@ -25,13 +28,22 @@ function SongItem({
   return (
     <div className={styles.song_item} onClick={() => onPlay(id)}>
       <div className={styles.song_info}>
-        <strong>{title}</strong>
-        <Link
-          href={`/artist/${artistid}`}
-          onClick={(event) => event.stopPropagation()}
-        >
-          {artist}
-        </Link>
+        <Image
+          src={cover ? cover : defaultImage}
+          width={40}
+          height={40}
+          alt="Album cover"
+          priority
+        />
+        <div>
+          <strong>{title}</strong>
+          <Link
+            href={`/artist/${artist_id}`}
+            onClick={(event) => event.stopPropagation()}
+          >
+            {artist}
+          </Link>
+        </div>
       </div>
       {authUser && (
         <div className={styles.song_buttons}>

@@ -306,8 +306,42 @@ const api = (() => {
     return users;
   }
 
+  async function getGenres() {
+    const response = await fetch(`${BASE_URL}/genres`);
+
+    const responseJson = await response.json();
+    const { status, message } = responseJson;
+
+    if (status !== 'success') {
+      throw new Error(message);
+    }
+
+    const {
+      data: { genres },
+    } = responseJson;
+
+    return genres;
+  }
+
   async function getPopularAlbums() {
     const response = await fetch(`${BASE_URL}/albums/popular`);
+
+    const responseJson = await response.json();
+    const { status, message } = responseJson;
+
+    if (status !== 'success') {
+      throw new Error(message);
+    }
+
+    const {
+      data: { albums },
+    } = responseJson;
+
+    return albums;
+  }
+
+  async function getLikedAlbums() {
+    const response = await _fetchWithAuth(`${BASE_URL}/albums/liked`);
 
     const responseJson = await response.json();
     const { status, message } = responseJson;
@@ -341,9 +375,12 @@ const api = (() => {
   }
 
   async function likeAlbum(albumId) {
-    const response = await _fetchWithAuth(`${BASE_URL}/albums/${albumId}/likes`, {
-      method: 'POST'
-    });
+    const response = await _fetchWithAuth(
+      `${BASE_URL}/albums/${albumId}/likes`,
+      {
+        method: 'POST',
+      }
+    );
 
     const responseJson = await response.json();
     const { status, message } = responseJson;
@@ -354,9 +391,12 @@ const api = (() => {
   }
 
   async function deleteLikeAlbum(albumId) {
-    const response = await _fetchWithAuth(`${BASE_URL}/albums/${albumId}/likes`, {
-      method: 'DELETE'
-    });
+    const response = await _fetchWithAuth(
+      `${BASE_URL}/albums/${albumId}/likes`,
+      {
+        method: 'DELETE',
+      }
+    );
 
     const responseJson = await response.json();
     const { status, message } = responseJson;
@@ -368,6 +408,23 @@ const api = (() => {
 
   async function getAlbumsByArtist(userId) {
     const response = await fetch(`${BASE_URL}/albums/artist/${userId}`);
+
+    const responseJson = await response.json();
+    const { status, message } = responseJson;
+
+    if (status !== 'success') {
+      throw new Error(message);
+    }
+
+    const {
+      data: { albums },
+    } = responseJson;
+
+    return albums;
+  }
+
+  async function getOwnedAlbums() {
+    const response = await _fetchWithAuth(`${BASE_URL}/albums/me`);
 
     const responseJson = await response.json();
     const { status, message } = responseJson;
@@ -436,6 +493,57 @@ const api = (() => {
     return songs;
   }
 
+  async function getSongById(songId) {
+    const response = await fetch(`${BASE_URL}/songs/${songId}`);
+
+    const responseJson = await response.json();
+    const { status, message } = responseJson;
+
+    if (status !== 'success') {
+      throw new Error(message);
+    }
+
+    const {
+      data: { song },
+    } = responseJson;
+
+    return song;
+  }
+
+  async function getOwnedSongs() {
+    const response = await _fetchWithAuth(`${BASE_URL}/songs/me`);
+
+    const responseJson = await response.json();
+    const { status, message } = responseJson;
+
+    if (status !== 'success') {
+      throw new Error(message);
+    }
+
+    const {
+      data: { songs },
+    } = responseJson;
+
+    return songs;
+  }
+
+  async function getOwnedSingles() {
+    const response = await _fetchWithAuth(`${BASE_URL}/songs/me/singles`);
+
+    const responseJson = await response.json();
+    const { status, message } = responseJson;
+
+    if (status !== 'success') {
+      throw new Error(message);
+    }
+
+    const {
+      data: { songs },
+    } = responseJson;
+
+    return songs;
+  }
+
   async function likeSong(id) {
     const response = await _fetchWithAuth(`${BASE_URL}/songs/${id}/likes`, {
       method: 'POST',
@@ -486,6 +594,26 @@ const api = (() => {
     return data;
   }
 
+  async function editAlbum({ id, name, year }) {
+    const response = await _fetchWithAuth(`${BASE_URL}/albums/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        name,
+        year,
+      }),
+    });
+
+    const responseJson = await response.json();
+    const { status, message } = responseJson;
+
+    if (status !== 'success') {
+      throw new Error(message);
+    }
+  }
+
   async function addAlbumCover(id, file) {
     const formData = new FormData();
     formData.append('cover', file);
@@ -534,11 +662,55 @@ const api = (() => {
     return data;
   }
 
+  async function editSong({ id, title, year, genre, duration, albumId }) {
+    const response = await _fetchWithAuth(`${BASE_URL}/songs/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        title,
+        year,
+        genre,
+        duration,
+        albumId,
+      }),
+    });
+
+    const responseJson = await response.json();
+    const { status, message } = responseJson;
+
+    if (status !== 'success') {
+      throw new Error(message);
+    }
+  }
+
   async function addSongAudio(id, file) {
     const formData = new FormData();
     formData.append('audio', file);
 
     const response = await _fetchWithAuth(`${BASE_URL}/songs/${id}/audios`, {
+      method: 'POST',
+      body: formData,
+    });
+
+    const responseJson = await response.json();
+    const { status, message } = responseJson;
+
+    if (status !== 'success') {
+      throw new Error(message);
+    }
+
+    const { data } = responseJson;
+
+    return data;
+  }
+
+  async function addSongCover(id, file) {
+    const formData = new FormData();
+    formData.append('cover', file);
+
+    const response = await _fetchWithAuth(`${BASE_URL}/songs/${id}/covers`, {
       method: 'POST',
       body: formData,
     });
@@ -697,20 +869,29 @@ const api = (() => {
     resetPassword,
     changeEmail,
     getOwnProfile,
+    getUserById,
+    getGenres,
     getPopularAlbums,
+    getLikedAlbums,
     getAlbumById,
     likeAlbum,
     deleteLikeAlbum,
     getAlbumsByArtist,
-    getUserById,
+    getOwnedAlbums,
     getSongs,
+    getOwnedSongs,
     getLikedSongs,
+    getSongById,
+    getOwnedSingles,
     likeSong,
     deleteLikeSong,
     createAlbum,
+    editAlbum,
     addAlbumCover,
     createSong,
+    editSong,
     addSongAudio,
+    addSongCover,
     createPlaylist,
     editPlaylist,
     deletePlaylist,

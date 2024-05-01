@@ -4,36 +4,6 @@
   padding: 16px 16px 0px 16px;
 }
 
-.albums_list {
-  display: flex;
-  flex-direction: row;
-  margin-top: 16px;
-  overflow-x: scroll;
-}
-
-.album_item {
-  padding: 0;
-}
-
-.album_item p {
-  font-weight: bold;
-  font-size: 1.2em;
-  overflow: hidden;
-  white-space: nowrap;
-  width: 150px;
-  text-overflow: ellipsis;
-}
-
-.album_item a {
-  color: #978e8e;
-  font-size: 0.9em;
-  overflow: hidden;
-  white-space: nowrap;
-  width: 150px;
-  text-overflow: ellipsis;
-  display: inline-block;
-}
-
 .add_content_button {
   font-size: 25px;
   position: fixed;
@@ -409,7 +379,7 @@
 }
 
 .profile_info__description {
-  white-space: pre-line
+  white-space: pre-line;
 }
 
 .profile_page .edit_button {
@@ -432,4 +402,27 @@
 .profile_page form {
   display: flex;
   flex-direction: column;
+}
+
+.your_collection {
+  padding: 10px;
+}
+
+.liked_songs {
+  padding: 10px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.liked_songs > a > strong {
+  font-size: 1em;
+}
+
+.liked_songs > a > p {
+  color: #978e8e;
+  font-size: 0.9em;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }

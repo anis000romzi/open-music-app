@@ -1,27 +1,15 @@
+import { useRef } from 'react';
+import { useDraggable } from 'react-use-draggable-scroll';
 import AlbumItem from './AlbumItem';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import styles from '../../_styles/style.module.css';
-
-// Import Swiper styles
-import 'swiper/css';
+import styles from '../../_styles/album.module.css';
 
 function AlbumsList({ albums }) {
+  const ref = useRef();
+  const { events } = useDraggable(ref);
+
   return (
-    <div className={styles.albums_list}>
-      <Swiper
-        style={{ zIndex: 0 }}
-        spaceBetween={10}
-        slidesPerView={2}
-        onSlideChange={() => console.log('slide change')}
-        onSwiper={(swiper) => console.log(swiper)}
-      >
-        {albums &&
-          albums.map((album) => (
-            <SwiperSlide key={album.id}>
-              <AlbumItem {...album} />
-            </SwiperSlide>
-          ))}
-      </Swiper>
+    <div className={styles.albums_list} {...events} ref={ref}>
+      {albums && albums.map((album) => <AlbumItem key={album.id} {...album} />)}
     </div>
   );
 }

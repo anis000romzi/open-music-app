@@ -105,14 +105,13 @@
 }
 
 .new_album_input input {
-  width: 80%;
-  height: 50px;
-  font-size: 1em;
+  background-color: transparent;
   border: none;
-  background-color: #ededed;
-  color: #111111;
-  padding: 10px;
-  border-radius: 10px;
+  font-size: 1.2em;
+  font-weight: bold;
+  width: 60%;
+  height: 40px;
+  font-family: inherit;
 }
 
 .new_album_input button {
@@ -125,6 +124,39 @@
   width: 50%;
   margin-top: 10px;
   border-radius: 10px;
+  font-family: inherit;
+}
+
+.new_album_input .container {
+  position: relative;
+}
+
+.new_album_input .overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+  opacity: 0;
+  background-color: black;
+}
+
+.new_album_input .container:hover .overlay {
+  opacity: 0.7;
+}
+
+.new_album_input .text {
+  color: white;
+  font-size: 3em;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  text-align: center;
 }
 
 .new_song_input {
@@ -138,14 +170,13 @@
 }
 
 .new_song_input input {
-  width: 80%;
-  height: 50px;
-  font-size: 1em;
+  background-color: transparent;
   border: none;
-  background-color: #ededed;
-  color: #111111;
-  padding: 10px;
-  border-radius: 10px;
+  font-size: 1.2em;
+  font-weight: bold;
+  width: 60%;
+  height: 40px;
+  font-family: inherit;
 }
 
 .new_song_input button {
@@ -158,6 +189,39 @@
   width: 50%;
   margin-top: 10px;
   border-radius: 10px;
+  font-family: inherit;
+}
+
+.new_song_input .container {
+  position: relative;
+}
+
+.new_song_input .overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+  opacity: 0;
+  background-color: black;
+}
+
+.new_song_input .container:hover .overlay {
+  opacity: 0.7;
+}
+
+.new_song_input .text {
+  color: white;
+  font-size: 3em;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  text-align: center;
 }
 
 .verification_input {

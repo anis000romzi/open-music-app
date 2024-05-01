@@ -59,7 +59,7 @@ function HeaderBar({ authUser, logOut }) {
                 }`}
               >
                 <button onClick={logOut}>
-                  <CiLogout />Logout
+                  <CiLogout /> <span>Logout</span>
                 </button>
               </div>
             </span>
