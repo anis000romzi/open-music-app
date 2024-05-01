@@ -85,20 +85,18 @@ function Search() {
         />
       </form>
       <section>
-      {
-        songs.length > 0 &&
-        <>
-        <h2>Songs</h2>
-        <SongsList
-          songs={songs}
-          onPlayHandler={playSong}
-          playlists={playlists}
-          authUser={authUser ? authUser.id : ''}
-          onLike={onLike}
-          onDeleteLike={onDeleteLike}
-        />
-        </>
-      }
+        {songs.length > 0 && (
+          <>
+            <SongsList
+              songs={songs}
+              onPlayHandler={playSong}
+              playlists={playlists}
+              authUser={authUser ? authUser.id : ''}
+              onLike={onLike}
+              onDeleteLike={onDeleteLike}
+            />
+          </>
+        )}
       </section>
     </main>
   );
