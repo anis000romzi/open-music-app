@@ -2,8 +2,11 @@
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { redirect, useRouter } from 'next/navigation';
+import { AiOutlineEdit } from 'react-icons/ai';
 import useInput from '@/app/_hooks/useInput';
+import Image from 'next/image';
 import api from '@/app/_utils/api';
+import defaultImage from '../../../_assets/default-image.png';
 import styles from '../../../_styles/input.module.css';
 
 function NewSong() {
@@ -13,13 +16,17 @@ function NewSong() {
   const [year, onYearChange] = useInput('');
   const [genre, onGenreChange] = useInput('');
   const [album, onAlbumChange] = useInput(null);
-  const [file, setFile] = useState(null);
-  const [ownedAlbum, setOwnedAlbum] = useState([]);
+  const [audio, setAudio] = useState(null);
+  const [cover, setCover] = useState(null);
+  const [ownedAlbums, setOwnedAlbums] = useState([]);
+  const [genres, setGenres] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       const albums = await api.getAlbumsByArtist(authUser.id);
-      setOwnedAlbum(albums);
+      const genres = await api.getGenres();
+      setOwnedAlbums(albums);
+      setGenres(genres);
     };
 
     fetchData();
@@ -29,9 +36,15 @@ function NewSong() {
     redirect('/');
   }
 
-  const handleFileChange = (event) => {
+  const handleAudioChange = (event) => {
     if (event.target.files) {
-      setFile(event.target.files[0]);
+      setAudio(event.target.files[0]);
+    }
+  };
+
+  const handleCoverChange = (event) => {
+    if (event.target.files) {
+      setCover(event.target.files[0]);
     }
   };
 
@@ -47,6 +60,10 @@ function NewSong() {
 
       const { songId } = await api.createSong({ title, year, genre, albumId });
       await api.addSongAudio(songId, file);
+
+      if (cover) {
+        await api.addSongCover(songId, cover);
+      }
 
       router.push('/');
     } catch (error) {
@@ -69,22 +86,48 @@ function NewSong() {
           onChange={onYearChange}
           placeholder="Year"
         />
+        <select id="genre" name="genre" onChange={onGenreChange}>
+          <option value="">Select Genre</option>
+          {genres.map((genre) => (
+            <option key={genre.id} value={genre.id}>
+              {genre.name}
+            </option>
+          ))}
+        </select>
         <input
-          type="text"
-          value={genre}
-          onChange={onGenreChange}
-          placeholder="Song genre"
+          style={{ display: 'none' }}
+          type="file"
+          id="audio"
+          name="audio"
+          onChange={handleAudioChange}
         />
+        <label htmlFor="audio">
+          {audio ? audio.name : 'Choose audio file'}
+        </label>
         <input
+          style={{ display: 'none' }}
           type="file"
           id="cover"
           name="cover"
-          onChange={handleFileChange}
+          onChange={handleCoverChange}
         />
+        <label htmlFor="cover" className={styles.container}>
+          <Image
+            src={cover ? URL.createObjectURL(cover) : defaultImage}
+            width={200}
+            height={200}
+            alt="Album cover"
+          />
+          <div className={styles.overlay}>
+            <div className={styles.text}>
+              <AiOutlineEdit />
+            </div>
+          </div>
+        </label>
         <label htmlFor="album">Insert to album</label>
         <select id="album" name="album" onChange={onAlbumChange}>
-          <option value="">Single</option>
-          {ownedAlbum.map((album) => (
+          <option value={null}>Single</option>
+          {ownedAlbums.map((album) => (
             <option key={album.id} value={album.id}>
               {album.name}
             </option>
