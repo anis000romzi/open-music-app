@@ -24,6 +24,34 @@ function songsReducer(songs = [], action = {}) {
         }
         return song;
       });
+    case ActionType.EDIT_SONGS:
+      return songs.map((song) => {
+        if (song.id === action.payload.id) {
+          const { title, year, genre, genre_id, album, album_id } =
+            action.payload;
+
+          return {
+            ...song,
+            title,
+            year,
+            genre,
+            genre_id,
+            album,
+            album_id,
+          };
+        }
+        return song;
+      });
+    case ActionType.CHANGE_COVER_SONGS:
+      return songs.map((song) => {
+        if (song.id === action.payload.songId) {
+          return {
+            ...song,
+            cover: action.payload.file,
+          };
+        }
+        return song;
+      });
     default:
       return songs;
   }

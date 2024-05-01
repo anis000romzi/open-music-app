@@ -4,6 +4,8 @@ const ActionType = {
   RECEIVE_SONGS: 'RECEIVE_SONGS',
   LIKE_SONG: 'LIKE_SONG',
   DELETE_LIKE_SONG: 'DELETE_LIKE_SONG',
+  EDIT_SONGS: 'EDIT_SONGS',
+  CHANGE_COVER_SONGS: 'CHANGE_COVER_SONGS',
 };
 
 function receiveSongsActionCreator(songs) {
@@ -35,6 +37,41 @@ function deleteLikeSongActionCreator(songId, userId) {
   };
 }
 
+function editSongsActionCreator({
+  id,
+  title,
+  year,
+  genre,
+  genre_id,
+  duration,
+  album,
+  album_id,
+}) {
+  return {
+    type: ActionType.EDIT_SONGS,
+    payload: {
+      id,
+      title,
+      year,
+      genre,
+      genre_id,
+      duration,
+      album,
+      album_id,
+    },
+  };
+}
+
+function changeCoverSongsActionCreator(songId, file) {
+  return {
+    type: ActionType.CHANGE_COVER_SONGS,
+    payload: {
+      songId,
+      file,
+    },
+  };
+}
+
 function asyncGetSongs(title) {
   return async (dispatch) => {
     try {
@@ -50,6 +87,17 @@ function asyncGetLikedSongs() {
   return async (dispatch) => {
     try {
       const songs = await api.getLikedSongs();
+      dispatch(receiveSongsActionCreator(songs));
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+}
+
+function asyncGetOwnedSongs() {
+  return async (dispatch) => {
+    try {
+      const songs = await api.getOwnedSongs();
       dispatch(receiveSongsActionCreator(songs));
     } catch (error) {
       alert(error.message);
@@ -83,11 +131,66 @@ function asyncDeleteLikeSong(songId) {
   };
 }
 
+function asyncEditSong({
+  id,
+  title,
+  year,
+  genre,
+  genre_id,
+  duration,
+  album,
+  album_id,
+}) {
+  return async (dispatch) => {
+    try {
+      await api.editSong({
+        id,
+        title,
+        year,
+        genre: genre_id,
+        duration,
+        albumId: album_id,
+      });
+      dispatch(
+        editSongsActionCreator({
+          id,
+          title,
+          year,
+          genre,
+          genre_id,
+          duration,
+          album,
+          album_id,
+        })
+      );
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+}
+
+function asyncChangeCoverSongs(id, file) {
+  return async (dispatch) => {
+    try {
+      const { fileLocation } = await api.addSongCover(id, file);
+
+      dispatch(changeCoverSongsActionCreator(id, fileLocation));
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+}
+
 export {
   ActionType,
   receiveSongsActionCreator,
+  editSongsActionCreator,
+  changeCoverSongsActionCreator,
   asyncGetSongs,
   asyncGetLikedSongs,
+  asyncGetOwnedSongs,
   asyncLikeSong,
   asyncDeleteLikeSong,
+  asyncEditSong,
+  asyncChangeCoverSongs,
 };
