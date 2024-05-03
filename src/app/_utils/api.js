@@ -289,6 +289,23 @@ const api = (() => {
     }
   }
 
+  async function getPopularArtists() {
+    const response = await fetch(`${BASE_URL}/users/popular`);
+
+    const responseJson = await response.json();
+    const { status, message } = responseJson;
+
+    if (status !== 'success') {
+      throw new Error(message);
+    }
+
+    const {
+      data: { users },
+    } = responseJson;
+
+    return users;
+  }
+
   async function getOwnProfile() {
     const response = await _fetchWithAuth(`${BASE_URL}/users/me`);
 
@@ -304,6 +321,38 @@ const api = (() => {
     } = responseJson;
 
     return users;
+  }
+
+  async function followUser(userId) {
+    const response = await _fetchWithAuth(
+      `${BASE_URL}/users/${userId}/follow`,
+      {
+        method: 'POST',
+      }
+    );
+
+    const responseJson = await response.json();
+    const { status, message } = responseJson;
+
+    if (status !== 'success') {
+      throw new Error(message);
+    }
+  }
+
+  async function unfollowUser(userId) {
+    const response = await _fetchWithAuth(
+      `${BASE_URL}/users/${userId}/follow`,
+      {
+        method: 'DELETE',
+      }
+    );
+
+    const responseJson = await response.json();
+    const { status, message } = responseJson;
+
+    if (status !== 'success') {
+      throw new Error(message);
+    }
   }
 
   async function getGenres() {
@@ -868,7 +917,10 @@ const api = (() => {
     requestResetPassword,
     resetPassword,
     changeEmail,
+    getPopularArtists,
     getOwnProfile,
+    followUser,
+    unfollowUser,
     getUserById,
     getGenres,
     getPopularAlbums,

@@ -8,7 +8,8 @@ import AuthWrapper from './_components/AuthWrapper';
 const outfit = Outfit({ subsets: ['latin'] });
 
 export const metadata = {
-  title: 'Open Music',
+  manifest: '/manifest.json',
+  title: 'My Free Tunes',
   description: 'Free music platform app',
 };
 

@@ -1,0 +1,41 @@
+.artists_list {
+  display: flex;
+  flex-direction: row;
+  margin-top: 16px;
+  overflow-x: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.artists_list::-webkit-scrollbar {
+  display: none;
+}
+
+.artist_item {
+  padding: 0;
+  margin: 0 5px;
+  text-align: center;
+}
+
+.artist_item img {
+  border-radius: 50%;
+}
+
+.artist_item p {
+  font-weight: bold;
+  font-size: 1.2em;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 150px;
+  text-overflow: ellipsis;
+}
+
+.artist_item span {
+  color: #978e8e;
+  font-size: 0.9em;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 150px;
+  text-overflow: ellipsis;
+  display: inline-block;
+}

@@ -10,8 +10,8 @@ function AlbumItem({ id, artist_id, name, artist, cover }) {
         <Image
           className={styles.album_cover}
           src={cover ? cover : defaultImage}
-          width={150}
-          height={150}
+          width={130}
+          height={130}
           alt="Album cover"
           priority
         />

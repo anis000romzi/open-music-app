@@ -13,6 +13,17 @@ function receiveUsersActionCreator(users) {
   };
 }
 
+function asyncGetPopularArtists() {
+  return async (dispatch) => {
+    try {
+      const artists = await api.getPopularArtists();
+      dispatch(receiveUsersActionCreator(artists));
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+}
+
 function asyncRegisterUser({ email, username, fullname, password }) {
   return async () => {
     try {
@@ -26,5 +37,6 @@ function asyncRegisterUser({ email, username, fullname, password }) {
 export {
   ActionType,
   receiveUsersActionCreator,
+  asyncGetPopularArtists,
   asyncRegisterUser,
 };
