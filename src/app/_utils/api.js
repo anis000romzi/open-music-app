@@ -1,5 +1,5 @@
 const api = (() => {
-  const BASE_URL = 'http://localhost:5000';
+  const BASE_URL = 'http://ec2-13-229-233-143.ap-southeast-1.compute.amazonaws.com:5000';
   let accessToken = null;
 
   function putRefreshToken(token) {

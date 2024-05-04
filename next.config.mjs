@@ -29,6 +29,11 @@ const nextConfig = {
         hostname: 'ui-avatars.com',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'musicappbucket-anis1.s3.ap-southeast-1.amazonaws.com',
+        pathname: '/**',
+      },
     ],
   },
 };

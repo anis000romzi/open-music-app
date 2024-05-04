@@ -50,16 +50,16 @@ function NewSong() {
 
   const addSong = async ({ title, year, genre, albumId }) => {
     try {
-      if (!file) {
-        throw new Error('File cannot be empty');
+      if (!audio) {
+        throw new Error('Audio cannot be empty');
       }
 
-      if (file.size > 51200000) {
-        throw new Error('File is too big');
+      if (audio.size > 51200000) {
+        throw new Error('Audio is too big');
       }
 
       const { songId } = await api.createSong({ title, year, genre, albumId });
-      await api.addSongAudio(songId, file);
+      await api.addSongAudio(songId, audio);
 
       if (cover) {
         await api.addSongCover(songId, cover);
