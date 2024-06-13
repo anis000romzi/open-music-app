@@ -4,29 +4,36 @@ import { useDispatch, useSelector } from 'react-redux';
 import { usePathname, useSearchParams, useRouter } from 'next/navigation';
 import useInput from '@/app/_hooks/useInput';
 import SongsList from '@/app/_components/songs/SongsList';
+import AlbumsList from '@/app/_components/albums/AlbumsList';
+import ArtistsList from '@/app/_components/artists/ArtistsList';
 import { asyncGetPlaylists } from '@/app/_states/playlists/action';
 import {
   asyncGetSongs,
   asyncLikeSong,
   asyncDeleteLikeSong,
 } from '@/app/_states/songs/action';
+import { asyncGetUsers } from '@/app/_states/users/action';
+import { asyncGetAlbums } from '@/app/_states/albums/action';
 import {
   setNewTracksQueue,
   setPlayingSongInQueue,
   setIsPlaying,
 } from '@/app/_states/queue/action';
-import styles from '../../_styles/input.module.css';
+import { FaSearch } from 'react-icons/fa';
+import styles from '../../_styles/style.module.css';
+import inputStyles from '../../_styles/input.module.css';
 
 function Search() {
-  const pathname = usePathname();
-  const dispatch = useDispatch();
-  const router = useRouter();
-
-  const songs = useSelector((states) => states.songs);
-  const playlists = useSelector((states) => states.playlists);
-  const authUser = useSelector((states) => states.authUser);
-
   const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const router = useRouter();
+  const dispatch = useDispatch();
+
+  const songs = useSelector((state) => state.songs);
+  const albums = useSelector((state) => state.albums);
+  const users = useSelector((state) => state.users);
+  const playlists = useSelector((state) => state.playlists);
+  const authUser = useSelector((state) => state.authUser);
   const [keyword, onKeywordChange] = useInput(searchParams.get('query') || '');
 
   useEffect(() => {
@@ -36,10 +43,13 @@ function Search() {
   }, [dispatch, authUser]);
 
   useEffect(() => {
-    dispatch(asyncGetSongs(searchParams.get('query')));
+    const query = searchParams.get('query');
+    dispatch(asyncGetSongs(query));
+    dispatch(asyncGetAlbums(query));
+    dispatch(asyncGetUsers(query));
   }, [searchParams, dispatch]);
 
-  const onSearch = async (event) => {
+  const onSearch = (event) => {
     event.preventDefault();
     const queryParam = { query: keyword };
     const params = new URLSearchParams(searchParams);
@@ -61,7 +71,6 @@ function Search() {
     dispatch(setNewTracksQueue(songs.filter((song) => song.id === songId)));
     dispatch(setPlayingSongInQueue(songId));
     dispatch(setIsPlaying());
-    localStorage.setItem('tracks-queue-index', 0);
   };
 
   const onLike = (id) => {
@@ -73,8 +82,8 @@ function Search() {
   };
 
   return (
-    <main>
-      <form onSubmit={onSearch} className={styles.search_input}>
+    <main className={styles.search_page}>
+      <form onSubmit={onSearch} className={inputStyles.search_input}>
         <input
           type="text"
           placeholder="Search ..."
@@ -83,21 +92,35 @@ function Search() {
           value={keyword}
           onChange={onKeywordChange}
         />
+        <button type="submit">
+          <FaSearch />
+        </button>
       </form>
-      <section>
-        {songs.length > 0 && (
-          <>
-            <SongsList
-              songs={songs}
-              onPlayHandler={playSong}
-              playlists={playlists}
-              authUser={authUser ? authUser.id : ''}
-              onLike={onLike}
-              onDeleteLike={onDeleteLike}
-            />
-          </>
-        )}
-      </section>
+      {albums.length > 0 && (
+        <section>
+          <h2>Albums</h2>
+          <AlbumsList albums={albums} />
+        </section>
+      )}
+      {users.length > 0 && (
+        <section>
+          <h2>Artists</h2>
+          <ArtistsList artists={users} />
+        </section>
+      )}
+      {songs.length > 0 && (
+        <section>
+          <h2>Songs</h2>
+          <SongsList
+            songs={songs}
+            onPlayHandler={playSong}
+            playlists={playlists}
+            authUser={authUser?.id}
+            onLike={onLike}
+            onDeleteLike={onDeleteLike}
+          />
+        </section>
+      )}
     </main>
   );
 }

@@ -4,6 +4,7 @@ const ActionType = {
   RECEIVE_ALBUMS: 'RECEIVE_ALBUMS',
   CLEAR_ALBUMS: 'CLEAR_ALBUMS',
   EDIT_ALBUMS: 'EDIT_ALBUMS',
+  DELETE_ALBUMS: 'DELETE_ALBUMS',
   CHANGE_COVER_ALBUMS: 'CHANGE_COVER_ALBUMS',
 };
 
@@ -33,6 +34,15 @@ function editAlbumsActionCreator({ id, name, year }) {
   };
 }
 
+function deleteAlbumsActionCreator(id) {
+  return {
+    type: ActionType.DELETE_ALBUMS,
+    payload: {
+      id,
+    },
+  };
+}
+
 function changeCoverAlbumsActionCreator(albumId, file) {
   return {
     type: ActionType.CHANGE_COVER_ALBUMS,
@@ -40,6 +50,17 @@ function changeCoverAlbumsActionCreator(albumId, file) {
       albumId,
       file,
     },
+  };
+}
+
+function asyncGetAlbums(name) {
+  return async (dispatch) => {
+    try {
+      const albums = await api.getAlbums(name);
+      dispatch(receiveAlbumsActionCreator(albums));
+    } catch (error) {
+      alert(error.message);
+    }
   };
 }
 
@@ -90,6 +111,17 @@ function asyncEditAlbum({ id, name, year }) {
   };
 }
 
+function asyncDeleteAlbum(id) {
+  return async (dispatch) => {
+    try {
+      await api.deleteAlbum(id);
+      dispatch(deleteAlbumsActionCreator(id));
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+}
+
 function asyncChangeCoverAlbums(id, file) {
   return async (dispatch) => {
     try {
@@ -106,10 +138,13 @@ export {
   ActionType,
   receiveAlbumsActionCreator,
   editAlbumsActionCreator,
+  deleteAlbumsActionCreator,
   changeCoverAlbumsActionCreator,
+  asyncGetAlbums,
   asyncGetPopularAlbums,
   asyncGetLikedAlbums,
   asyncGetOwnedAlbums,
   asyncEditAlbum,
+  asyncDeleteAlbum,
   asyncChangeCoverAlbums,
 };

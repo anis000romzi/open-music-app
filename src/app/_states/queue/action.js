@@ -32,19 +32,11 @@ function deleteSongFromQueueActionCreator(songId) {
   };
 }
 
-function setIsPlayingActionCreator() {
+function setIsPlayingActionCreator(status) {
   return {
     type: ActionType.SET_IS_PLAYING,
-  };
-}
-
-function getTracksQueue() {
-  return async (dispatch) => {
-    try {
-      const queue = localStorage.getItem('tracks-queue');
-      dispatch(receiveQueueActionCreator(queue ? JSON.parse(queue) : {}));
-    } catch (error) {
-      alert(error.message);
+    payload: {
+      status
     }
   };
 }
@@ -52,16 +44,13 @@ function getTracksQueue() {
 function setNewTracksQueue(queue) {
   return async (dispatch) => {
     try {
-      localStorage.setItem(
-        'tracks-queue',
-        JSON.stringify({
+      dispatch(
+        receiveQueueActionCreator({
           currentlyPlaying: queue[0],
           queue,
           isPlaying: false,
         })
       );
-      localStorage.setItem('tracks-queue-index', 0);
-      dispatch(getTracksQueue());
     } catch (error) {
       alert(error.message);
     }
@@ -69,21 +58,9 @@ function setNewTracksQueue(queue) {
 }
 
 function setPlayingSongInQueue(songId) {
-  return async (dispatch, getState) => {
-    const { queue } = getState();
-
-    dispatch(setPlayingSongInQueueActionCreator(songId));
+  return async (dispatch) => {
     try {
-      localStorage.setItem(
-        'tracks-queue',
-        JSON.stringify({
-          ...queue,
-          currentlyPlaying: queue.queue.filter(
-            (track) => track.id === songId
-          )[0],
-          isPlaying: false,
-        })
-      );
+      dispatch(setPlayingSongInQueueActionCreator(songId));
     } catch (error) {
       alert(error.message);
     }
@@ -91,37 +68,19 @@ function setPlayingSongInQueue(songId) {
 }
 
 function deleteSongFromQueue(songId) {
-  return async (dispatch, getState) => {
-    const { queue } = getState();
-
-    dispatch(deleteSongFromQueueActionCreator(songId));
+  return async (dispatch) => {
     try {
-      localStorage.setItem(
-        'tracks-queue',
-        JSON.stringify({
-          ...queue,
-          queue: queue.queue.filter((track) => track.id !== songId),
-        })
-      );
+      dispatch(deleteSongFromQueueActionCreator(songId));
     } catch (error) {
       alert(error.message);
     }
   };
 }
 
-function setIsPlaying() {
-  return async (dispatch, getState) => {
-    const { queue } = getState();
-
-    dispatch(setIsPlayingActionCreator());
+function setIsPlaying(status) {
+  return async (dispatch) => {
     try {
-      localStorage.setItem(
-        'tracks-queue',
-        JSON.stringify({
-          ...queue,
-          isPlaying: !queue.isPlaying,
-        })
-      );
+      dispatch(setIsPlayingActionCreator(status));
     } catch (error) {
       alert(error.message);
     }
@@ -132,7 +91,6 @@ export {
   ActionType,
   receiveQueueActionCreator,
   setPlayingSongInQueueActionCreator,
-  getTracksQueue,
   setNewTracksQueue,
   setPlayingSongInQueue,
   setIsPlaying,

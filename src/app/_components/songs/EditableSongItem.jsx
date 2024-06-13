@@ -129,6 +129,9 @@ function EditableSongItem({
       <button type="button" onClick={() => setEdit((current) => !current)}>
         {edit ? 'Cancel' : 'Edit'}
       </button>
+      <button type="button" onClick={() => {}}>
+        Delete
+      </button>
     </div>
   );
 }

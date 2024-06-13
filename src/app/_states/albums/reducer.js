@@ -17,6 +17,8 @@ function albumsReducer(albums = [], action = {}) {
         }
         return album;
       });
+    case ActionType.DELETE_ALBUMS:
+      return albums.filter((album) => album.id !== action.payload.id);
     case ActionType.CHANGE_COVER_ALBUMS:
       return albums.map((album) => {
         if (album.id === action.payload.albumId) {

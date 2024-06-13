@@ -1,9 +1,9 @@
 import { Outfit } from 'next/font/google';
-import './globals.css';
 import { ReduxProvider } from './ReduxProvider';
 import ProgressBarProvider from './ProgressBarProvider';
 import AudioPlayerWrapper from './_components/audio-player/AudioPlayerWrapper';
 import AuthWrapper from './_components/AuthWrapper';
+import './globals.css';
 
 const outfit = Outfit({ subsets: ['latin'] });
 

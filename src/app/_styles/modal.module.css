@@ -12,22 +12,25 @@
 }
 
 .modal_content {
+  position: relative;
   border: 1px solid #111111;
   width: 500px;
-  height: 50vh;
+  min-height: 50vh;
+  height: auto;
   background-color: #111111;
   border-radius: 15px;
   margin: 10px;
 }
 
-.modal_close button {
-  font-size: 25px;
+.modal_close {
+  position: absolute;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   font-size: 20px;
-  background-color: transparent;
+  background-color: #11111197;
+  border-radius: 50%;
   border: none;
   width: 55px;
   height: 55px;
@@ -35,7 +38,18 @@
 
 .modal_children {
   overflow-x: auto;
-  height: 40vh;
+  min-height: 60vh;
+  height: auto;
+  padding: 20px;
+  padding-top: 50px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.modal_children .modal_header {
+  padding-bottom: 10px;
+  font-size: 1.5em;
 }
 
 .modal_children form {
@@ -64,10 +78,250 @@
   display: flex;
   gap: 5px;
   align-items: center;
+  justify-content: space-between;
   margin: 10px 0;
+}
+
+.modal_children .playlist_item .playlist_checked {
+  color: #ffe74c;
 }
 
 .modal_children .playlist_item button {
   background-color: transparent;
   border: none;
+}
+
+.modal_children .genre_list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.modal_children .genre_item {
+  width: 100%;
+  text-align: center;
+}
+
+.modal_children .genre_list input[type='radio'] {
+  display: none;
+  margin: 10px;
+}
+
+.modal_children .genre_list label {
+  display: inline-block;
+  padding: 10px 0;
+  width: 100%;
+}
+
+.modal_children .genre_list input[type='radio']:checked + label {
+  background-color: #d0d0d0;
+  color: #111111;
+  border-radius: 10px;
+}
+
+.modal_children .album_list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.modal_children .album_item {
+  width: 100%;
+  text-align: center;
+}
+
+.modal_children .album_list input[type='radio'] {
+  display: none;
+  margin: 10px;
+}
+
+.modal_children .album_list label {
+  display: inline-block;
+  padding: 10px 0;
+  width: 100%;
+}
+
+.modal_children .album_list input[type='radio']:checked + label {
+  background-color: #d0d0d0;
+  color: #111111;
+  border-radius: 10px;
+}
+
+.modal_children .new_playlist_form input {
+  width: 100%;
+  height: 50px;
+  font-size: 1em;
+  border: none;
+  background-color: #111111;
+  color: #ededed;
+  border: solid 1px #ededed;
+  padding: 10px;
+  border-radius: 10px;
+  font-family: inherit;
+}
+
+.modal_children .new_playlist_form button {
+  background-color: #ffe74c;
+  color: #111111;
+  padding: 10px;
+  border: none;
+  font-size: 1em;
+  font-weight: bold;
+  margin-top: 10px;
+  border-radius: 10px;
+  font-family: inherit;
+}
+
+.modal_children .search_collaborators_form {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.modal_children .search_collaborators_form input {
+  width: 80%;
+  height: 50px;
+  font-size: 1em;
+  border: none;
+  background-color: #111111;
+  color: #ededed;
+  border: solid 1px #ededed;
+  padding: 10px;
+  border-radius: 10px;
+  font-family: inherit;
+}
+
+.modal_children .search_collaborators_form button {
+  background-color: #ffe74c;
+  color: #111111;
+  padding: 10px;
+  height: 44px;
+  width: 44px;
+  border: none;
+  font-size: 1em;
+  font-weight: bold;
+  border-radius: 50%;
+  font-family: inherit;
+}
+
+.modal_children .collaborators_container {
+  max-height: 200px;
+  overflow: auto;
+}
+
+.modal_children .collaborators_container > div {
+  padding: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal_children .collaborators_container button {
+  background-color: #ffe74c;
+  color: #111111;
+  padding: 10px;
+  border: none;
+  font-size: 1em;
+  font-weight: bold;
+  margin-top: 10px;
+  border-radius: 10px;
+  font-family: inherit;
+}
+
+.modal_children .add_singles_button {
+  background-color: #ffe74c;
+  color: #111111;
+  padding: 10px;
+  border: none;
+  font-size: 1em;
+  font-weight: bold;
+  margin-top: 10px;
+  border-radius: 10px;
+  font-family: inherit;
+}
+
+.modal_children .add_singles_button:disabled {
+  background-color: #7a6f27;
+}
+
+.modal_children .select_singles input {
+  width: 15%;
+  height: 44px;
+}
+
+.modal_children .single_item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.modal_children .single_item label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.edit_album_input input {
+  width: 100%;
+  height: 50px;
+  font-size: 1em;
+  border: none;
+  background-color: #111111;
+  color: #ededed;
+  border: solid 1px #ededed;
+  padding: 10px;
+  border-radius: 10px;
+  font-family: inherit;
+}
+
+.edit_album_input button {
+  background-color: #ffe74c;
+  color: #111111;
+  padding: 10px;
+  border: none;
+  font-size: 1em;
+  font-weight: bold;
+  margin-top: 10px;
+  border-radius: 10px;
+  font-family: inherit;
+}
+
+.edit_song_input input {
+  width: 100%;
+  height: 50px;
+  font-size: 1em;
+  border: none;
+  background-color: #111111;
+  color: #ededed;
+  border: solid 1px #ededed;
+  padding: 10px;
+  border-radius: 10px;
+  font-family: inherit;
+}
+
+.edit_song_input select {
+  width: 100%;
+  height: 50px;
+  font-size: 1em;
+  border: none;
+  background-color: #111111;
+  color: #ededed;
+  border: solid 1px #ededed;
+  padding: 10px;
+  border-radius: 10px;
+  font-family: inherit;
+}
+
+.edit_song_input button {
+  background-color: #ffe74c;
+  color: #111111;
+  padding: 10px;
+  border: none;
+  font-size: 1em;
+  font-weight: bold;
+  margin-top: 10px;
+  border-radius: 10px;
+  font-family: inherit;
 }

@@ -12,10 +12,12 @@
   height: 50px;
   font-size: 1em;
   border: none;
-  background-color: #ededed;
-  color: #111111;
+  background-color: #111111;
+  color: #ededed;
+  border: solid 1px #ededed;
   padding: 10px;
   border-radius: 10px;
+  font-family: inherit;
 }
 
 .login_input button {
@@ -28,6 +30,7 @@
   width: 50%;
   margin-top: 10px;
   border-radius: 10px;
+  font-family: inherit;
 }
 
 .login_input .register_button {
@@ -55,10 +58,12 @@
   height: 50px;
   font-size: 1em;
   border: none;
-  background-color: #ededed;
-  color: #111111;
+  background-color: #111111;
+  color: #ededed;
+  border: solid 1px #ededed;
   padding: 10px;
   border-radius: 10px;
+  font-family: inherit;
 }
 
 .register_input button {
@@ -71,16 +76,16 @@
   width: 50%;
   margin-top: 10px;
   border-radius: 10px;
+  font-family: inherit;
 }
 
 .search_input {
   margin-top: 20px;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 100%;
-  gap: 5px;
+  gap: 10px;
 }
 
 .search_input input {
@@ -88,10 +93,25 @@
   height: 50px;
   font-size: 1em;
   border: none;
-  background-color: #ededed;
-  color: #111111;
+  background-color: #111111;
+  color: #ededed;
+  border: solid 1px #ededed;
   padding: 10px;
   border-radius: 10px;
+  font-family: inherit;
+}
+
+.search_input button {
+  background-color: #ffe74c;
+  color: #111111;
+  padding: 10px;
+  height: 44px;
+  width: 44px;
+  border: none;
+  font-size: 1em;
+  font-weight: bold;
+  border-radius: 50%;
+  font-family: inherit;
 }
 
 .new_album_input {
@@ -101,17 +121,34 @@
   align-items: center;
   justify-content: center;
   width: 100%;
+}
+
+.new_album_input > div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 70%;
   gap: 5px;
+  margin-top: 20px;
 }
 
 .new_album_input input {
-  background-color: transparent;
+  width: 100%;
+  height: 50px;
+  font-size: 1em;
   border: none;
-  font-size: 1.2em;
-  font-weight: bold;
-  width: 60%;
-  height: 40px;
+  background-color: #111111;
+  color: #ededed;
+  border: solid 1px #ededed;
+  padding: 10px;
+  border-radius: 10px;
   font-family: inherit;
+}
+
+.new_album_input input::-webkit-outer-spin-button,
+.new_album_input input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
 }
 
 .new_album_input button {
@@ -121,7 +158,6 @@
   border: none;
   font-size: 1em;
   font-weight: bold;
-  width: 50%;
   margin-top: 10px;
   border-radius: 10px;
   font-family: inherit;
@@ -147,7 +183,7 @@
   opacity: 0.7;
 }
 
-.new_album_input .text {
+.new_album_input .container .overlay .text {
   color: white;
   font-size: 3em;
   position: absolute;
@@ -169,17 +205,35 @@
   gap: 5px;
 }
 
+.new_song_input > div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 70%;
+  gap: 5px;
+  margin-top: 20px;
+}
+
 .new_song_input input {
-  background-color: transparent;
+  width: 100%;
+  height: 50px;
+  font-size: 1em;
   border: none;
-  font-size: 1.2em;
-  font-weight: bold;
-  width: 60%;
-  height: 40px;
+  background-color: #111111;
+  color: #ededed;
+  border: solid 1px #ededed;
+  padding: 10px;
+  border-radius: 10px;
   font-family: inherit;
 }
 
-.new_song_input button {
+.new_song_input input::-webkit-outer-spin-button,
+.new_song_input input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+.new_song_input .create_song {
   background-color: #ffe74c;
   color: #111111;
   padding: 10px;
@@ -190,6 +244,46 @@
   margin-top: 10px;
   border-radius: 10px;
   font-family: inherit;
+}
+
+.new_song_input .select_genre {
+  background-color: #111111;
+  color: white;
+  padding: 10px;
+  border: none;
+  font-size: 1em;
+  margin: 10px 0;
+  width: 90%;
+  border-radius: 10px;
+  font-family: inherit;
+  border: solid 1px gray;
+}
+
+.new_song_input .audio_input {
+  display: flex;
+  height: 100px;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  border-radius: 10px;
+  border: dashed 1px gray;
+}
+
+.new_song_input .select_album {
+  background-color: #111111;
+  color: white;
+  padding: 10px;
+  border: none;
+  font-size: 1em;
+  border-radius: 10px;
+  width: 100%;
+  font-family: inherit;
+  border: solid 1px gray;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: start;
+  gap: 10px;
 }
 
 .new_song_input .container {
@@ -212,7 +306,7 @@
   opacity: 0.7;
 }
 
-.new_song_input .text {
+.new_song_input .container .overlay .text {
   color: white;
   font-size: 3em;
   position: absolute;
@@ -238,8 +332,9 @@
   height: 50px;
   font-size: 1em;
   border: none;
-  background-color: #ededed;
-  color: #111111;
+  background-color: #111111;
+  color: #ededed;
+  border: solid 1px #ededed;
   padding: 10px;
   border-radius: 10px;
 }
@@ -256,7 +351,91 @@
   border: none;
   font-size: 1em;
   font-weight: bold;
+  font-family: inherit;
   width: 50%;
   margin-top: 10px;
   border-radius: 10px;
+}
+
+.forgot_password_input {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 70%;
+  gap: 5px;
+}
+
+.forgot_password_input input {
+  width: 80%;
+  height: 50px;
+  font-size: 1em;
+  border: none;
+  background-color: #111111;
+  color: #ededed;
+  border: solid 1px #ededed;
+  padding: 10px;
+  font-family: inherit;
+  border-radius: 10px;
+}
+
+.forgot_password_input button {
+  background-color: #ffe74c;
+  color: #111111;
+  padding: 10px;
+  border: none;
+  font-size: 1em;
+  font-weight: bold;
+  width: 50%;
+  border-radius: 10px;
+  font-family: inherit;
+}
+
+.forgot_password_input input::-webkit-outer-spin-button,
+.forgot_password_input input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+@media screen and (min-width: 700px) {
+  .new_album_input {
+    flex-direction: row;
+    gap: 10px;
+  }
+
+  .new_album_input > div {
+    width: 40%;
+    align-items: flex-start;
+  }
+
+  .new_song_input {
+    flex-direction: row;
+    gap: 10px;
+    align-items: flex-start;
+  }
+
+  .new_song_input > div {
+    width: 40%;
+    align-items: flex-start;
+    margin-top: 0px;
+  }
+}
+
+@media screen and (min-width: 750px) {
+  .login_input {
+    width: 50%;
+  }
+
+  .register_input {
+    width: 50%;
+  }
+
+  .forgot_password_input {
+    width: 50%;
+  }
+}
+
+@media screen and (min-width: 900px) {
+  .search_input input {
+    width: 50%;
+  }
 }

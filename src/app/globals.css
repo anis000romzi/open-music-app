@@ -78,7 +78,7 @@
   padding: 0;
   margin: 0;
   scrollbar-width: thin;
-  scrollbar-color: #e8f0f2 #212121;
+  scrollbar-color: #73736d black;
 }
 
 /* Works on Chrome, Edge, and Safari */
@@ -87,13 +87,13 @@
 }
 
 *::-webkit-scrollbar-track {
-  background: #212121;
+  background: black;
 }
 
 *::-webkit-scrollbar-thumb {
-  background-color: #e8f0f2;
+  background-color: #73736d;
   border-radius: 20px;
-  border: 3px solid #212121;
+  border: 3px solid black;
 }
 
 html,
@@ -189,6 +189,10 @@ input[type='range']:hover::-webkit-slider-thumb {
   border-radius: 50%;
 }
 
+input[type='range']:hover::before {
+  background: #ffe74c;
+}
+
 /* dragging thumb - chrome and safari */
 input[type='range']:active::-webkit-slider-thumb {
   transform: scale(1.2);
@@ -212,7 +216,7 @@ input[type='range']:active::-moz-range-thumb {
 /** CUSTOM INPUT RANGE **/
 
 .Tabs {
-  width: 85%;
+  width: 100%;
   height: auto;
   min-height: 400px;
   color: #e8f0f2;
@@ -236,10 +240,43 @@ input[type='range']:active::-moz-range-thumb {
   list-style: none;
   cursor: pointer;
   text-align: center;
+  border-radius: 10px;
+  padding: 10px;
 }
 
 .react-tabs__tab--selected {
-  text-decoration: underline;
+  background-color: #2a2a2a;
+}
+
+/* CSSTransition classes  */
+.menu-primary-enter {
+  position: absolute;
+  transform: translateX(-110%);
+}
+.menu-primary-enter-active {
+  transform: translateX(0%);
+  transition: all 200ms ease;
+}
+.menu-primary-exit {
+  position: absolute;
+}
+.menu-primary-exit-active {
+  transform: translateX(-110%);
+  transition: all 200ms ease;
+}
+
+.menu-secondary-enter {
+  transform: translateX(110%);
+}
+.menu-secondary-enter-active {
+  transform: translateX(0%);
+  transition: all 200ms ease;
+}
+.menu-secondary-exit {
+}
+.menu-secondary-exit-active {
+  transform: translateX(110%);
+  transition: all 200ms ease;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -248,16 +285,12 @@ input[type='range']:active::-moz-range-thumb {
   }
 }
 
-@media screen and (min-width: 700px) {
+@media screen and (min-width: 750px) {
   main {
-    width: 70%;
+    transition: padding-left 0.3s;
+    width: 100%;
     float: right;
     padding-top: 50px;
-  }
-}
-
-@media screen and (min-width: 900px) {
-  main {
-    width: 80%;
+    padding-left: 75px;
   }
 }

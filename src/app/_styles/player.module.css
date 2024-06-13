@@ -37,6 +37,10 @@
 .track .title {
   font-weight: bold;
   font-size: 1.2em;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 200px;
+  text-overflow: ellipsis;
 }
 
 .track .artist {
@@ -45,29 +49,44 @@
 }
 
 .detail_track {
-  position: absolute;
+  position: fixed;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  /* text-align: center; */
-  top: 88vh;
+  top: 100vh;
   left: 0px;
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
   transition: all 0.3s;
   background-color: #111111;
   overflow: hidden;
-  z-index: -1;
+  z-index: 1;
 }
 
 .detail_track.open {
-  top: -88vh;
+  top: 0vh;
+}
+
+.detail_track .close_detail {
+  font-size: 25px;
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  border: 0;
+  border-radius: 50%;
+  width: 55px;
+  height: 55px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
 }
 
 .detail_track .detail_track_title {
   font-weight: bold;
-  font-size: 1.2em;
+  font-size: 2em;
 }
 
 .detail_track .detail_track_artist {
@@ -79,6 +98,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 7px;
 }
 
 .detail_track .controls_detail button {
@@ -87,9 +107,17 @@
   align-items: center;
   justify-content: center;
   background-color: transparent;
-  font-size: 3em;
+  font-size: 2em;
   width: 38px;
   cursor: pointer;
+}
+
+.detail_track .controls_detail .shuffle {
+  font-size: 1.4em;
+}
+
+.detail_track .controls_detail .loop {
+  font-size: 1.4em;
 }
 
 .detail_track .volume_detail {
@@ -98,15 +126,15 @@
   gap: 5px;
 }
 
-.detail_track .volume_detail button {
+.detail_track .progress_bar_detail {
   display: flex;
-  border: none;
   align-items: center;
   justify-content: center;
-  background-color: transparent;
-  font-size: 1.3em;
-  width: 38px;
-  cursor: pointer;
+  width: 100%;
+}
+
+.detail_track .progress_bar_detail .progress {
+  width: 80%;
 }
 
 .detail_track_info {
@@ -115,6 +143,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  gap: 15px;
 }
 
 .time {
@@ -125,12 +154,63 @@
   width: 100%;
 }
 
-.volume_audio button {
+.music_setting {
   display: none;
 }
 
-.volume_audio input {
+.dropdown {
+  position: relative;
+}
+
+.dropdown_buttons {
+  position: absolute;
+  min-width: 200px;
   display: none;
+  right: 0px;
+  bottom: 30px;
+  background-color: #2a2a2a;
+  border-radius: 10px;
+  z-index: 99;
+  overflow: hidden;
+  transition: height 500ms ease;
+}
+
+.dropdown_buttons.show {
+  display: flex;
+  flex-direction: column;
+}
+
+.dropdown_buttons button {
+  padding: 10px 20px;
+  font-size: 1em;
+  background-color: transparent;
+  border: none;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.volume_audio {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 10px;
+}
+
+.volume_audio button {
+  display: flex;
+  border: none;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  font-size: 1em;
+  width: 38px;
+  cursor: pointer;
+}
+
+.volume_audio input {
+  display: block;
+  width: 70%;
 }
 
 @media screen and (min-width: 700px) {
@@ -154,7 +234,7 @@
     font-size: 1em;
     overflow: hidden;
     white-space: nowrap;
-    width: 150px;
+    width: 80px;
     text-overflow: ellipsis;
   }
 
@@ -167,7 +247,19 @@
     display: none;
   }
 
+  .detail_track {
+    z-index: -1;
+  }
+
   .detail_track .controls_detail button {
+    display: none;
+  }
+
+  .detail_track .volume_detail {
+    display: none;
+  }
+
+  .detail_track .progress_bar_detail {
     display: none;
   }
 
@@ -184,6 +276,22 @@
     font-size: 1.5em;
     width: 38px;
     cursor: pointer;
+  }
+
+  .controls_wrapper .shuffle {
+    font-size: 1.1em;
+  }
+
+  .controls_wrapper .shuffle.active {
+    color: #ffe74c;
+  }
+
+  .controls_wrapper .loop {
+    font-size: 1.1em;
+  }
+
+  .controls_wrapper .loop.active {
+    color: #ffe74c;
   }
 
   .progress {
@@ -205,27 +313,20 @@
     align-items: center;
     gap: 10px;
   }
-  
-  .volume_audio {
+
+  .music_setting {
     display: flex;
     align-items: center;
-    gap: 5px;
-    padding: 10px;
   }
-  
-  .volume_audio button {
+
+  .music_setting > .dropdown > button {
     display: flex;
     border: none;
     align-items: center;
     justify-content: center;
     background-color: transparent;
-    font-size: 1em;
+    font-size: 1.1em;
     width: 38px;
     cursor: pointer;
-  }
-  
-  .volume_audio input {
-    display: block;
-    width: 70%;
   }
 }

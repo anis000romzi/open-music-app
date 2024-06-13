@@ -1,7 +1,7 @@
 import { AiOutlineClose } from 'react-icons/ai';
 import styles from '../../_styles/track.module.css';
 
-function TrackItem({ id, title, artist, onPlay, onDelete, currentlyPlaying }) {
+function QueueItem({ id, title, artist, onPlay, onDelete, currentlyPlaying }) {
   return (
     <div className={styles.track_item} onClick={() => onPlay(id)}>
       <div className={styles.track_info}>
@@ -27,4 +27,4 @@ function TrackItem({ id, title, artist, onPlay, onDelete, currentlyPlaying }) {
   );
 }
 
-export default TrackItem;
+export default QueueItem;

@@ -1,3 +1,7 @@
+.albums_list_container {
+  display: grid;
+}
+
 .albums_list {
   display: flex;
   flex-direction: row;
@@ -9,6 +13,28 @@
 
 .albums_list::-webkit-scrollbar {
   display: none;
+}
+
+.albums_list_buttons {
+  display: flex;
+  justify-content: flex-end;
+  margin: 0 20px;
+}
+
+.albums_list_buttons button {
+  background-color: transparent;
+  color: #d9d9d9;
+  border: solid 1px #d9d9d9;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  font-size: 1em;
+  font-family: inherit;
+  border-radius: 50%;
+  padding: 10px;
+  margin: 5px;
 }
 
 .album_item {
@@ -34,6 +60,27 @@
   width: 150px;
   text-overflow: ellipsis;
   display: inline-block;
+}
+
+.editable_album_list .delete_album {
+  background-color: #ffffff;
+  color: #fe0000;
+  padding: 10px;
+  border: none;
+  font-size: 1em;
+  font-weight: bold;
+  font-family: inherit;
+}
+
+.editable_album_list .actions_buttons {
+  display: flex;
+  gap: 15px;
+}
+
+.editable_album_list .actions_buttons button {
+  background-color: transparent;
+  border: none;
+  font-size: 1.3em;
 }
 
 .editable_album_item {

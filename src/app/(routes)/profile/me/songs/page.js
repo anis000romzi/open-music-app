@@ -4,29 +4,30 @@ import { useSelector, useDispatch } from 'react-redux';
 import {
   asyncGetOwnedSongs,
   asyncEditSong,
+  asyncDeleteSong,
   asyncChangeCoverSongs,
 } from '@/app/_states/songs/action';
+import { asyncGetOwnedAlbums } from '@/app/_states/albums/action';
 import api from '@/app/_utils/api';
 import EditableSongsList from '@/app/_components/songs/EditableSongsList';
 
 function EditSongs() {
   const dispatch = useDispatch();
   const songs = useSelector((states) => states.songs);
+  const albums = useSelector((states) => states.albums);
   const authUser = useSelector((states) => states.authUser);
 
-  const [ownedAlbums, setOwnedAlbums] = useState([]);
   const [genres, setGenres] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
-      const albums = await api.getAlbumsByArtist(authUser.id);
       const genres = await api.getGenres();
 
-      setOwnedAlbums(albums);
       setGenres(genres);
     };
 
     fetchData();
+    dispatch(asyncGetOwnedAlbums());
     dispatch(asyncGetOwnedSongs());
   }, [dispatch, authUser.id]);
 
@@ -58,15 +59,19 @@ function EditSongs() {
     );
   };
 
+  const deleteSong = (id) => {
+    dispatch(asyncDeleteSong(id));
+  };
+
   return (
     <main>
-      <h1>Your Songs</h1>
       {songs && (
         <EditableSongsList
           songs={songs}
           changeCover={changeCoverSong}
           editSong={editSong}
-          albumsOption={ownedAlbums}
+          deleteSong={deleteSong}
+          albumsOption={albums}
           genresOption={genres}
         />
       )}

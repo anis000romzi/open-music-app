@@ -7,9 +7,15 @@
 
 .playlist_item {
   display: flex;
-  justify-content: space-between;
   align-items: center;
   padding: 10px 0;
+}
+
+.playlist_item .playlist_info {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
 }
 
 .playlist_item strong {
@@ -27,7 +33,7 @@
   font-size: 20px;
   background-color: transparent;
   border: 0;
-  width: 44px;
+  padding: 0 20px;
   height: 44px;
   cursor: pointer;
   display: flex;

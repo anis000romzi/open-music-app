@@ -14,7 +14,7 @@ function queueReducer(queue = {}, action = {}) {
     case ActionType.SET_IS_PLAYING:
       return {
         ...queue,
-        isPlaying: !queue.isPlaying,
+        isPlaying: action.payload.status,
       };
     case ActionType.DELETE_SONG_FROM_QUEUE:
       return {

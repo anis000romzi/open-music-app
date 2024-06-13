@@ -5,7 +5,10 @@ import { useRouter } from 'next/navigation';
 import { redirect } from 'next/navigation';
 import useInput from '@/app/_hooks/useInput';
 import api from '@/app/_utils/api';
+import Link from 'next/link';
+import { FaAngleLeft } from 'react-icons/fa6';
 import styles from '../../_styles/style.module.css';
+import inputStyles from '../../_styles/input.module.css';
 
 function ForgotPassword() {
   const authUser = useSelector((states) => states.authUser);
@@ -42,15 +45,20 @@ function ForgotPassword() {
     return (
       <main className={styles.forgot_password_page}>
         <h1>Forgot Password</h1>
-        <input
-          type="text"
-          value={email}
-          onChange={onEmailChange}
-          placeholder="Registered email"
-        />
-        <button type="button" onClick={() => submitEmail(email)}>
-          Submit
-        </button>
+        <Link className={styles.back} href="/login">
+          <FaAngleLeft />
+        </Link>
+        <form className={inputStyles.forgot_password_input}>
+          <input
+            type="text"
+            value={email}
+            onChange={onEmailChange}
+            placeholder="Registered email"
+          />
+          <button type="button" onClick={() => submitEmail(email)}>
+            Submit
+          </button>
+        </form>
       </main>
     );
   }
@@ -58,31 +66,33 @@ function ForgotPassword() {
   return (
     <main className={styles.forgot_password_page}>
       <h1>Reset Password</h1>
+      <Link className={styles.back} href="#" onClick={() => setUserId(null)}>
+        <FaAngleLeft />
+      </Link>
       <p>
         OTP code sent to{' '}
-        {email.replace(
-          /([a-zA-Z]{2})(.*)(?=[a-zA-Z]{2}@)/,
-          (match, p1) => p1 + '****'
-        )}
+        {email.replace(/^(\w{2})(\w+)(\w{2})(@[\w.]+)$/, '$1****$3$4')}
       </p>
-      <input
-        type="password"
-        value={password}
-        onChange={onPasswordChange}
-        placeholder="New password"
-      />
-      <input
-        type="number"
-        value={code}
-        onChange={onCodeChange}
-        placeholder="Enter OTP"
-      />
-      <button
-        type="button"
-        onClick={() => resetPassword({ userId, password, code })}
-      >
-        Reset password
-      </button>
+      <form className={inputStyles.forgot_password_input}>
+        <input
+          type="password"
+          value={password}
+          onChange={onPasswordChange}
+          placeholder="New password"
+        />
+        <input
+          type="number"
+          value={code}
+          onChange={onCodeChange}
+          placeholder="Enter OTP"
+        />
+        <button
+          type="button"
+          onClick={() => resetPassword({ userId, password, code })}
+        >
+          Reset password
+        </button>
+      </form>
     </main>
   );
 }

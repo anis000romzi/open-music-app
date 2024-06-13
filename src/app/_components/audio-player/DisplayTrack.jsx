@@ -1,48 +1,40 @@
 import { FaPlay, FaPause } from 'react-icons/fa6';
-import styles from '../../_styles/player.module.css';
 import Image from 'next/image';
+import styles from '../../_styles/player.module.css';
 import defaultImage from '../../_assets/default-image.png';
 
 function DisplayTrack({
   currentlyPlaying,
   audioRef,
-  setDuration,
-  progressBarRef,
+  loop,
   handleNext,
   isPlaying,
   togglePlayPause,
 }) {
-  const onLoadedMetadata = () => {
-    const seconds = audioRef.current.duration;
-    setDuration(seconds);
-    progressBarRef.current.max = seconds;
-  };
-
   return (
     <div className={styles.track}>
       <audio
-        src={currentlyPlaying ? currentlyPlaying.audio : null}
+        id="audio"
+        src={currentlyPlaying?.audio || null}
         ref={audioRef}
-        onLoadedMetadata={onLoadedMetadata}
-        onEnded={handleNext}
+        onEnded={loop ? () => { audioRef.current.currentTime = 0; audioRef.current.play(); } : handleNext}
       />
       <div className={styles.info}>
         <Image
-          src={currentlyPlaying.cover ? currentlyPlaying.cover : defaultImage}
+          src={currentlyPlaying.cover || defaultImage}
           width={45}
           height={45}
           alt="Cover"
         />
         <div>
-          <p className={styles.title}>
-            {currentlyPlaying ? currentlyPlaying.title : '--'}
-          </p>
-          <p className={styles.artist}>
-            {currentlyPlaying ? currentlyPlaying.artist : '--'}
-          </p>
+          <p className={styles.title}>{currentlyPlaying.title || '--'}</p>
+          <p className={styles.artist}>{currentlyPlaying.artist || '--'}</p>
         </div>
       </div>
-      <button className={styles.play_button_mobile} onClick={togglePlayPause}>
+      <button className={styles.play_button_mobile} onClick={(event) => {
+        event.stopPropagation();
+        togglePlayPause();
+      }}>
         {isPlaying ? <FaPause /> : <FaPlay />}
       </button>
     </div>

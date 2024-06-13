@@ -61,7 +61,6 @@ function asyncGetPlaylists() {
       const playlists = await api.getPlaylists();
       dispatch(receivePlaylistsActionCreator(playlists));
     } catch (error) {
-      console.log(error)
       alert(error.message);
     }
   };
@@ -82,7 +81,7 @@ function asyncAddPlaylist(name) {
 function asyncDeletePlaylist(playlistId) {
   return async (dispatch) => {
     try {
-      await api.deletePlaylist(playlistId)
+      await api.deletePlaylist(playlistId);
       dispatch(deletePlaylistActionCreator(playlistId));
     } catch (error) {
       alert(error.message);

@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import {
   asyncGetOwnedAlbums,
   asyncEditAlbum,
+  asyncDeleteAlbum,
   asyncChangeCoverAlbums,
 } from '@/app/_states/albums/action';
 import EditableAlbumsList from '@/app/_components/albums/EditableAlbumsList';
@@ -24,14 +25,19 @@ function EditAlbums() {
     dispatch(asyncEditAlbum({ id, name, year }));
   };
 
+  const deleteAlbum = (id) => {
+    dispatch(asyncDeleteAlbum(id));
+  };
+
   return (
     <main>
-      <h1>Your Albums</h1>
       {albums && (
-        <>
-          <p>{albums.length} album(s)</p>
-          <EditableAlbumsList albums={albums} changeCover={changeCoverAlbum} editAlbum={editAlbum} />
-        </>
+        <EditableAlbumsList
+          albums={albums}
+          changeCover={changeCoverAlbum}
+          editAlbum={editAlbum}
+          deleteAlbum={deleteAlbum}
+        />
       )}
     </main>
   );

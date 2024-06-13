@@ -5,6 +5,7 @@ const ActionType = {
   LIKE_SONG: 'LIKE_SONG',
   DELETE_LIKE_SONG: 'DELETE_LIKE_SONG',
   EDIT_SONGS: 'EDIT_SONGS',
+  DELETE_SONGS: 'DELETE_SONGS',
   CHANGE_COVER_SONGS: 'CHANGE_COVER_SONGS',
 };
 
@@ -58,6 +59,15 @@ function editSongsActionCreator({
       duration,
       album,
       album_id,
+    },
+  };
+}
+
+function deleteSongsActionCreator(id) {
+  return {
+    type: ActionType.DELETE_SONGS,
+    payload: {
+      id,
     },
   };
 }
@@ -169,6 +179,17 @@ function asyncEditSong({
   };
 }
 
+function asyncDeleteSong(id) {
+  return async (dispatch) => {
+    try {
+      await api.deleteSong(id);
+      dispatch(deleteSongsActionCreator(id));
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+}
+
 function asyncChangeCoverSongs(id, file) {
   return async (dispatch) => {
     try {
@@ -185,6 +206,7 @@ export {
   ActionType,
   receiveSongsActionCreator,
   editSongsActionCreator,
+  deleteSongsActionCreator,
   changeCoverSongsActionCreator,
   asyncGetSongs,
   asyncGetLikedSongs,
@@ -192,5 +214,6 @@ export {
   asyncLikeSong,
   asyncDeleteLikeSong,
   asyncEditSong,
+  asyncDeleteSong,
   asyncChangeCoverSongs,
 };

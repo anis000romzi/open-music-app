@@ -1,84 +1,58 @@
 'use client';
-import { useState, useEffect, useRef, useCallback } from 'react';
-import { FaVolumeXmark, FaVolumeLow, FaVolumeHigh } from 'react-icons/fa6';
 import { useDispatch } from 'react-redux';
-import { BiSkipPrevious, BiSkipNext } from 'react-icons/bi';
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import MediaSession from '@mebtte/react-media-session';
+import Volume from './Volume';
+import QueueList from '../queue/QueueList';
+import ProgressBar from './ProgressBar';
 import Image from 'next/image';
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import {
   setNewTracksQueue,
   setPlayingSongInQueue,
   setIsPlaying,
 } from '@/app/_states/queue/action';
-import TracksList from '../tracks/TracksList';
+import { FaPlay, FaPause, FaAngleDown } from 'react-icons/fa6';
+import { BiSkipPrevious, BiSkipNext } from 'react-icons/bi';
+import { TfiLoop } from 'react-icons/tfi';
+import { LuShuffle } from 'react-icons/lu';
 import styles from '../../_styles/player.module.css';
 import defaultImage from '../../_assets/default-image.png';
 
 function DetailTrack({
   currentlyPlaying,
-  audioRef,
   progressBarRef,
+  timeProgress,
   duration,
-  setTimeProgress,
+  audioRef,
   handlePrevious,
   handleNext,
   isPlaying,
   isDetailOpen,
+  setIsDetailOpen,
   queue,
   deleteTrackFromQueue,
+  togglePlayPause,
 }) {
-  const [volume, setVolume] = useState(60);
-  const [muteVolume, setMuteVolume] = useState(false);
-
   const dispatch = useDispatch();
-
-  const playAnimationRef = useRef();
-
-  const repeat = useCallback(() => {
-    const currentTime = audioRef.current ? audioRef.current.currentTime : 0;
-    setTimeProgress(currentTime);
-    if (progressBarRef.current) {
-      progressBarRef.current.value = currentTime;
-      progressBarRef.current.style.setProperty(
-        '--range-progress',
-        `${(progressBarRef.current.value / duration) * 100}%`
-      );
-
-      playAnimationRef.current = requestAnimationFrame(repeat);
-    }
-  }, [audioRef, duration, progressBarRef, setTimeProgress]);
 
   const playTrack = (songId) => {
     dispatch(setNewTracksQueue(queue));
     dispatch(setPlayingSongInQueue(songId));
-    dispatch(setIsPlaying());
-    localStorage.setItem(
-      'tracks-queue-index',
-      queue.findIndex((track) => track.id === songId)
-    );
+    dispatch(setIsPlaying(true));
   };
-
-  useEffect(() => {
-    if (isPlaying) {
-      audioRef.current.play();
-    } else {
-      audioRef.current.pause();
-    }
-    playAnimationRef.current = requestAnimationFrame(repeat);
-  }, [isPlaying, audioRef, repeat]);
-
-  useEffect(() => {
-    if (audioRef) {
-      audioRef.current.volume = volume / 100;
-      audioRef.current.muted = muteVolume;
-    }
-  }, [volume, audioRef, muteVolume]);
 
   return (
     <div
       onClick={(event) => event.stopPropagation()}
       className={`${styles.detail_track} ${isDetailOpen ? styles.open : ''}`}
     >
+      <button
+        className={styles.close_detail}
+        type="button"
+        onClick={() => setIsDetailOpen(false)}
+      >
+        <FaAngleDown />
+      </button>
       <Tabs className="Tabs">
         <TabList>
           <Tab>Info</Tab>
@@ -88,60 +62,62 @@ function DetailTrack({
           <div className={styles.detail_track_info}>
             <div className={styles.info}>
               <Image
-                src={
-                  currentlyPlaying.cover ? currentlyPlaying.cover : defaultImage
-                }
+                src={currentlyPlaying.cover || defaultImage}
                 width={200}
                 height={200}
                 alt="Cover"
+                priority
               />
               <p className={styles.detail_track_title}>
-                {currentlyPlaying ? currentlyPlaying.title : '--'}
+                {currentlyPlaying.title || '--'}
               </p>
               <p className={styles.detail_track_artist}>
-                {currentlyPlaying ? currentlyPlaying.artist : '--'}
+                {currentlyPlaying.artist || '--'}
               </p>
             </div>
+            <div className={styles.progress_bar_detail}>
+              <ProgressBar progressBarRef={progressBarRef} audioRef={audioRef} timeProgress={timeProgress} duration={duration} />
+            </div>
             <div className={styles.controls_detail}>
-              <button onClick={handlePrevious}>
+              <button type="button" className={styles.shuffle} onClick={() => {}}>
+                <LuShuffle />
+              </button>
+              <button type="button" onClick={handlePrevious}>
                 <BiSkipPrevious />
               </button>
-              <button onClick={handleNext}>
+              <button type="button" onClick={togglePlayPause}>
+                {isPlaying ? <FaPause /> : <FaPlay />}
+              </button>
+              <button type="button" onClick={handleNext}>
                 <BiSkipNext />
+              </button>
+              <button type="button" className={styles.loop} onClick={() => {}}>
+                <TfiLoop />
               </button>
             </div>
             <div className={styles.volume_detail}>
-              <button onClick={() => setMuteVolume((prev) => !prev)}>
-                {muteVolume || volume < 5 ? (
-                  <FaVolumeXmark />
-                ) : volume < 55 ? (
-                  <FaVolumeLow />
-                ) : (
-                  <FaVolumeHigh />
-                )}
-              </button>
-              <input
-                type="range"
-                min={0}
-                max={100}
-                value={volume}
-                onChange={(e) => setVolume(e.target.value)}
-                style={{
-                  background: `linear-gradient(to right, #FFFFFF ${volume}%, #212121 ${volume}%)`,
-                }}
-              />
+              <Volume audioRef={audioRef} />
             </div>
           </div>
         </TabPanel>
         <TabPanel>
-          <TracksList
-            tracks={queue}
+          <QueueList
+            queue={queue}
             onPlayHandler={playTrack}
             onDeleteHandler={deleteTrackFromQueue}
             currentlyPlaying={currentlyPlaying}
           />
         </TabPanel>
       </Tabs>
+      <MediaSession
+        title={currentlyPlaying.title}
+        artist={currentlyPlaying.artist}
+        album={currentlyPlaying.album}
+        onPlay={togglePlayPause}
+        onPause={togglePlayPause}
+        onPreviousTrack={handlePrevious}
+        onNextTrack={handleNext}
+      />
     </div>
   );
 }

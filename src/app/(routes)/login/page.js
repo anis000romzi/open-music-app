@@ -21,7 +21,7 @@ function Login() {
 
   return (
     <main className={styles.login_page}>
-      <h1>Wellcome to Open Music</h1>
+      <h1>Login</h1>
       <Link className={styles.login_back} href="/">
         <FaAngleLeft />
       </Link>

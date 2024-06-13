@@ -37,7 +37,7 @@
   border-radius: 50%;
 }
 
-.header_bar__login button {
+.header_bar__login .new_content {
   background-color: #111111;
   color: #ffe74c;
   border: solid 1px #ffe74c;
@@ -46,40 +46,52 @@
   justify-content: center;
   align-items: center;
   font-size: 1em;
-  font-weight: bold;
+  font-family: inherit;
   border-radius: 10px;
   padding: 7px;
 }
 
-.dropdown {
+.header_bar__login .new_content span {
+  display: none;
+  font-size: 0.8em;
+  font-weight: normal;
+}
+
+.new_content_menu {
   position: relative;
 }
 
-.dropdown_buttons {
+.new_content_menu_buttons {
   position: absolute;
-  min-width: 130px;
+  width: 150px;
   display: none;
   right: -10px;
   background-color: #2a2a2a;
   border-radius: 10px;
 }
 
-.dropdown_buttons.show {
+.new_content_menu_buttons.show {
   display: flex;
   flex-direction: column;
 }
 
-.dropdown_buttons a {
-  padding: 10px;
+.new_content_menu_buttons a {
+  font-size: 1em;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 15px;
+  gap: 5px;
 }
 
 .profile_menu {
   position: relative;
+  cursor: pointer;
 }
 
 .profile_menu_buttons {
   position: absolute;
-  min-width: 130px;
+  width: 200px;
   display: none;
   right: -10px;
   background-color: #2a2a2a;
@@ -91,14 +103,27 @@
   flex-direction: column;
 }
 
+.profile_menu_buttons .info {
+  display: flex;
+  padding: 10px;
+  gap: 10px;
+  border-bottom: solid 1px #656565;
+}
+
+.profile_menu_buttons .info em {
+  font-size: 0.9em;
+}
+
 .profile_menu_buttons button {
   color: #d9d9d9;
   border: none;
   background-color: transparent;
   cursor: pointer;
   font-size: 1em;
-  padding: 10px;
-  gap: 5px;
+  display: flex;
+  justify-content: flex-start;
+  padding: 15px;
+  gap: 10px;
   font-weight: normal;
   width: 100%;
 }
@@ -107,7 +132,7 @@
   position: absolute;
   top: 45px;
   left: -220px;
-  width: 200px;
+  width: 220px;
   height: 100vh;
   transition: all 0.3s;
   padding: 8px;
@@ -127,12 +152,19 @@
 
 .header_bar__nav ul li {
   margin: 20px;
+  border-radius: 10px;
+}
+
+.header_bar__nav ul li.active {
+  background-color: #3b3b3b;
 }
 
 .header_bar__nav ul li a {
   font-size: 1.1em;
-  font-weight: bold;
   color: #d9d9d9;
+  display: flex;
+  align-items: center;
+  gap: 5px;
   padding: 10px;
   margin-bottom: 5px;
   width: 100%;
@@ -159,23 +191,70 @@
   width: auto;
 }
 
-@media screen and (min-width: 700px) {
+@media screen and (min-width: 550px) {
+  .header_bar__login .new_content span {
+    display: inline-block;
+  }
+
+  .header_bar__login .new_content {
+    width: 115px;
+    justify-content:space-between;
+  }
+}
+
+@media screen and (min-width: 750px) {
   .header_bar {
     position: fixed;
   }
 
-  .header_bar__menu button {
-    display: none;
-  }
-  
   .header_bar__nav {
     left: 0px;
-    width: 30%;
+    width: 75px;
+  }
+
+  .header_bar__nav ul {
+    padding: 0;
+  }
+
+  .header_bar__nav ul li {
+    margin: 20px 10px;
+  }
+
+  .header_bar__nav ul li a span {
+    display: none;
+  }
+
+  .header_bar__nav.open {
+    width: 220px;
+  }
+
+  .header_bar__nav.open ul li {
+    margin: 20px;
+  }
+
+  .header_bar__nav.open ul li a span {
+    display: inline-block;
+  }
+
+  .header_bar.open ~ main {
+    padding-left: 220px;
   }
 }
 
-@media screen and (min-width: 900px) {  
+@media screen and (min-width: 900px) {
   .header_bar__nav {
-    width: 20%;
+    width: 220px;
+  }
+
+  .header_bar__nav ul li {
+    margin: 20px;
+  }
+
+  .header_bar__nav ul li a span {
+    display: inline-block;
+  }
+
+  .header_bar ~ main {
+    padding-left: 220px;
   }
 }

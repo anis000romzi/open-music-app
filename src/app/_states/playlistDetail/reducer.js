@@ -11,6 +11,23 @@ function playlistDetailReducer(playlistDetail = null, action = {}) {
         ...playlistDetail,
         name: action.payload.name,
       };
+    case ActionType.CHANGE_PLAYLIST_DETAIL_COVER:
+      return {
+        ...playlistDetail,
+        cover: action.payload.file,
+      };
+    case ActionType.ADD_PLAYLIST_COLLABORATOR:
+      return {
+        ...playlistDetail,
+        collaborators: playlistDetail.collaborators.concat([
+          { id: action.payload.userId, username: action.payload.userName },
+        ]),
+      };
+    case ActionType.DELETE_PLAYLIST_COLLABORATOR:
+      return {
+        ...playlistDetail,
+        collaborators: playlistDetail.collaborators.filter((collaborator) => collaborator.id !== action.payload.userId),
+      };
     default:
       return playlistDetail;
   }

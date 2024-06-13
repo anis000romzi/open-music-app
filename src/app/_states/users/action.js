@@ -13,10 +13,32 @@ function receiveUsersActionCreator(users) {
   };
 }
 
+function asyncGetUsers(query) {
+  return async (dispatch) => {
+    try {
+      const artists = await api.getUsers(query);
+      dispatch(receiveUsersActionCreator(artists));
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+}
+
 function asyncGetPopularArtists() {
   return async (dispatch) => {
     try {
       const artists = await api.getPopularArtists();
+      dispatch(receiveUsersActionCreator(artists));
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+}
+
+function asyncGetFollowedArtists() {
+  return async (dispatch) => {
+    try {
+      const artists = await api.getFollowedArtists();
       dispatch(receiveUsersActionCreator(artists));
     } catch (error) {
       alert(error.message);
@@ -37,6 +59,8 @@ function asyncRegisterUser({ email, username, fullname, password }) {
 export {
   ActionType,
   receiveUsersActionCreator,
+  asyncGetUsers,
   asyncGetPopularArtists,
+  asyncGetFollowedArtists,
   asyncRegisterUser,
 };

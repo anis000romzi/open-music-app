@@ -1,23 +1,13 @@
-import styles from '../../_styles/player.module.css'
+import { formatTime } from '@/app/_utils/time-format';
+import styles from '../../_styles/player.module.css';
 
 function ProgressBar({ progressBarRef, audioRef, timeProgress, duration }) {
   const handleProgressChange = () => {
     audioRef.current.currentTime = progressBarRef.current.value;
   };
 
-  const formatTime = (time) => {
-    if (time && !isNaN(time)) {
-      const minutes = Math.floor(time / 60);
-      const formatMinutes = minutes < 10 ? `0${minutes}` : `${minutes}`;
-      const seconds = Math.floor(time % 60);
-      const formatSeconds = seconds < 10 ? `0${seconds}` : `${seconds}`;
-      return `${formatMinutes}:${formatSeconds}`;
-    }
-    return '00:00';
-  };
-
   return (
-    <div className={styles.progress}>
+    <div className={styles.progress} onClick={(event) => event.stopPropagation()}>
       <span className={`${styles.time} current`}>{formatTime(timeProgress)}</span>
       <input
         type="range"

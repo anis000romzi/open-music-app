@@ -1,17 +1,17 @@
-import TrackItem from './TrackItem';
+import QueueItem from './QueueItem';
 import styles from '../../_styles/track.module.css'
 
-function TracksList({
-  tracks,
+function QueueList({
+  queue,
   onPlayHandler,
   onDeleteHandler,
   currentlyPlaying,
 }) {
   return (
     <div className={styles.track_list}>
-      {tracks &&
-        tracks.map((track) => (
-          <TrackItem
+      {queue &&
+        queue.map((track) => (
+          <QueueItem
             key={track.id}
             {...track}
             onPlay={onPlayHandler}
@@ -23,4 +23,4 @@ function TracksList({
   );
 }
 
-export default TracksList;
+export default QueueList;

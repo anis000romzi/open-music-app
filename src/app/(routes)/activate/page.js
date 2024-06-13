@@ -48,10 +48,7 @@ function Activate() {
         <>
           <p>
             OTP code will be sent to:{' '}
-            {authUser.email.replace(
-              /([a-zA-Z]{2})(.*)(?=[a-zA-Z]{2}@)/,
-              (match, p1) => p1 + '****'
-            )}{' '}
+            {authUser.email.replace(/^(\w{2})(\w+)(\w{2})(@[\w.]+)$/, '$1****$3$4')}{' '}
             <Link href="/changeemail">Change email</Link>
           </p>
           <VerificationInput verify={activateUser} userId={authUser.id} />

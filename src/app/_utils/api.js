@@ -1,5 +1,5 @@
 const api = (() => {
-  const BASE_URL = 'http://ec2-13-229-233-143.ap-southeast-1.compute.amazonaws.com:5000';
+  const BASE_URL = 'http://localhost:5000';
   let accessToken = null;
 
   function putRefreshToken(token) {
@@ -306,6 +306,23 @@ const api = (() => {
     return users;
   }
 
+  async function getFollowedArtists() {
+    const response = await _fetchWithAuth(`${BASE_URL}/users/followed`);
+
+    const responseJson = await response.json();
+    const { status, message } = responseJson;
+
+    if (status !== 'success') {
+      throw new Error(message);
+    }
+
+    const {
+      data: { users },
+    } = responseJson;
+
+    return users;
+  }
+
   async function getOwnProfile() {
     const response = await _fetchWithAuth(`${BASE_URL}/users/me`);
 
@@ -370,6 +387,25 @@ const api = (() => {
     } = responseJson;
 
     return genres;
+  }
+
+  async function getAlbums(query) {
+    const response = await fetch(
+      `${BASE_URL}/albums?name=${query}&artist=${query}`
+    );
+
+    const responseJson = await response.json();
+    const { status, message } = responseJson;
+
+    if (status !== 'success') {
+      throw new Error(message);
+    }
+
+    const {
+      data: { albums },
+    } = responseJson;
+
+    return albums;
   }
 
   async function getPopularAlbums() {
@@ -487,6 +523,25 @@ const api = (() => {
     } = responseJson;
 
     return albums;
+  }
+
+  async function getUsers(query) {
+    const response = await fetch(
+      `${BASE_URL}/users?fullname=${query}&username=${query}`
+    );
+
+    const responseJson = await response.json();
+    const { status, message } = responseJson;
+
+    if (status !== 'success') {
+      throw new Error(message);
+    }
+
+    const {
+      data: { users },
+    } = responseJson;
+
+    return users;
   }
 
   async function getUserById(id) {
@@ -663,6 +718,19 @@ const api = (() => {
     }
   }
 
+  async function deleteAlbum(id) {
+    const response = await _fetchWithAuth(`${BASE_URL}/albums/${id}`, {
+      method: 'DELETE',
+    });
+
+    const responseJson = await response.json();
+    const { status, message } = responseJson;
+
+    if (status !== 'success') {
+      throw new Error(message);
+    }
+  }
+
   async function addAlbumCover(id, file) {
     const formData = new FormData();
     formData.append('cover', file);
@@ -724,6 +792,19 @@ const api = (() => {
         duration,
         albumId,
       }),
+    });
+
+    const responseJson = await response.json();
+    const { status, message } = responseJson;
+
+    if (status !== 'success') {
+      throw new Error(message);
+    }
+  }
+
+  async function deleteSong(id) {
+    const response = await _fetchWithAuth(`${BASE_URL}/songs/${id}`, {
+      method: 'DELETE',
     });
 
     const responseJson = await response.json();
@@ -818,6 +899,50 @@ const api = (() => {
     }
   }
 
+  async function addPlaylistCollaborator(playlistId, userId) {
+    const response = await _fetchWithAuth(`${BASE_URL}/collaborations`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        playlistId,
+        userId,
+      }),
+    });
+
+    const responseJson = await response.json();
+    const { status, message } = responseJson;
+
+    if (status !== 'success') {
+      throw new Error(message);
+    }
+
+    const { data } = responseJson;
+
+    return data;
+  }
+
+  async function deletePlaylistCollaborator(playlistId, userId) {
+    const response = await _fetchWithAuth(`${BASE_URL}/collaborations`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        playlistId,
+        userId,
+      }),
+    });
+
+    const responseJson = await response.json();
+    const { status, message } = responseJson;
+
+    if (status !== 'success') {
+      throw new Error(message);
+    }
+  }
+
   async function deletePlaylist(id) {
     const response = await _fetchWithAuth(`${BASE_URL}/playlists/${id}`, {
       method: 'DELETE',
@@ -829,6 +954,27 @@ const api = (() => {
     if (status !== 'success') {
       throw new Error(message);
     }
+  }
+
+  async function addPlaylistCover(id, file) {
+    const formData = new FormData();
+    formData.append('cover', file);
+
+    const response = await _fetchWithAuth(`${BASE_URL}/playlists/${id}/covers`, {
+      method: 'POST',
+      body: formData,
+    });
+
+    const responseJson = await response.json();
+    const { status, message } = responseJson;
+
+    if (status !== 'success') {
+      throw new Error(message);
+    }
+
+    const { data } = responseJson;
+
+    return data;
   }
 
   async function getPlaylists() {
@@ -918,11 +1064,14 @@ const api = (() => {
     resetPassword,
     changeEmail,
     getPopularArtists,
+    getFollowedArtists,
     getOwnProfile,
     followUser,
     unfollowUser,
+    getUsers,
     getUserById,
     getGenres,
+    getAlbums,
     getPopularAlbums,
     getLikedAlbums,
     getAlbumById,
@@ -939,14 +1088,19 @@ const api = (() => {
     deleteLikeSong,
     createAlbum,
     editAlbum,
+    deleteAlbum,
     addAlbumCover,
     createSong,
     editSong,
+    deleteSong,
     addSongAudio,
     addSongCover,
     createPlaylist,
     editPlaylist,
+    addPlaylistCollaborator,
+    deletePlaylistCollaborator,
     deletePlaylist,
+    addPlaylistCover,
     getPlaylists,
     getPlaylistById,
     addSongToPlaylist,

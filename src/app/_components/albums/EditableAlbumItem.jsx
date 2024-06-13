@@ -5,7 +5,15 @@ import useInput from '@/app/_hooks/useInput';
 import defaultImage from '../../_assets/default-image.png';
 import styles from '../../_styles/album.module.css';
 
-function EditableAlbumItem({ id, year, name, cover, changeCover, editAlbum }) {
+function EditableAlbumItem({
+  id,
+  year,
+  name,
+  cover,
+  changeCover,
+  editAlbum,
+  deleteAlbum,
+}) {
   const [edit, setEdit] = useState(false);
   const [nameInput, onNameChange] = useInput(name);
   const [yearInput, onYearChange] = useInput(year);
@@ -65,6 +73,9 @@ function EditableAlbumItem({ id, year, name, cover, changeCover, editAlbum }) {
       )}
       <button type="button" onClick={() => setEdit((current) => !current)}>
         {edit ? 'Cancel' : 'Edit'}
+      </button>
+      <button type="button" onClick={() => deleteAlbum(id)}>
+        Delete
       </button>
     </div>
   );

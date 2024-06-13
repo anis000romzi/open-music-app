@@ -42,6 +42,8 @@ function songsReducer(songs = [], action = {}) {
         }
         return song;
       });
+    case ActionType.DELETE_SONGS:
+      return songs.filter((song) => song.id !== action.payload.id);
     case ActionType.CHANGE_COVER_SONGS:
       return songs.map((song) => {
         if (song.id === action.payload.songId) {
