@@ -1,22 +1,16 @@
 'use client';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useRouter } from 'next/navigation';
-import { redirect } from 'next/navigation';
-import useInput from '@/app/_hooks/useInput';
-import api from '@/app/_utils/api';
+import { useRouter, redirect } from 'next/navigation';
 import Link from 'next/link';
+import ForgotPasswordInput from '@/app/_components/inputs/ForgotPasswordInput';
+import api from '@/app/_utils/api';
 import { FaAngleLeft } from 'react-icons/fa6';
 import styles from '../../_styles/style.module.css';
-import inputStyles from '../../_styles/input.module.css';
 
 function ForgotPassword() {
-  const authUser = useSelector((states) => states.authUser);
+  const authUser = useSelector((state) => state.authUser);
   const [userId, setUserId] = useState(null);
-  const [email, onEmailChange] = useInput('');
-  const [password, onPasswordChange] = useInput('');
-  const [code, onCodeChange] = useInput('');
-
   const router = useRouter();
 
   const submitEmail = async (email) => {
@@ -41,58 +35,13 @@ function ForgotPassword() {
     redirect('/');
   }
 
-  if (!userId) {
-    return (
-      <main className={styles.forgot_password_page}>
-        <h1>Forgot Password</h1>
-        <Link className={styles.back} href="/login">
-          <FaAngleLeft />
-        </Link>
-        <form className={inputStyles.forgot_password_input}>
-          <input
-            type="text"
-            value={email}
-            onChange={onEmailChange}
-            placeholder="Registered email"
-          />
-          <button type="button" onClick={() => submitEmail(email)}>
-            Submit
-          </button>
-        </form>
-      </main>
-    );
-  }
-
   return (
     <main className={styles.forgot_password_page}>
-      <h1>Reset Password</h1>
-      <Link className={styles.back} href="#" onClick={() => setUserId(null)}>
+      <h1>{userId ? 'Reset Password' : 'Forgot Password'}</h1>
+      <Link className={styles.back} href={userId ? '#' : '/login'} onClick={userId ? () => setUserId(null) : null}>
         <FaAngleLeft />
       </Link>
-      <p>
-        OTP code sent to{' '}
-        {email.replace(/^(\w{2})(\w+)(\w{2})(@[\w.]+)$/, '$1****$3$4')}
-      </p>
-      <form className={inputStyles.forgot_password_input}>
-        <input
-          type="password"
-          value={password}
-          onChange={onPasswordChange}
-          placeholder="New password"
-        />
-        <input
-          type="number"
-          value={code}
-          onChange={onCodeChange}
-          placeholder="Enter OTP"
-        />
-        <button
-          type="button"
-          onClick={() => resetPassword({ userId, password, code })}
-        >
-          Reset password
-        </button>
-      </form>
+      <ForgotPasswordInput userId={userId} resetPassword={resetPassword} submitEmail={submitEmail} />
     </main>
   );
 }
