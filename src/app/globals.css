@@ -272,8 +272,7 @@ input[type='range']:active::-moz-range-thumb {
   transform: translateX(0%);
   transition: all 200ms ease;
 }
-.menu-secondary-exit {
-}
+
 .menu-secondary-exit-active {
   transform: translateX(110%);
   transition: all 200ms ease;

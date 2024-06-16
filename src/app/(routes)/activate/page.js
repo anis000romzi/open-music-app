@@ -50,7 +50,7 @@ function Activate() {
         OTP code will be sent to: {maskedEmail} <Link href="/changeemail">Change email</Link>
       </p>
       <VerificationInput verify={activateUser} userId={id} />
-      <button className={styles.activate_page__send} onClick={() => sendCode(id)}>
+      <button id="send-activation-code" className={styles.activate_page__send} onClick={() => sendCode(id)}>
         Send Code
       </button>
     </main>

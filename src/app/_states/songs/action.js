@@ -2,6 +2,7 @@ import api from '@/app/_utils/api';
 
 const ActionType = {
   RECEIVE_SONGS: 'RECEIVE_SONGS',
+  CLEAR_SONGS: 'CLEAR_SONGS',
   LIKE_SONG: 'LIKE_SONG',
   DELETE_LIKE_SONG: 'DELETE_LIKE_SONG',
   EDIT_SONGS: 'EDIT_SONGS',
@@ -15,6 +16,12 @@ function receiveSongsActionCreator(songs) {
     payload: {
       songs,
     },
+  };
+}
+
+function clearSongsActionCreator(songs) {
+  return {
+    type: ActionType.CLEAR_SONGS,
   };
 }
 
@@ -84,6 +91,7 @@ function changeCoverSongsActionCreator(songId, file) {
 
 function asyncGetSongs(title) {
   return async (dispatch) => {
+    dispatch(clearSongsActionCreator());
     try {
       const songs = await api.getSongs(title);
       dispatch(receiveSongsActionCreator(songs));
@@ -95,6 +103,7 @@ function asyncGetSongs(title) {
 
 function asyncGetLikedSongs() {
   return async (dispatch) => {
+    dispatch(clearSongsActionCreator());
     try {
       const songs = await api.getLikedSongs();
       dispatch(receiveSongsActionCreator(songs));
@@ -106,6 +115,7 @@ function asyncGetLikedSongs() {
 
 function asyncGetOwnedSongs() {
   return async (dispatch) => {
+    dispatch(clearSongsActionCreator());
     try {
       const songs = await api.getOwnedSongs();
       dispatch(receiveSongsActionCreator(songs));

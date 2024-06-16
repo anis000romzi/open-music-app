@@ -903,6 +903,80 @@
   padding: 0 16px;
 }
 
+.about_page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.about_page .about_page_text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  text-align: center;
+}
+
+.about_page .about_page_text h1 {
+  font-size: 2.3em;
+}
+
+.about_page .about_page_text p {
+  margin: 0 10px;
+}
+
+.about_page .about_page_research {
+  border: #ffe74c 1px solid;
+  border-radius: 10px;
+  background-color: #b4a337;
+  color: #000000;
+  font-size: 0.9em;
+  margin: 10px;
+  padding: 10px;
+}
+
+.about_page .about_page_links {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+}
+
+.about_page .about_page_links .about_page_contacts {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.about_page .about_page_links .about_page_contacts div {
+  display: flex;
+  flex-direction: column;
+  text-align: justify;
+  gap: 5px;
+}
+
+.about_page .about_page_links .about_page_contacts div > p {
+  font-weight: bold;
+  margin: 0 20px;
+}
+
+.about_page .about_page_links .about_page_contacts div a {
+  display: flex;
+  text-align: justify;
+  align-items: center;
+  margin: 0 20px;
+}
+
+.about_page .about_page_links div a svg {
+  font-size: 1.5em;
+}
+
+.about_page .about_page_links div a p {
+  font-size: 0.8em;
+}
+
 @media screen and (min-width: 750px) {
   .login_page {
     padding-left: 0;
@@ -952,6 +1026,22 @@
 
   .collection_page section {
     padding: 10px 20px;
+  }
+
+  .about_page_info {
+    width: 60%;
+  }
+
+  .about_page .about_page_links {
+    width: 60%;
+  }
+
+  .about_page .about_page_research {
+    width: 60%;
+  }
+
+  .about_page .about_page_links div a p {
+    font-size: 1em;
   }
 }
 

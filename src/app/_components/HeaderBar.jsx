@@ -43,6 +43,7 @@ function HeaderBar({ authUser, logOut }) {
           <>
             <span ref={dropdownRef} className={styles.new_content_menu}>
               <button
+                id="new-content"
                 className={styles.new_content}
                 type="button"
                 onClick={() => setDropdownOpen((current) => !current)}

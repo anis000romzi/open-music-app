@@ -4,6 +4,8 @@ function songsReducer(songs = [], action = {}) {
   switch (action.type) {
     case ActionType.RECEIVE_SONGS:
       return action.payload.songs;
+    case ActionType.CLEAR_SONGS:
+      return [];
     case ActionType.LIKE_SONG:
       return songs.map((song) => {
         if (song.id === action.payload.songId) {

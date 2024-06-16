@@ -2,6 +2,7 @@ import api from '@/app/_utils/api';
 
 const ActionType = {
   RECEIVE_USERS: 'RECEIVE_USERS',
+  CLEAR_USERS: 'CLEAR_USERS',
 };
 
 function receiveUsersActionCreator(users) {
@@ -10,6 +11,12 @@ function receiveUsersActionCreator(users) {
     payload: {
       users,
     },
+  };
+}
+
+function clearUsersActionCreator() {
+  return {
+    type: ActionType.CLEAR_USERS,
   };
 }
 
@@ -26,6 +33,7 @@ function asyncGetUsers(query) {
 
 function asyncGetPopularArtists() {
   return async (dispatch) => {
+    dispatch(clearUsersActionCreator());
     try {
       const artists = await api.getPopularArtists();
       dispatch(receiveUsersActionCreator(artists));
@@ -37,6 +45,7 @@ function asyncGetPopularArtists() {
 
 function asyncGetFollowedArtists() {
   return async (dispatch) => {
+    dispatch(clearUsersActionCreator());
     try {
       const artists = await api.getFollowedArtists();
       dispatch(receiveUsersActionCreator(artists));
