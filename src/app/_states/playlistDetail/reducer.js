@@ -10,6 +10,7 @@ function playlistDetailReducer(playlistDetail = null, action = {}) {
       return {
         ...playlistDetail,
         name: action.payload.name,
+        is_public: action.payload.isPublic,
       };
     case ActionType.CHANGE_PLAYLIST_DETAIL_COVER:
       return {

@@ -1,5 +1,5 @@
 const api = (() => {
-  const BASE_URL = 'http://localhost:5000';
+  const BASE_URL = 'https://api.myfreetunes.xyz';
   let accessToken = null;
 
   function putRefreshToken(token) {
@@ -752,7 +752,7 @@ const api = (() => {
     return data;
   }
 
-  async function createSong({ title, year, genre, albumId }) {
+  async function createSong({ title, year, genre, duration, albumId }) {
     const response = await _fetchWithAuth(`${BASE_URL}/songs`, {
       method: 'POST',
       headers: {
@@ -762,7 +762,7 @@ const api = (() => {
         title,
         year,
         genre,
-        duration: 0,
+        duration,
         albumId,
       }),
     });
@@ -857,7 +857,7 @@ const api = (() => {
     return data;
   }
 
-  async function createPlaylist(name) {
+  async function createPlaylist(name, isPublic) {
     const response = await _fetchWithAuth(`${BASE_URL}/playlists`, {
       method: 'POST',
       headers: {
@@ -865,6 +865,7 @@ const api = (() => {
       },
       body: JSON.stringify({
         name,
+        isPublic,
       }),
     });
 
@@ -880,7 +881,7 @@ const api = (() => {
     return data;
   }
 
-  async function editPlaylist(id, name) {
+  async function editPlaylist({ id, name, isPublic }) {
     const response = await _fetchWithAuth(`${BASE_URL}/playlists/${id}`, {
       method: 'PUT',
       headers: {
@@ -888,6 +889,7 @@ const api = (() => {
       },
       body: JSON.stringify({
         name,
+        isPublic,
       }),
     });
 
@@ -960,10 +962,13 @@ const api = (() => {
     const formData = new FormData();
     formData.append('cover', file);
 
-    const response = await _fetchWithAuth(`${BASE_URL}/playlists/${id}/covers`, {
-      method: 'POST',
-      body: formData,
-    });
+    const response = await _fetchWithAuth(
+      `${BASE_URL}/playlists/${id}/covers`,
+      {
+        method: 'POST',
+        body: formData,
+      }
+    );
 
     const responseJson = await response.json();
     const { status, message } = responseJson;
@@ -994,6 +999,23 @@ const api = (() => {
     return playlists;
   }
 
+  async function getPopularPlaylists() {
+    const response = await _fetchWithAuth(`${BASE_URL}/playlists/popular`);
+
+    const responseJson = await response.json();
+    const { status, message } = responseJson;
+
+    if (status !== 'success') {
+      throw new Error(message);
+    }
+
+    const {
+      data: { playlists },
+    } = responseJson;
+
+    return playlists;
+  }
+
   async function getPlaylistById(id) {
     const response = await _fetchWithAuth(`${BASE_URL}/playlists/${id}`);
 
@@ -1009,6 +1031,32 @@ const api = (() => {
     } = responseJson;
 
     return playlist;
+  }
+
+  async function likePlaylist(id) {
+    const response = await _fetchWithAuth(`${BASE_URL}/playlists/${id}/likes`, {
+      method: 'POST',
+    });
+
+    const responseJson = await response.json();
+    const { status, message } = responseJson;
+
+    if (status !== 'success') {
+      throw new Error(message);
+    }
+  }
+
+  async function deleteLikePlaylist(id) {
+    const response = await _fetchWithAuth(`${BASE_URL}/playlists/${id}/likes`, {
+      method: 'DELETE',
+    });
+
+    const responseJson = await response.json();
+    const { status, message } = responseJson;
+
+    if (status !== 'success') {
+      throw new Error(message);
+    }
   }
 
   async function addSongToPlaylist(id, songId) {
@@ -1101,6 +1149,7 @@ const api = (() => {
     deletePlaylistCollaborator,
     deletePlaylist,
     addPlaylistCover,
+    getPopularPlaylists,
     getPlaylists,
     getPlaylistById,
     addSongToPlaylist,

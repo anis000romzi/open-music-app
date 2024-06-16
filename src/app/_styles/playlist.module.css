@@ -40,3 +40,67 @@
   align-items: center;
   justify-content: center;
 }
+
+.popular_playlists_list_container {
+  display: grid;
+}
+
+.popular_playlists_list {
+  display: flex;
+  flex-direction: row;
+  margin-top: 16px;
+  overflow-x: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.popular_playlists_list::-webkit-scrollbar {
+  display: none;
+}
+
+.popular_playlists_list_buttons {
+  display: flex;
+  justify-content: flex-end;
+  margin: 0 20px;
+}
+
+.popular_playlists_list_buttons button {
+  background-color: transparent;
+  color: #d9d9d9;
+  border: solid 1px #d9d9d9;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  font-size: 1em;
+  font-family: inherit;
+  border-radius: 50%;
+  padding: 10px;
+  margin: 5px;
+}
+
+.popular_playlist_item {
+  padding: 0;
+  margin: 0 5px;
+  text-align: center;
+}
+
+.popular_playlist_item p {
+  font-weight: bold;
+  font-size: 1.2em;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 150px;
+  text-overflow: ellipsis;
+}
+
+.popular_playlist_item a {
+  color: #978e8e;
+  font-size: 0.9em;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 150px;
+  text-overflow: ellipsis;
+  display: inline-block;
+}

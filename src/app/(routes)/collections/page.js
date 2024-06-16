@@ -59,8 +59,8 @@ function Collections() {
     setIsModalOpen(false);
   };
 
-  const addPlaylist = (name) => {
-    dispatch(asyncAddPlaylist(name));
+  const addPlaylist = (name, isPublic) => {
+    dispatch(asyncAddPlaylist(name, isPublic));
     setIsModalOpen(false);
   };
 

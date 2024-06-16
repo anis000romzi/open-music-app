@@ -36,11 +36,12 @@ function changeCoverPlaylistDetailActionCreator(file) {
   };
 }
 
-function editPlaylistDetailActionCreator(name) {
+function editPlaylistDetailActionCreator(name, isPublic) {
   return {
     type: ActionType.EDIT_PLAYLIST_DETAIL,
     payload: {
       name,
+      isPublic
     },
   };
 }
@@ -76,11 +77,11 @@ function asyncReceivePlaylistDetail(playlistId) {
   };
 }
 
-function asyncEditPlaylistDetail(playlistId, name) {
+function asyncEditPlaylistDetail({ playlistId, name, isPublic }) {
   return async (dispatch) => {
     try {
-      await api.editPlaylist(playlistId, name);
-      dispatch(editPlaylistDetailActionCreator(name));
+      await api.editPlaylist({ id: playlistId, name, isPublic });
+      dispatch(editPlaylistDetailActionCreator(name, isPublic));
     } catch (error) {
       alert(error.message);
     }

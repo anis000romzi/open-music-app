@@ -24,8 +24,8 @@ import { formatTimeString } from '@/app/_utils/time-format';
 import { redirect } from 'next/navigation';
 import shuffle from '@/app/_utils/shuffle';
 import { AiOutlineClose, AiOutlineCheck } from 'react-icons/ai';
-import { FaPen, FaUserPlus, FaPlay, FaShuffle } from 'react-icons/fa6';
-import { FaSearch } from 'react-icons/fa';
+import { FaPen, FaUserPlus, FaPlay, FaShuffle, FaGlobe } from 'react-icons/fa6';
+import { FaSearch, FaLock } from 'react-icons/fa';
 import styles from '../../../_styles/style.module.css';
 import modalStyles from '../../../_styles/modal.module.css';
 import defaultImage from '../../../_assets/default-image.png';
@@ -60,13 +60,21 @@ function PlaylistDetail() {
   const openInfoModal = () => setIsInfoModalOpen(true);
   const closeInfoModal = () => setIsInfoModalOpen(false);
 
-  const editPlaylist = () => {
-    dispatch(asyncEditPlaylistDetail(playlistDetail.id, playlistName));
+  const editPlaylist = (name, isPublic) => {
+    dispatch(
+      asyncEditPlaylistDetail({ playlistId: playlistDetail.id, name, isPublic })
+    );
     setEdit(false);
   };
 
   const addCollaborator = (userId, userName) => {
-    dispatch(asyncAddPlaylistCollaborator({ playlistId: playlistDetail.id, userId, userName }));
+    dispatch(
+      asyncAddPlaylistCollaborator({
+        playlistId: playlistDetail.id,
+        userId,
+        userName,
+      })
+    );
   };
 
   const deleteCollaborator = (userId) => {
@@ -106,14 +114,31 @@ function PlaylistDetail() {
           <>
             <section className={styles.playlist_detail}>
               <div className={styles.playlist_cover}>
-                <input
-                  style={{ display: 'none' }}
-                  type="file"
-                  id="cover"
-                  name="cover"
-                  onChange={handleChangeCover}
-                />
-                <label htmlFor="cover" className={styles.container}>
+                {playlistDetail.ownerId === authUser?.id ? (
+                  <>
+                    <input
+                      style={{ display: 'none' }}
+                      type="file"
+                      id="cover"
+                      name="cover"
+                      onChange={handleChangeCover}
+                    />
+                    <label htmlFor="cover" className={styles.container}>
+                      <Image
+                        src={playlistDetail.cover || defaultImage}
+                        width={200}
+                        height={200}
+                        alt="Playlist cover"
+                        priority
+                      />
+                      <div className={styles.overlay}>
+                        <div className={styles.text}>
+                          <FaPen />
+                        </div>
+                      </div>
+                    </label>
+                  </>
+                ) : (
                   <Image
                     src={playlistDetail.cover || defaultImage}
                     width={200}
@@ -121,70 +146,129 @@ function PlaylistDetail() {
                     alt="Playlist cover"
                     priority
                   />
-                  <div className={styles.overlay}>
-                    <div className={styles.text}>
-                      <FaPen />
-                    </div>
-                  </div>
-                </label>
+                )}
               </div>
               <div className={styles.playlist_info}>
                 <div className={styles.playlist_info_title}>
-                  {edit ? (
-                    <form>
-                      <input
-                        type="text"
-                        value={playlistName}
-                        onChange={onPlaylistNameChange}
-                        placeholder="Playlist Name"
-                      />
-                      <button type="button" onClick={editPlaylist}>
-                        <AiOutlineCheck />
+                  {playlistDetail.ownerId === authUser?.id ? (
+                    <>
+                      {edit ? (
+                        <form>
+                          <input
+                            type="text"
+                            value={playlistName}
+                            onChange={onPlaylistNameChange}
+                            placeholder="Playlist Name"
+                          />
+                          <button
+                            type="button"
+                            onClick={() =>
+                              editPlaylist(
+                                playlistName,
+                                playlistDetail.is_public
+                              )
+                            }
+                          >
+                            <AiOutlineCheck />
+                          </button>
+                        </form>
+                      ) : (
+                        <h1>{playlistDetail.name}</h1>
+                      )}
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setPlaylistName(playlistDetail.name);
+                          toggleEdit();
+                        }}
+                      >
+                        {edit ? <AiOutlineClose /> : <FaPen />}
                       </button>
-                    </form>
+                    </>
                   ) : (
                     <h1>{playlistDetail.name}</h1>
                   )}
-                  <button type="button" onClick={() => {
-                    setPlaylistName(playlistDetail.name);
-                    toggleEdit();
-                  }}>
-                    {edit ? <AiOutlineClose /> : <FaPen />}
-                  </button>
                 </div>
-                <p onClick={openInfoModal} style={{ textDecoration: 'underline' }}>
+                <p
+                  onClick={
+                    playlistDetail.collaborators.length === 0
+                      ? null
+                      : openInfoModal
+                  }
+                  style={{ textDecoration: 'underline' }}
+                >
                   <strong>{playlistDetail.username}</strong>{' '}
-                  {playlistDetail.collaborators.length > 0 && (
-                    `and ${playlistDetail.collaborators.length > 1 ? `${playlistDetail.collaborators.length} others` : playlistDetail.collaborators[0].username}`
-                  )}
+                  {playlistDetail.collaborators.length > 0 &&
+                    `and ${
+                      playlistDetail.collaborators.length > 1
+                        ? `${playlistDetail.collaborators.length} others`
+                        : playlistDetail.collaborators[0].username
+                    }`}
                 </p>
                 <p>
                   {playlistDetail.songs.length} songs,{' '}
-                  {formatTimeString(playlistDetail.songs.reduce((acc, song) => acc + song.duration, 0))}
+                  {formatTimeString(
+                    playlistDetail.songs.reduce(
+                      (acc, song) => acc + song.duration,
+                      0
+                    )
+                  )}
                 </p>
-                <button className={styles.add_collaborator} type="button" onClick={openModal}>
-                  Add Collaborators <FaUserPlus />
-                </button>
+                {playlistDetail.ownerId === authUser?.id ? (
+                  <button
+                    className={styles.add_collaborator}
+                    type="button"
+                    onClick={openModal}
+                  >
+                    Add Collaborators <FaUserPlus />
+                  </button>
+                ) : null}
               </div>
-              <div className={styles.album_buttons}>
-                <div></div>
-              <div>
-                <button
-                  className={`${styles.shuffle_button} ${shuffleSongs ? styles.active : ''}`}
-                  type="button"
-                  onClick={() => setShuffleSongs((prev) => !prev)}
-                >
-                  <FaShuffle />
-                </button>
-                <button
-                  className={styles.play_all_button}
-                  type="button"
-                  onClick={() => playAllSong(playlistDetail.songs)}
-                >
-                  <FaPlay />
-                </button>
+              <div className={styles.playlist_buttons}>
+                {playlistDetail.is_public ? (
+                  <button
+                    className={styles.save_playlist_button}
+                    type="button"
+                    onClick={
+                      playlistDetail.ownerId === authUser?.id
+                        ? () => editPlaylist(playlistDetail.name, false)
+                        : null
+                    }
+                  >
+                    <FaGlobe /> <span>Public</span>
+                  </button>
+                ) : (
+                  <button
+                    className={styles.save_playlist_button}
+                    type="button"
+                    onClick={
+                      playlistDetail.ownerId === authUser?.id
+                        ? () => editPlaylist(playlistDetail.name, true)
+                        : null
+                    }
+                  >
+                    <FaLock /> <span>Private</span>
+                  </button>
+                )}
+                <div>
+                  <button
+                    className={`${styles.shuffle_button} ${
+                      shuffleSongs ? styles.active : ''
+                    }`}
+                    type="button"
+                    onClick={() => setShuffleSongs((prev) => !prev)}
+                  >
+                    <FaShuffle />
+                  </button>
+                  <button
+                    className={styles.play_all_button}
+                    type="button"
+                    onClick={() => playAllSong(playlistDetail.songs)}
+                  >
+                    <FaPlay />
+                  </button>
+                </div>
               </div>
-            </div>
             </section>
             <SongsList
               songs={playlistDetail.songs}
@@ -201,7 +285,13 @@ function PlaylistDetail() {
           <strong>Add Collaborators</strong>
         </div>
         <div className={modalStyles.modal_body}>
-          <form onSubmit={(event) => { event.preventDefault(); searchUser(userName); }} className={modalStyles.search_collaborators_form}>
+          <form
+            onSubmit={(event) => {
+              event.preventDefault();
+              searchUser(userName);
+            }}
+            className={modalStyles.search_collaborators_form}
+          >
             <input
               type="text"
               value={userName}
@@ -217,22 +307,27 @@ function PlaylistDetail() {
               if (user.id === authUser.id) {
                 return;
               }
-    
+
               return (
-              <div key={user.id}>
-                <div>
-                  <p>{user.fullname}</p>
-                  <p>@{user.username}</p>
+                <div key={user.id}>
+                  <div>
+                    <p>{user.fullname}</p>
+                    <p>@{user.username}</p>
+                  </div>
+                  {playlistDetail?.collaborators.filter(
+                    (collaborator) => collaborator.id === user.id
+                  ).length > 0 ? (
+                    ''
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={() => addCollaborator(user.id, user.username)}
+                    >
+                      add
+                    </button>
+                  )}
                 </div>
-                {playlistDetail?.collaborators.filter(
-                  (collaborator) => collaborator.id === user.id
-                ).length > 0 ? '' : (
-                  <button type="button" onClick={() => addCollaborator(user.id, user.username)}>
-                    add
-                  </button>
-                )}
-              </div>
-              )
+              );
             })}
           </div>
         </div>
@@ -245,13 +340,16 @@ function PlaylistDetail() {
           <div className={modalStyles.collaborators_container}>
             {playlistDetail?.collaborators.map((collaborator) => {
               return (
-              <div key={collaborator.id}>
-                <p>@{collaborator.username}</p>
-                <button type="button" onClick={() => deleteCollaborator(collaborator.id)}>
-                  delete
-                </button>
-              </div>
-              )
+                <div key={collaborator.id}>
+                  <p>@{collaborator.username}</p>
+                  <button
+                    type="button"
+                    onClick={() => deleteCollaborator(collaborator.id)}
+                  >
+                    delete
+                  </button>
+                </div>
+              );
             })}
           </div>
         </div>

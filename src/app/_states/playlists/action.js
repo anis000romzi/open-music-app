@@ -66,10 +66,21 @@ function asyncGetPlaylists() {
   };
 }
 
-function asyncAddPlaylist(name) {
+function asyncGetPopularPlaylists() {
   return async (dispatch) => {
     try {
-      await api.createPlaylist(name);
+      const playlists = await api.getPopularPlaylists();
+      dispatch(receivePlaylistsActionCreator(playlists));
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+}
+
+function asyncAddPlaylist(name, isPublic) {
+  return async (dispatch) => {
+    try {
+      await api.createPlaylist(name, isPublic);
       const playlists = await api.getPlaylists();
       dispatch(receivePlaylistsActionCreator(playlists));
     } catch (error) {
@@ -120,6 +131,7 @@ export {
   addSongToPlaylistActionCreator,
   deleteSongFromPlaylistActionCreator,
   asyncGetPlaylists,
+  asyncGetPopularPlaylists,
   asyncAddPlaylist,
   asyncDeletePlaylist,
   asyncAddSongToPlaylist,
