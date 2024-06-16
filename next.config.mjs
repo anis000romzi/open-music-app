@@ -38,7 +38,7 @@ const nextConfig = {
       },
       {
         protocol: 'https',
-        hostname: 'musicappbucket-anis1.s3.ap-southeast-1.amazonaws.com',
+        hostname: 'd3q2sm3wlna4xq.cloudfront.net',
         pathname: '/**',
       },
     ],
