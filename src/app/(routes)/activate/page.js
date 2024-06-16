@@ -1,12 +1,11 @@
 'use client';
-import Link from 'next/link';
-import { redirect } from 'next/navigation';
-import { CiLogout } from 'react-icons/ci';
 import { useDispatch, useSelector } from 'react-redux';
-import { asyncUnsetAuthUser } from '@/app/_states/authUser/action';
-import { asyncActivateUser } from '@/app/_states/authUser/action';
+import Link from 'next/link';
 import VerificationInput from '@/app/_components/inputs/VerificationInput';
+import { asyncUnsetAuthUser, asyncActivateUser } from '@/app/_states/authUser/action';
+import { redirect } from 'next/navigation';
 import api from '@/app/_utils/api';
+import { CiLogout } from 'react-icons/ci';
 import styles from '../../_styles/style.module.css';
 
 function Activate() {
@@ -34,9 +33,12 @@ function Activate() {
     redirect('/login');
   }
 
-  if (authUser && authUser.is_active) {
+  if (authUser.is_active) {
     redirect('/');
   }
+
+  const { id, email } = authUser;
+  const maskedEmail = email.replace(/^(\w{2})(\w+)(\w{2})(@[\w.]+)$/, '$1****$3$4');
 
   return (
     <main className={styles.activate_page}>
@@ -44,24 +46,13 @@ function Activate() {
         <CiLogout />
       </button>
       <h1>Activate Your Account</h1>
-      {authUser ? (
-        <>
-          <p>
-            OTP code will be sent to:{' '}
-            {authUser.email.replace(/^(\w{2})(\w+)(\w{2})(@[\w.]+)$/, '$1****$3$4')}{' '}
-            <Link href="/changeemail">Change email</Link>
-          </p>
-          <VerificationInput verify={activateUser} userId={authUser.id} />
-          <button
-            className={styles.activate_page__send}
-            onClick={() => sendCode(authUser.id)}
-          >
-            Send Code
-          </button>
-        </>
-      ) : (
-        ''
-      )}
+      <p>
+        OTP code will be sent to: {maskedEmail} <Link href="/changeemail">Change email</Link>
+      </p>
+      <VerificationInput verify={activateUser} userId={id} />
+      <button className={styles.activate_page__send} onClick={() => sendCode(id)}>
+        Send Code
+      </button>
     </main>
   );
 }
