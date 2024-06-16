@@ -30,19 +30,7 @@ function AudioPlayer() {
   const audioRef = useRef();
   const progressBarRef = useRef();
   const progressBarRef2 = useRef();
-  const playAnimationRef = useRef();
   const [dropdownRef, dropdownOpen, setDropdownOpen] = useOpenNav();
-
-  const repeat = useCallback(() => {
-    if (audioRef.current) {
-      const currentTime = audioRef.current.currentTime;
-      setTimeProgress(currentTime);
-      const progressPercent = `${(currentTime / duration) * 100}%`;
-      if (progressBarRef.current) progressBarRef.current.style.setProperty('--range-progress', progressPercent);
-      if (progressBarRef2.current) progressBarRef2.current.style.setProperty('--range-progress', progressPercent);
-      playAnimationRef.current = requestAnimationFrame(repeat);
-    }
-  }, [duration]);
 
   useEffect(() => {
     const onLoadedMetadata = () => {
@@ -75,12 +63,7 @@ function AudioPlayer() {
     };
   }, [currentlyPlaying.audio]);
 
-  useEffect(() => {
-    if (audioRef.current) {
-      isPlaying ? audioRef.current.play() : audioRef.current.pause();
-      playAnimationRef.current = requestAnimationFrame(repeat);
-    }
-  }, [isPlaying, repeat]);
+  console.log('test')
 
   useEffect(() => {
     setTrackIndex(queue.findIndex((track) => track.id === currentlyPlaying.id));
@@ -152,7 +135,12 @@ function AudioPlayer() {
             setLoop={setLoop}
             handlePrevious={handlePrevious}
             handleNext={handleNext}
+            setTimeProgress={setTimeProgress}
             isPlaying={isPlaying}
+            duration={duration}
+            audioRef={audioRef}
+            progressBarRef={progressBarRef}
+            progressBarRef2={progressBarRef2}
             togglePlayPause={togglePlayPause}
           />
           <ProgressBar progressBarRef={progressBarRef} audioRef={audioRef} timeProgress={timeProgress} duration={duration} />

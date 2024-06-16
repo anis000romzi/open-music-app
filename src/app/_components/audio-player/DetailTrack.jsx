@@ -75,6 +75,14 @@ function DetailTrack({
                 {currentlyPlaying.artist || '--'}
               </p>
             </div>
+            <div className={styles.queue_detail}>
+              <QueueList
+                queue={queue}
+                onPlayHandler={playTrack}
+                onDeleteHandler={deleteTrackFromQueue}
+                currentlyPlaying={currentlyPlaying}
+              />
+            </div>
             <div className={styles.progress_bar_detail}>
               <ProgressBar progressBarRef={progressBarRef} audioRef={audioRef} timeProgress={timeProgress} duration={duration} />
             </div>

@@ -285,6 +285,12 @@ input[type='range']:active::-moz-range-thumb {
   }
 }
 
+@media screen and (min-width: 700px) {
+  .react-tabs__tab-list {
+    display: none;
+  }
+}
+
 @media screen and (min-width: 750px) {
   main {
     transition: padding-left 0.3s;
