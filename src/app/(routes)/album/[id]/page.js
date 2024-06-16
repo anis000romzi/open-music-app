@@ -1,15 +1,10 @@
 'use client';
-// hooks
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'next/navigation';
-
-// components
 import Image from 'next/image';
 import Link from 'next/link';
 import SongsList from '@/app/_components/songs/SongsList';
-
-// redux actions
 import {
   asyncReceiveAlbumDetail,
   asyncAlbumDetailLikeSong,
@@ -23,19 +18,11 @@ import {
   setPlayingSongInQueue,
   setIsPlaying,
 } from '@/app/_states/queue/action';
-
-// utils
 import shuffle from '@/app/_utils/shuffle';
 import { formatTimeString } from '@/app/_utils/time-format';
-
-// icons
 import { FaPlay, FaShuffle } from 'react-icons/fa6';
 import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
-
-// styles
 import styles from '../../../_styles/style.module.css';
-
-// assets
 import defaultImage from '../../../_assets/default-image.png';
 
 function AlbumDetail() {

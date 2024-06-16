@@ -10,6 +10,10 @@ const formatTime = (time) => {
 };
 
 const formatTimeString = (time) => {
+  if (time === 0) {
+    return '0 second';
+  }
+
   time = Number(time);
   let h = Math.floor(time / 3600);
   let m = Math.floor((time % 3600) / 60);

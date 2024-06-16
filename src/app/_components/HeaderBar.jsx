@@ -25,13 +25,12 @@ function HeaderBar({ authUser, logOut }) {
   const [profileRef, profileOpen, setProfileOpen] = useOpenNav();
 
   return (
-    <header className={`${styles.header_bar} ${navOpen ? styles.open : ''}`}>
+    <header ref={navRef} className={`${styles.header_bar} ${navOpen ? styles.open : ''}`}>
       <div className={styles.header_bar__menu}>
         <button
           aria-label="Navigation button"
           id="hamburgerButton"
           type="button"
-          ref={navRef}
           onClick={() => setNavOpen((current) => !current)}
         >
           ☰

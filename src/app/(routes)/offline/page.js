@@ -2,7 +2,6 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import SongsList from '@/app/_components/songs/SongsList';
-import Image from 'next/image';
 import {
   setNewTracksQueue,
   setPlayingSongInQueue,
@@ -12,7 +11,7 @@ import OfflineAudioIdb from '@/app/_utils/offline-audio-idb';
 import shuffle from '@/app/_utils/shuffle';
 import { formatTimeString } from '@/app/_utils/time-format';
 import { FaPlay, FaShuffle } from 'react-icons/fa6';
-import styles from '../../../_styles/style.module.css';
+import styles from '../../_styles/style.module.css';
 
 function Offline() {
   const dispatch = useDispatch();
