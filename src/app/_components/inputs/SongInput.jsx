@@ -175,6 +175,18 @@ function SongInput({ creating, addSong, ownedAlbums, genres }) {
       <Modal isModalOpen={isAlbumModalOpen} onClose={closeAlbumModal}>
         <div className={modalStyles.modal_body}>
           <div className={modalStyles.album_list}>
+            <div className={modalStyles.album_item}>
+              <input
+                id="single"
+                type="radio"
+                value={''}
+                onChange={onSelectedAlbumChange}
+                checked={selectedAlbum === ''}
+              />
+              <label htmlFor="single">
+                <p>Single</p>
+              </label>
+            </div>
             {ownedAlbums.map((album) => (
               <div key={album.id} className={modalStyles.album_item}>
                 <input
