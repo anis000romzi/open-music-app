@@ -102,6 +102,7 @@ function Collections() {
             <RiPlayListAddFill /> <span> New Playlist</span>
           </button>
           <PlaylistsList
+            authUser={authUser}
             playlists={playlists}
             onDeletePlaylist={deletePlaylist}
           />
