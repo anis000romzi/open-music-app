@@ -17,6 +17,32 @@ function playlistDetailReducer(playlistDetail = null, action = {}) {
         ...playlistDetail,
         cover: action.payload.file,
       };
+    case ActionType.LIKE_PLAYLIST_DETAIL_SONG:
+      return {
+        ...playlistDetail,
+        songs: playlistDetail.songs.map((song) => {
+          if (song.id === action.payload.songId) {
+            return {
+              ...song,
+              likes: song.likes.concat([action.payload.userId]),
+            };
+          }
+          return song;
+        }),
+      };
+    case ActionType.DELETE_PLAYLIST_DETAIL_LIKE_SONG:
+      return {
+        ...playlistDetail,
+        songs: playlistDetail.songs.map((song) => {
+          if (song.id === action.payload.songId) {
+            return {
+              ...song,
+              likes: song.likes.filter((id) => id !== action.payload.userId),
+            };
+          }
+          return song;
+        }),
+      };
     case ActionType.ADD_PLAYLIST_COLLABORATOR:
       return {
         ...playlistDetail,
@@ -27,7 +53,9 @@ function playlistDetailReducer(playlistDetail = null, action = {}) {
     case ActionType.DELETE_PLAYLIST_COLLABORATOR:
       return {
         ...playlistDetail,
-        collaborators: playlistDetail.collaborators.filter((collaborator) => collaborator.id !== action.payload.userId),
+        collaborators: playlistDetail.collaborators.filter(
+          (collaborator) => collaborator.id !== action.payload.userId
+        ),
       };
     default:
       return playlistDetail;

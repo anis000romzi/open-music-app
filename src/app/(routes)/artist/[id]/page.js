@@ -9,6 +9,8 @@ import {
   asyncReceiveUserDetail,
   asyncFollowUserDetail,
   asyncUnfollowUserDetail,
+  asyncUserDetailLikeSingle,
+  asyncDeleteUserDetailLikeSingle,
 } from '@/app/_states/userDetail/action';
 import { asyncGetPlaylists } from '@/app/_states/playlists/action';
 import {
@@ -40,8 +42,15 @@ function Artist() {
   const playSong = (songId) => {
     dispatch(setNewTracksQueue(userDetail.singles));
     dispatch(setPlayingSongInQueue(songId));
-    dispatch(setIsPlaying());
-    localStorage.setItem('tracks-queue-index', userDetail.singles.findIndex((track) => track.id === songId));
+    dispatch(setIsPlaying(true));
+  };
+
+  const handleLikeSong = (id, isLiked) => {
+    dispatch(
+      isLiked
+        ? asyncDeleteUserDetailLikeSingle(id)
+        : asyncUserDetailLikeSingle(id)
+    );
   };
 
   if (!userDetail) return null;
@@ -50,7 +59,7 @@ function Artist() {
     <main className={styles.artist_detail_page}>
       <section className={styles.user_detail}>
         <div className={styles.user_picture}>
-          <Image src={userDetail.picture} width={150} height={150} alt="Profile picture" />
+          <Image src={userDetail.picture} width={150} height={150} alt="Profile picture" priority />
         </div>
         <div className={styles.user_info}>
           <div>
@@ -86,6 +95,8 @@ function Artist() {
               onPlayHandler={playSong}
               playlists={playlists}
               authUser={authUser?.id}
+              onLike={handleLikeSong}
+              onDeleteLike={handleLikeSong}
             />
           </div>
         )}

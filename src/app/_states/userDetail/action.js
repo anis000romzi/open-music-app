@@ -5,6 +5,8 @@ const ActionType = {
   CLEAR_USER_DETAIL: 'CLEAR_USER_DETAIL',
   FOLLOW_USER_DETAIL: 'FOLLOW_USER_DETAIL',
   UNFOLLOW_USER_DETAIL: 'UNFOLLOW_USER_DETAIL',
+  LIKE_USER_DETAIL_SINGLES: 'LIKE_USER_DETAIL_SINGLES',
+  DELETE_LIKE_USER_DETAIL_SINGLES: 'DELETE_LIKE_USER_DETAIL_SINGLES'
 };
 
 function receiveUserDetailActionCreator(userDetail) {
@@ -35,6 +37,26 @@ function unfollowUserDetailActionCreator(userId) {
   return {
     type: ActionType.UNFOLLOW_USER_DETAIL,
     payload: {
+      userId,
+    },
+  };
+}
+
+function likeUserDetailSingleActionCreator(songId, userId) {
+  return {
+    type: ActionType.LIKE_USER_DETAIL_SINGLES,
+    payload: {
+      songId,
+      userId,
+    },
+  };
+}
+
+function deleteUserDetailLikeSingleActionCreator(songId, userId) {
+  return {
+    type: ActionType.DELETE_LIKE_USER_DETAIL_SINGLES,
+    payload: {
+      songId,
       userId,
     },
   };
@@ -78,6 +100,32 @@ function asyncUnfollowUserDetail(userId) {
   };
 }
 
+function asyncUserDetailLikeSingle(songId) {
+  return async (dispatch, getState) => {
+    const { authUser } = getState();
+    dispatch(likeUserDetailSingleActionCreator(songId, authUser.id));
+    try {
+      await api.likeSong(songId);
+    } catch (error) {
+      alert(error.message);
+      dispatch(deleteUserDetailLikeSingleActionCreator(songId, authUser.id));
+    }
+  };
+}
+
+function asyncDeleteUserDetailLikeSingle(songId) {
+  return async (dispatch, getState) => {
+    const { authUser } = getState();
+    dispatch(deleteUserDetailLikeSingleActionCreator(songId, authUser.id));
+    try {
+      await api.deleteLikeSong(songId);
+    } catch (error) {
+      alert(error.message);
+      dispatch(likeUserDetailSingleActionCreator(songId, authUser.id));
+    }
+  };
+}
+
 export {
   ActionType,
   receiveUserDetailActionCreator,
@@ -87,4 +135,6 @@ export {
   asyncReceiveUserDetail,
   asyncFollowUserDetail,
   asyncUnfollowUserDetail,
+  asyncUserDetailLikeSingle,
+  asyncDeleteUserDetailLikeSingle,
 };

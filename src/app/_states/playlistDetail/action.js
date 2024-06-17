@@ -5,6 +5,8 @@ const ActionType = {
   CLEAR_PLAYLIST_DETAIL: 'CLEAR_PLAYLIST_DETAIL',
   EDIT_PLAYLIST_DETAIL: 'EDIT_PLAYLIST_DETAIL',
   CHANGE_PLAYLIST_DETAIL_COVER: 'CHANGE_PLAYLIST_DETAIL_COVER',
+  LIKE_PLAYLIST_DETAIL_SONG: 'LIKE_PLAYLIST_DETAIL_SONG',
+  DELETE_PLAYLIST_DETAIL_LIKE_SONG: 'DELETE_PLAYLIST_DETAIL_LIKE_SONG',
   ADD_PLAYLIST_COLLABORATOR: 'ADD_PLAYLIST_COLLABORATOR',
   DELETE_PLAYLIST_COLLABORATOR: 'DELETE_PLAYLIST_COLLABORATOR',
 };
@@ -32,6 +34,26 @@ function changeCoverPlaylistDetailActionCreator(file) {
     type: ActionType.CHANGE_PLAYLIST_DETAIL_COVER,
     payload: {
       file,
+    },
+  };
+}
+
+function likePlaylistDetailSongActionCreator(songId, userId) {
+  return {
+    type: ActionType.LIKE_PLAYLIST_DETAIL_SONG,
+    payload: {
+      songId,
+      userId,
+    },
+  };
+}
+
+function deletePlaylistDetailLikeSongActionCreator(songId, userId) {
+  return {
+    type: ActionType.DELETE_PLAYLIST_DETAIL_LIKE_SONG,
+    payload: {
+      songId,
+      userId,
     },
   };
 }
@@ -100,6 +122,32 @@ function asyncChangeCoverPlaylistDetail(id, file) {
   };
 }
 
+function asyncPlaylistDetailLikeSong(songId) {
+  return async (dispatch, getState) => {
+    const { authUser } = getState();
+    dispatch(likePlaylistDetailSongActionCreator(songId, authUser.id));
+    try {
+      await api.likeSong(songId);
+    } catch (error) {
+      alert(error.message);
+      dispatch(deletePlaylistDetailLikeSongActionCreator(songId, authUser.id));
+    }
+  };
+}
+
+function asyncDeletePlaylistDetailLikeSong(songId) {
+  return async (dispatch, getState) => {
+    const { authUser } = getState();
+    dispatch(deletePlaylistDetailLikeSongActionCreator(songId, authUser.id));
+    try {
+      await api.deleteLikeSong(songId);
+    } catch (error) {
+      alert(error.message);
+      dispatch(likePlaylistDetailSongActionCreator(songId, authUser.id));
+    }
+  };
+}
+
 function asyncAddPlaylistCollaborator({ playlistId, userId, userName }) {
   return async (dispatch) => {
     dispatch(addPlaylistCollaboratorActionCreator(userId, userName));
@@ -133,6 +181,8 @@ export {
   asyncReceivePlaylistDetail,
   asyncEditPlaylistDetail,
   asyncChangeCoverPlaylistDetail,
+  asyncPlaylistDetailLikeSong,
+  asyncDeletePlaylistDetailLikeSong,
   asyncAddPlaylistCollaborator,
   asyncDeletePlaylistCollaborator,
 };
