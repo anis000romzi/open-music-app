@@ -23,6 +23,8 @@ function SongInput({ creating, addSong, ownedAlbums, genres }) {
     (album) => album.id === selectedAlbum
   );
 
+  console.log(selectedAlbumInfo)
+
   const openGenreModal = () => setIsGenreModalOpen(true);
   const closeGenreModal = () => setIsGenreModalOpen(false);
   const openAlbumModal = () => setIsAlbumModalOpen(true);
@@ -116,8 +118,8 @@ function SongInput({ creating, addSong, ownedAlbums, genres }) {
               <>
                 <Image
                   src={
-                    selectedAlbumInfo.cover
-                      ? selectedAlbumInfo.cover
+                    selectedAlbumInfo?.cover
+                      ? selectedAlbumInfo?.cover
                       : defaultImage
                   }
                   width={50}
@@ -125,8 +127,8 @@ function SongInput({ creating, addSong, ownedAlbums, genres }) {
                   alt="Album cover"
                 />
                 <div>
-                  <p>{selectedAlbumInfo.name}</p>
-                  <p>{selectedAlbumInfo.year}</p>
+                  <p>{selectedAlbumInfo?.name}</p>
+                  <p>{selectedAlbumInfo?.year}</p>
                 </div>
               </>
             )}
@@ -142,7 +144,7 @@ function SongInput({ creating, addSong, ownedAlbums, genres }) {
                       year,
                       genre: selectedGenre,
                       duration,
-                      albumId: selectedAlbum,
+                      albumId: selectedAlbum || null,
                       audio,
                       cover,
                     })
