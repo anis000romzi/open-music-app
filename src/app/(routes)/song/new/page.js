@@ -12,6 +12,7 @@ function NewSong() {
 
   const [ownedAlbums, setOwnedAlbums] = useState([]);
   const [genres, setGenres] = useState([]);
+  const [creating, setCreating] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -31,6 +32,7 @@ function NewSong() {
 
   const addSong = async ({ title, year, genre, duration, albumId, audio, cover }) => {
     try {
+      setCreating(true);
       if (!audio) {
         throw new Error('Audio cannot be empty');
       }
@@ -54,6 +56,7 @@ function NewSong() {
 
       router.push('/');
     } catch (error) {
+      setCreating(false);
       alert(error);
     }
   };
@@ -61,7 +64,7 @@ function NewSong() {
   return (
     <main className={styles.new_song_page}>
       <h1>New Song</h1>
-      <SongInput addSong={addSong} ownedAlbums={ownedAlbums} genres={genres} />
+      <SongInput creating={creating} addSong={addSong} ownedAlbums={ownedAlbums} genres={genres} />
     </main>
   );
 }
