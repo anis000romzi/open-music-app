@@ -4,19 +4,27 @@ import { FaRegTrashCan } from 'react-icons/fa6';
 import styles from '../../_styles/playlist.module.css';
 import defaultImage from '../../_assets/default-image.png';
 
-function PlaylistItem({ id, name, songs, cover, onDelete }) {
+function PlaylistItem({ authUser, owner, id, name, songs, cover, onDelete }) {
   return (
     <div className={styles.playlist_item}>
-      <button
-        onClick={(event) => {
-          onDelete(id);
-          event.stopPropagation();
-        }}
-      >
-        <FaRegTrashCan />
-      </button>
+      {authUser.id === owner ? (
+        <button
+          onClick={(event) => {
+            onDelete(id);
+            event.stopPropagation();
+          }}
+        >
+          <FaRegTrashCan />
+        </button>
+      ) : null}
       <div className={styles.playlist_info}>
-        <Image src={cover || defaultImage} width={50} height={50} alt="Playlist cover" priority />
+        <Image
+          src={cover || defaultImage}
+          width={50}
+          height={50}
+          alt="Playlist cover"
+          priority
+        />
         <div>
           <Link href={`playlist/${id}`}>
             <strong>{name}</strong>

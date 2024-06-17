@@ -51,7 +51,7 @@ describe('Login spec', () => {
     cy.get('input[placeholder="Username or Email"]').type('romzianis');
  
     // mengisi password
-    cy.get('input[placeholder="Password"]').type('123456');
+    cy.get('input[placeholder="Password"]').type('152315');
  
     // menekan tombol Login
     cy.get('button').contains(/^Login$/).click();

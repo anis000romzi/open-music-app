@@ -77,7 +77,7 @@ function HeaderBar({ authUser, logOut }) {
                   profileOpen ? styles.show : ''
                 }`}
               >
-                <div className={styles.info}>
+                <Link href="/profile/me" className={styles.info}>
                   <Image
                     src={authUser.picture}
                     width={40}
@@ -88,7 +88,7 @@ function HeaderBar({ authUser, logOut }) {
                     <p>{authUser.fullname}</p>
                     <em>@{authUser.username}</em>
                   </div>
-                </div>
+                </Link>
                 <button onClick={logOut}>
                   <LuLogOut /> <span>Logout</span>
                 </button>

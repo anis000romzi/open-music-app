@@ -1,4 +1,5 @@
 'use client';
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useRouter } from 'next/navigation';
 import AlbumInput from '@/app/_components/inputs/AlbumInput';
@@ -7,6 +8,7 @@ import styles from '../../../_styles/style.module.css';
 
 function NewAlbum() {
   const router = useRouter();
+  const [creating, setCreating] = useState(false);
 
   const authUser = useSelector((state) => state.authUser);
 
@@ -17,6 +19,7 @@ function NewAlbum() {
 
   const addAlbum = async (name, year, file) => {
     try {
+      setCreating(true);
       if (file && file.size > 512000) {
         throw new Error('File is too big');
       }
@@ -28,6 +31,7 @@ function NewAlbum() {
 
       router.push('/');
     } catch (error) {
+      setCreating(false)
       alert(error.message);
     }
   };
@@ -35,7 +39,7 @@ function NewAlbum() {
   return (
     <main className={styles.new_album_page}>
       <h1>New Album</h1>
-      <AlbumInput addAlbum={addAlbum} />
+      <AlbumInput creating={creating} addAlbum={addAlbum} />
     </main>
   );
 }

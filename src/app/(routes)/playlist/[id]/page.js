@@ -10,6 +10,8 @@ import {
   asyncReceivePlaylistDetail,
   asyncEditPlaylistDetail,
   asyncChangeCoverPlaylistDetail,
+  asyncPlaylistDetailLikeSong,
+  asyncDeletePlaylistDetailLikeSong,
   asyncAddPlaylistCollaborator,
   asyncDeletePlaylistCollaborator,
 } from '@/app/_states/playlistDetail/action';
@@ -105,6 +107,14 @@ function PlaylistDetail() {
     if (file) {
       dispatch(asyncChangeCoverPlaylistDetail(playlistDetail.id, file));
     }
+  };
+
+  const handleLikeSong = (id, isLiked) => {
+    dispatch(
+      isLiked
+        ? asyncDeletePlaylistDetailLikeSong(id)
+        : asyncPlaylistDetailLikeSong(id)
+    );
   };
 
   return (
@@ -275,6 +285,8 @@ function PlaylistDetail() {
               onPlayHandler={playTrack}
               playlists={playlists}
               authUser={authUser?.id}
+              onLike={handleLikeSong}
+              onDeleteLike={handleLikeSong}
             />
           </>
         )}

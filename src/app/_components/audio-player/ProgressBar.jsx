@@ -7,8 +7,19 @@ function ProgressBar({ progressBarRef, audioRef, timeProgress, duration }) {
   };
 
   return (
-    <div className={styles.progress} onClick={(event) => event.stopPropagation()}>
-      <span className={`${styles.time} current`}>{formatTime(timeProgress)}</span>
+    <div
+      className={styles.progress}
+      onClick={(event) => event.stopPropagation()}
+    >
+      <span className={`${styles.time} current`}>
+        {formatTime(timeProgress)}
+      </span>
+      <div className={styles.time_mobile}>
+        <span>
+          {formatTime(timeProgress)}
+        </span>
+        <span>{formatTime(duration)}</span>
+      </div>
       <input
         type="range"
         ref={progressBarRef}

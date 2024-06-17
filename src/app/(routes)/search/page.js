@@ -70,15 +70,11 @@ function Search() {
   const playSong = (songId) => {
     dispatch(setNewTracksQueue(songs.filter((song) => song.id === songId)));
     dispatch(setPlayingSongInQueue(songId));
-    dispatch(setIsPlaying());
+    dispatch(setIsPlaying(true));
   };
 
-  const onLike = (id) => {
-    dispatch(asyncLikeSong(id));
-  };
-
-  const onDeleteLike = (id) => {
-    dispatch(asyncDeleteLikeSong(id));
+  const handleLikeSong = (id, isLiked) => {
+    dispatch(isLiked ? asyncDeleteLikeSong(id) : asyncLikeSong(id));
   };
 
   return (
@@ -116,8 +112,8 @@ function Search() {
             onPlayHandler={playSong}
             playlists={playlists}
             authUser={authUser?.id}
-            onLike={onLike}
-            onDeleteLike={onDeleteLike}
+            onLike={handleLikeSong}
+            onDeleteLike={handleLikeSong}
           />
         </section>
       )}

@@ -18,6 +18,32 @@ function userDetailReducer(userDetail = null, action = {}) {
           (id) => id !== action.payload.userId
         ),
       };
+    case ActionType.LIKE_USER_DETAIL_SINGLES:
+      return {
+        ...userDetail,
+        singles: userDetail.singles.map((song) => {
+          if (song.id === action.payload.songId) {
+            return {
+              ...song,
+              likes: song.likes.concat([action.payload.userId]),
+            };
+          }
+          return song;
+        }),
+      };
+    case ActionType.DELETE_LIKE_USER_DETAIL_SINGLES:
+      return {
+        ...userDetail,
+        singles: userDetail.singles.map((song) => {
+          if (song.id === action.payload.songId) {
+            return {
+              ...song,
+              likes: song.likes.filter((id) => id !== action.payload.userId),
+            };
+          }
+          return song;
+        }),
+      };
     default:
       return userDetail;
   }

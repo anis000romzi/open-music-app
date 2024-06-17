@@ -8,7 +8,7 @@ import styles from '../../_styles/input.module.css';
 import modalStyles from '../../_styles/modal.module.css';
 import defaultImage from '../../_assets/default-image.png';
 
-function SongInput({ addSong, ownedAlbums, genres }) {
+function SongInput({ creating, addSong, ownedAlbums, genres }) {
   const [title, onTitleChange] = useInput('');
   const [year, onYearChange] = useInput('');
   const [selectedGenre, onSelectedGenreChange] = useInput('');
@@ -133,20 +133,23 @@ function SongInput({ addSong, ownedAlbums, genres }) {
           </button>
           <button
             type="button"
-            onClick={() =>
-              addSong({
-                title,
-                year,
-                genre: selectedGenre,
-                duration,
-                albumId: selectedAlbum,
-                audio,
-                cover,
-              })
+            onClick={
+              creating
+                ? null
+                : () =>
+                    addSong({
+                      title,
+                      year,
+                      genre: selectedGenre,
+                      duration,
+                      albumId: selectedAlbum,
+                      audio,
+                      cover,
+                    })
             }
             className={styles.create_song}
           >
-            Create Song
+            {creating ? 'Creating...' : 'Create Song'}
           </button>
         </div>
       </form>

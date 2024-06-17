@@ -20,13 +20,13 @@ export default function About() {
           <div className={styles.about_page_contacts}>
             <div>
               <p>Contacts</p>
-              <a href="mailto:someone@example.com" target="_blank">
+              <a href="mailto:anis000romzi@gmail.com" target="_blank">
                 <CiMail /> : <p>anis000romzi@gmail.com</p>
               </a>
             </div>
             <div>
               <p>Source Code</p>
-              <a href="mailto:someone@example.com" target="_blank">
+              <a href="https://github.com/anis000romzi/open-music-app" target="_blank">
                 <IoCodeSlash /> :{' '}
                 <p>https://github.com/anis000romzi/open-music-app</p>
               </a>

@@ -5,7 +5,7 @@ import { FaPen } from 'react-icons/fa6';
 import styles from '../../_styles/input.module.css';
 import defaultImage from '../../_assets/default-image.png';
 
-function AlbumInput({ addAlbum }) {
+function AlbumInput({ creating, addAlbum }) {
   const [name, onNameChange] = useInput('');
   const [year, onYearChange] = useInput('');
   const [file, setFile] = useState(null);
@@ -51,8 +51,8 @@ function AlbumInput({ addAlbum }) {
           onChange={onYearChange}
           placeholder="Year"
         />
-        <button type="button" onClick={() => addAlbum(name, year, file)}>
-          Create Album
+        <button type="button" onClick={creating ? null : () => addAlbum(name, year, file)}>
+          {creating ? 'Creating...' : 'Create Album'}
         </button>
       </div>
     </form>

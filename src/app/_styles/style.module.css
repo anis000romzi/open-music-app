@@ -664,6 +664,10 @@
   gap: 10px;
 }
 
+.profile_info h1 {
+  text-align: center;
+}
+
 .profile_info__name {
   display: flex;
   flex-direction: column;
