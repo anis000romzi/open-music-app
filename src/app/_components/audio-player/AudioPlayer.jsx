@@ -63,8 +63,6 @@ function AudioPlayer() {
     };
   }, [currentlyPlaying.audio]);
 
-  console.log('test')
-
   useEffect(() => {
     setTrackIndex(queue.findIndex((track) => track.id === currentlyPlaying.id));
   }, [currentlyPlaying.id, queue]);
@@ -109,6 +107,8 @@ function AudioPlayer() {
         timeProgress={timeProgress}
         duration={duration}
         audioRef={audioRef}
+        loop={loop}
+        setLoop={setLoop}
         handlePrevious={handlePrevious}
         handleNext={handleNext}
         isPlaying={isPlaying}

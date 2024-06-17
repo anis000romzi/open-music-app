@@ -124,6 +124,10 @@
   font-size: 1.4em;
 }
 
+.detail_track .controls_detail .loop.active {
+  color: #ffe74c;
+}
+
 .detail_track .volume_detail {
   display: flex;
   align-items: center;
@@ -139,6 +143,15 @@
 
 .detail_track .progress_bar_detail .progress {
   width: 80%;
+}
+
+.time_mobile {
+  display: none;
+}
+
+.detail_track .progress_bar_detail .progress .time_mobile {
+  display: flex;
+  justify-content: space-between;
 }
 
 .detail_track_info {
@@ -310,6 +323,10 @@
 
   .progress {
     width: 70%;
+  }
+
+  .time_mobile {
+    display: none;
   }
 
   .music_control {

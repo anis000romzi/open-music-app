@@ -26,6 +26,8 @@ function DetailTrack({
   audioRef,
   handlePrevious,
   handleNext,
+  loop,
+  setLoop,
   isPlaying,
   isDetailOpen,
   setIsDetailOpen,
@@ -84,10 +86,19 @@ function DetailTrack({
               />
             </div>
             <div className={styles.progress_bar_detail}>
-              <ProgressBar progressBarRef={progressBarRef} audioRef={audioRef} timeProgress={timeProgress} duration={duration} />
+              <ProgressBar
+                progressBarRef={progressBarRef}
+                audioRef={audioRef}
+                timeProgress={timeProgress}
+                duration={duration}
+              />
             </div>
             <div className={styles.controls_detail}>
-              <button type="button" className={styles.shuffle} onClick={() => {}}>
+              <button
+                type="button"
+                className={styles.shuffle}
+                onClick={() => {}}
+              >
                 <LuShuffle />
               </button>
               <button type="button" onClick={handlePrevious}>
@@ -99,7 +110,14 @@ function DetailTrack({
               <button type="button" onClick={handleNext}>
                 <BiSkipNext />
               </button>
-              <button type="button" className={styles.loop} onClick={() => {}}>
+              <button
+                type="button"
+                className={`${styles.loop} ${loop ? styles.active : ''}`}
+                onClick={(event) => {
+                  event.stopPropagation();
+                  setLoop((current) => !current);
+                }}
+              >
                 <TfiLoop />
               </button>
             </div>
