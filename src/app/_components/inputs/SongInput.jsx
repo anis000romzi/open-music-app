@@ -23,8 +23,6 @@ function SongInput({ creating, addSong, ownedAlbums, genres }) {
     (album) => album.id === selectedAlbum
   );
 
-  console.log(selectedAlbumInfo)
-
   const openGenreModal = () => setIsGenreModalOpen(true);
   const closeGenreModal = () => setIsGenreModalOpen(false);
   const openAlbumModal = () => setIsAlbumModalOpen(true);
