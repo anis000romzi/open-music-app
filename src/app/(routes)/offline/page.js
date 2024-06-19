@@ -44,7 +44,7 @@ function Offline() {
   const playTrack = (songId) => {
     dispatch(setNewTracksQueue(offlineSongs));
     dispatch(setPlayingSongInQueue(songId));
-    dispatch(setIsPlaying());
+    dispatch(setIsPlaying(true));
   };
 
   return (

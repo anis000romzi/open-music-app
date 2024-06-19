@@ -2,6 +2,7 @@ import api from '@/app/_utils/api';
 
 const ActionType = {
   RECEIVE_PLAYLISTS: 'RECEIVE_PLAYLISTS',
+  CLEAR_PLAYLISTS: 'CLEAR_PLAYLISTS',
   ADD_PLAYLIST: 'ADD_PLAYLIST',
   DELETE_PLAYLIST: 'DELETE_PLAYLIST',
   ADD_SONG_TO_PLAYLIST: 'ADD_SONG_TO_PLAYLIST',
@@ -14,6 +15,12 @@ function receivePlaylistsActionCreator(playlists) {
     payload: {
       playlists,
     },
+  };
+}
+
+function clearPlaylistsActionCreator() {
+  return {
+    type: ActionType.CLEAR_PLAYLISTS,
   };
 }
 
@@ -57,6 +64,7 @@ function deleteSongFromPlaylistActionCreator(playlistId, songId) {
 
 function asyncGetPlaylists() {
   return async (dispatch) => {
+    dispatch(clearPlaylistsActionCreator());
     try {
       const playlists = await api.getPlaylists();
       dispatch(receivePlaylistsActionCreator(playlists));
@@ -68,6 +76,7 @@ function asyncGetPlaylists() {
 
 function asyncGetPopularPlaylists() {
   return async (dispatch) => {
+    dispatch(clearPlaylistsActionCreator());
     try {
       const playlists = await api.getPopularPlaylists();
       dispatch(receivePlaylistsActionCreator(playlists));
