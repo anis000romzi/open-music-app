@@ -36,7 +36,7 @@ export default function About() {
       </div>
       <p className={styles.about_page_research}>
         <em>
-          This web app is for research purpose only - all data collected will be
+          This web app is created for research purpose only - all data collected will be
           kept confidential and used solely for research purposes. By
           participating in this research, you are contributing to the
           advancement of music streaming technology!

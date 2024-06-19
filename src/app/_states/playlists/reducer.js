@@ -4,6 +4,8 @@ function playlistsReducer(playlists = [], action = {}) {
   switch (action.type) {
     case ActionType.RECEIVE_PLAYLISTS:
       return action.payload.playlists;
+    case ActionType.CLEAR_PLAYLISTS:
+      return [];
     case ActionType.DELETE_PLAYLIST:
       return playlists.filter(
         (playlist) => playlist.id !== action.payload.playlistId

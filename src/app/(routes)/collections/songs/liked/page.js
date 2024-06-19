@@ -1,13 +1,8 @@
 'use client';
-// hooks
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-
-// components
 import Image from 'next/image';
 import SongsList from '@/app/_components/songs/SongsList';
-
-// redux actions
 import {
   asyncGetLikedSongs,
   asyncLikeSong,
@@ -19,19 +14,11 @@ import {
   setPlayingSongInQueue,
   setIsPlaying,
 } from '@/app/_states/queue/action';
-
-// utils
 import shuffle from '@/app/_utils/shuffle';
 import { formatTimeString } from '@/app/_utils/time-format';
 import { redirect } from 'next/navigation';
-
-// icons
 import { FaPlay, FaShuffle } from 'react-icons/fa6';
-
-// styles
 import styles from '../../../../_styles/style.module.css';
-
-// assets
 import heart from '../../../../_assets/heart.png';
 
 function LikedSongs() {
@@ -56,17 +43,13 @@ function LikedSongs() {
   const playAllSongs = () => {
     const tracks = shuffleSongs ? shuffle(songs) : songs;
     dispatch(setNewTracksQueue(tracks));
-    dispatch(setIsPlaying());
+    dispatch(setIsPlaying(true));
   };
 
   const playTrack = (songId) => {
     dispatch(setNewTracksQueue(songs));
     dispatch(setPlayingSongInQueue(songId));
-    dispatch(setIsPlaying());
-    localStorage.setItem(
-      'tracks-queue-index',
-      songs.findIndex((track) => track.id === songId)
-    );
+    dispatch(setIsPlaying(true));
   };
 
   const handleLike = (id) => dispatch(asyncLikeSong(id));
