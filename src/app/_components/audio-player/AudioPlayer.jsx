@@ -1,6 +1,7 @@
 'use client';
 import { useRef, useState, useEffect, useCallback, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useRouter, useSearchParams } from 'next/navigation';
 import useOpenNav from '@/app/_hooks/useOpenNav';
 import { CSSTransition } from 'react-transition-group';
 import DisplayTrack from './DisplayTrack';
@@ -16,6 +17,8 @@ import styles from '../../_styles/player.module.css';
 
 function AudioPlayer() {
   const dispatch = useDispatch();
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const { currentlyPlaying = {}, queue = [], isPlaying } = useSelector((state) => state.queue);
   
   const [trackIndex, setTrackIndex] = useState(0);
@@ -31,6 +34,14 @@ function AudioPlayer() {
   const progressBarRef = useRef();
   const progressBarRef2 = useRef();
   const [dropdownRef, dropdownOpen, setDropdownOpen] = useOpenNav();
+
+  useEffect(() => {
+    if (searchParams.get('player') === 'expanded') {
+      setIsDetailOpen(true);
+    } else {
+      setIsDetailOpen(false);
+    }
+  }, [searchParams]);
 
   useEffect(() => {
     const onLoadedMetadata = () => {
@@ -89,7 +100,15 @@ function AudioPlayer() {
   const togglePlayPause = useCallback(() => dispatch(setIsPlaying(!isPlaying)), [dispatch, isPlaying]);
 
   const handleDetailOpen = (e) => {
-    if (e.target.nodeName !== 'INPUT') setIsDetailOpen((prev) => !prev);
+    if (e.target.nodeName !== 'INPUT') {
+      if (isDetailOpen) {
+        setIsDetailOpen(false);
+        router.push('/');
+      } else {
+        setIsDetailOpen(true);
+        router.push('/?player=expanded');
+      }
+    }
   };
 
   const handleSpeedChange = (speed) => {
@@ -113,7 +132,7 @@ function AudioPlayer() {
         handleNext={handleNext}
         isPlaying={isPlaying}
         isDetailOpen={isDetailOpen}
-        setIsDetailOpen={setIsDetailOpen}
+        handleDetailOpen={handleDetailOpen}
         queue={queue}
         deleteTrackFromQueue={(songId) => dispatch(deleteSongFromQueue(songId))}
         togglePlayPause={togglePlayPause}
