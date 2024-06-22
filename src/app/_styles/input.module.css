@@ -323,7 +323,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 70%;
+  width: 80%;
   gap: 5px;
 }
 
@@ -362,12 +362,12 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 70%;
+  width: 80%;
   gap: 5px;
 }
 
 .forgot_password_input input {
-  width: 80%;
+  width: 100%;
   height: 50px;
   font-size: 1em;
   border: none;
@@ -430,6 +430,10 @@
   }
 
   .forgot_password_input {
+    width: 50%;
+  }
+
+  .verification_input {
     width: 50%;
   }
 }

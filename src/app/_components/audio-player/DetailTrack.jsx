@@ -17,6 +17,7 @@ import { TfiLoop } from 'react-icons/tfi';
 import { LuShuffle } from 'react-icons/lu';
 import styles from '../../_styles/player.module.css';
 import defaultImage from '../../_assets/default-image.png';
+import { useEffect } from 'react';
 
 function DetailTrack({
   currentlyPlaying,
@@ -30,7 +31,7 @@ function DetailTrack({
   setLoop,
   isPlaying,
   isDetailOpen,
-  setIsDetailOpen,
+  handleDetailOpen,
   queue,
   deleteTrackFromQueue,
   togglePlayPause,
@@ -43,6 +44,10 @@ function DetailTrack({
     dispatch(setIsPlaying(true));
   };
 
+  useEffect(() => {
+    if (progressBarRef.current) progressBarRef.current.max = duration;
+  }, [progressBarRef.current, duration]);
+
   return (
     <div
       onClick={(event) => event.stopPropagation()}
@@ -51,7 +56,7 @@ function DetailTrack({
       <button
         className={styles.close_detail}
         type="button"
-        onClick={() => setIsDetailOpen(false)}
+        onClick={handleDetailOpen}
       >
         <FaAngleDown />
       </button>

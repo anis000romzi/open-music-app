@@ -1,8 +1,9 @@
 'use client';
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { usePathname, useSearchParams, useRouter } from 'next/navigation';
 import useInput from '@/app/_hooks/useInput';
+import Link from 'next/link';
 import SongsList from '@/app/_components/songs/SongsList';
 import AlbumsList from '@/app/_components/albums/AlbumsList';
 import ArtistsList from '@/app/_components/artists/ArtistsList';
@@ -19,6 +20,7 @@ import {
   setPlayingSongInQueue,
   setIsPlaying,
 } from '@/app/_states/queue/action';
+import api from '@/app/_utils/api';
 import { FaSearch } from 'react-icons/fa';
 import styles from '../../_styles/style.module.css';
 import inputStyles from '../../_styles/input.module.css';
@@ -34,7 +36,17 @@ function Search() {
   const users = useSelector((state) => state.users);
   const playlists = useSelector((state) => state.playlists);
   const authUser = useSelector((state) => state.authUser);
+  const [genres, setGenres] = useState([]);
   const [keyword, onKeywordChange] = useInput(searchParams.get('query') || '');
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const genres = await api.getGenres();
+      setGenres(genres);
+    };
+
+    fetchData();
+  }, []);
 
   useEffect(() => {
     if (authUser) {
@@ -92,30 +104,42 @@ function Search() {
           <FaSearch />
         </button>
       </form>
-      {albums.length > 0 && (
-        <section>
-          <h2>Albums</h2>
-          <AlbumsList albums={albums} />
-        </section>
-      )}
-      {users.length > 0 && (
-        <section>
-          <h2>Artists</h2>
-          <ArtistsList artists={users} />
-        </section>
-      )}
-      {songs.length > 0 && (
-        <section>
-          <h2>Songs</h2>
-          <SongsList
-            songs={songs}
-            onPlayHandler={playSong}
-            playlists={playlists}
-            authUser={authUser?.id}
-            onLike={handleLikeSong}
-            onDeleteLike={handleLikeSong}
-          />
-        </section>
+      {albums.length === 0 && users.length === 0 && songs.length === 0 ? (
+        <div className={styles.genre_list}>
+          {genres.map((genre) => (
+            <Link key={genre.id} href={`/song/${genre.name}`}>
+              <div>{genre.name}</div>
+            </Link>
+          ))}
+        </div>
+      ) : (
+        <>
+          {albums.length > 0 && (
+            <section>
+              <h2>Albums</h2>
+              <AlbumsList albums={albums} />
+            </section>
+          )}
+          {users.length > 0 && (
+            <section>
+              <h2>Artists</h2>
+              <ArtistsList artists={users} />
+            </section>
+          )}
+          {songs.length > 0 && (
+            <section>
+              <h2>Songs</h2>
+              <SongsList
+                songs={songs}
+                onPlayHandler={playSong}
+                playlists={playlists}
+                authUser={authUser?.id}
+                onLike={handleLikeSong}
+                onDeleteLike={handleLikeSong}
+              />
+            </section>
+          )}
+        </>
       )}
     </main>
   );
