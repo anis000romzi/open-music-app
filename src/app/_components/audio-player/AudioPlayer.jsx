@@ -1,7 +1,7 @@
 'use client';
 import { useRef, useState, useEffect, useCallback, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import useOpenNav from '@/app/_hooks/useOpenNav';
 import { CSSTransition } from 'react-transition-group';
 import DisplayTrack from './DisplayTrack';
@@ -19,6 +19,7 @@ function AudioPlayer() {
   const dispatch = useDispatch();
   const router = useRouter();
   const searchParams = useSearchParams();
+  const pathname = usePathname();
   const { currentlyPlaying = {}, queue = [], isPlaying } = useSelector((state) => state.queue);
   
   const [trackIndex, setTrackIndex] = useState(0);
@@ -103,10 +104,10 @@ function AudioPlayer() {
     if (e.target.nodeName !== 'INPUT') {
       if (isDetailOpen) {
         setIsDetailOpen(false);
-        router.push('/');
+        router.back();
       } else {
         setIsDetailOpen(true);
-        router.push('/?player=expanded');
+        router.push(`${pathname}?player=expanded`);
       }
     }
   };
