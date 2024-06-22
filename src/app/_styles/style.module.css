@@ -898,12 +898,32 @@
   text-overflow: ellipsis;
 }
 
+.search_page .genre_list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.search_page .genre_list a {
+  padding: 20px 10px;
+  font-size: 1em;
+  width: 40%;
+  border-radius: 10px;
+  background-color: #212121;
+}
+
 .search_page section {
   padding: 20px 0;
 }
 
 .search_page section h2 {
   padding: 0 16px;
+}
+
+.song_by_genre_page h1 {
+  padding: 20px;
 }
 
 .about_page {
@@ -978,6 +998,12 @@
 
 .about_page .about_page_links div a p {
   font-size: 0.8em;
+}
+
+@media screen and (min-width: 600px) {
+  .search_page .genre_list a {
+    width: 30%;
+  }
 }
 
 @media screen and (min-width: 750px) {
