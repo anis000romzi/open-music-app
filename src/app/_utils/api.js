@@ -1,5 +1,5 @@
 const api = (() => {
-  const BASE_URL = 'https://api.myfreetunes.xyz';
+  const BASE_URL = 'http://localhost:5000';
   let accessToken = null;
 
   function putRefreshToken(token) {
@@ -693,6 +693,42 @@ const api = (() => {
     }
   }
 
+  async function addHistory(songId) {
+    const response = await _fetchWithAuth(`${BASE_URL}/history`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        songId
+      }),
+    });
+
+    const responseJson = await response.json();
+    const { status, message } = responseJson;
+
+    if (status !== 'success') {
+      throw new Error(message);
+    }
+  }
+
+  async function getHistory() {
+    const response = await _fetchWithAuth(`${BASE_URL}/history`);
+
+    const responseJson = await response.json();
+    const { status, message } = responseJson;
+
+    if (status !== 'success') {
+      throw new Error(message);
+    }
+
+    const {
+      data: { history },
+    } = responseJson;
+
+    return history;
+  }
+
   async function createAlbum(name, year) {
     const response = await _fetchWithAuth(`${BASE_URL}/albums`, {
       method: 'POST',
@@ -1154,6 +1190,8 @@ const api = (() => {
     getOwnedSingles,
     likeSong,
     deleteLikeSong,
+    addHistory,
+    getHistory,
     createAlbum,
     editAlbum,
     deleteAlbum,

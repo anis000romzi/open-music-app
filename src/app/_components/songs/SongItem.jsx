@@ -19,8 +19,7 @@ function SongItem({
   title,
   artist_id,
   artist,
-  album_id,
-  album,
+  listened,
   audio,
   duration,
   likes,
@@ -91,7 +90,7 @@ function SongItem({
       onClick={() => onPlay(id)}
     >
       <div className={styles.song_info}>
-        <Image src={cover || defaultImage} width={50} height={50} alt="Album cover" priority />
+        <Image src={cover || defaultImage} width={50} height={50} alt="Song cover" priority />
         <div>
           <strong>{title}</strong>
           <Link href={`/artist/${artist_id}`} onClick={(event) => event.stopPropagation()}>
@@ -100,7 +99,7 @@ function SongItem({
         </div>
       </div>
       <p className={styles.song_album}>
-        {album || 'single'}
+        {listened}x listened
       </p>
       <p className={styles.song_duration}>{formatTime(duration)}</p>
       <div className={styles.song_buttons} onClick={(event) => event.stopPropagation()}>

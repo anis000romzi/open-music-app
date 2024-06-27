@@ -354,12 +354,14 @@ function PlaylistDetail() {
               return (
                 <div key={collaborator.id}>
                   <p>@{collaborator.username}</p>
-                  <button
-                    type="button"
-                    onClick={() => deleteCollaborator(collaborator.id)}
-                  >
-                    delete
-                  </button>
+                  {playlistDetail.ownerId === authUser?.id && (
+                    <button
+                      type="button"
+                      onClick={() => deleteCollaborator(collaborator.id)}
+                    >
+                      delete
+                    </button>
+                  )}
                 </div>
               );
             })}

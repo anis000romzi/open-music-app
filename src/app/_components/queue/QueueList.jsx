@@ -1,5 +1,5 @@
 import QueueItem from './QueueItem';
-import styles from '../../_styles/track.module.css'
+import styles from '../../_styles/queue.module.css'
 
 function QueueList({
   queue,
@@ -8,12 +8,12 @@ function QueueList({
   currentlyPlaying,
 }) {
   return (
-    <div className={styles.track_list}>
+    <div className={styles.queue_list}>
       {queue &&
-        queue.map((track) => (
+        queue.map((queue) => (
           <QueueItem
-            key={track.id}
-            {...track}
+            key={queue.id}
+            {...queue}
             onPlay={onPlayHandler}
             onDelete={onDeleteHandler}
             currentlyPlaying={currentlyPlaying}

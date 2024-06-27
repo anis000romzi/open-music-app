@@ -123,9 +123,11 @@
   .song_item .song_album {
     display: inline-block;
     width: 20%;
+    color: #978e8e;
   }
   
   .song_item .song_duration {
     display: inline-block;
+    color: #978e8e;
   }
 }

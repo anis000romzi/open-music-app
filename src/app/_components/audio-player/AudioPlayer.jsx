@@ -10,6 +10,7 @@ import ProgressBar from './ProgressBar';
 import Controls from './Control';
 import Volume from './Volume';
 import { setPlayingSongInQueue, setIsPlaying, deleteSongFromQueue } from '@/app/_states/queue/action';
+import api from '@/app/_utils/api';
 import { LuSettings } from 'react-icons/lu';
 import { RiSpeedLine } from 'react-icons/ri';
 import { FaAngleLeft } from 'react-icons/fa6';
@@ -43,6 +44,16 @@ function AudioPlayer() {
       setIsDetailOpen(false);
     }
   }, [searchParams]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (currentlyPlaying.id) {
+        await api.addHistory(currentlyPlaying.id);
+      }
+    };
+
+    fetchData(); 
+  }, [currentlyPlaying]);
 
   useEffect(() => {
     const onLoadedMetadata = () => {
