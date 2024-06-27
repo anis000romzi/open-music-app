@@ -21,6 +21,7 @@ import { RiPlayListAddFill } from 'react-icons/ri';
 import styles from '../../_styles/style.module.css';
 import modalStyles from '../../_styles/modal.module.css';
 import heart from '../../_assets/heart.png';
+import history from '../../_assets/history.png';
 
 function Collections() {
   const dispatch = useDispatch();
@@ -67,6 +68,18 @@ function Collections() {
     <>
       <main className={styles.collection_page}>
         <h1 className={styles.your_collection}>Your Collection</h1>
+        {/* <section className={styles.liked_songs}>
+          <Image
+            src={history}
+            width={70}
+            height={70}
+            alt="History"
+            priority
+          />
+          <Link href={`collections/songs/liked`}>
+            <strong>History</strong>
+          </Link>
+        </section> */}
         <section className={styles.liked_songs}>
           <Image
             src={heart}

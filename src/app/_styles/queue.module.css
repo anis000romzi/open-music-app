@@ -1,29 +1,39 @@
-.track_list {
+.queue_list {
   display: flex;
   flex-direction: column;
-  padding: 10px 20px;
+  padding: 10px;
   gap: 5px;
+  max-height: 70vh;
+  overflow: auto;
 }
 
-.track_item {
+.queue_item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 0;
+  padding: 10px;
 }
 
-.track_info strong {
+.queue_item.playing {
+  background-color: #232323;
+}
+
+.queue_item.playing .queue_info strong {
+  color: #ffe74c;
+}
+
+.queue_info strong {
   font-size: 1.1em;
 }
 
-.track_info p {
+.queue_info p {
   color: #978e8e;
   font-size: 0.9em;
   overflow: hidden;
   white-space: nowrap;
 }
 
-.track_item button {
+.queue_item button {
   font-size: 20px;
   background-color: transparent;
   border: 0;
@@ -36,7 +46,7 @@
 }
 
 @media screen and (min-width: 700px) {
-  .track_list {
+  .queue_list {
     width: 100%;
   }
 }

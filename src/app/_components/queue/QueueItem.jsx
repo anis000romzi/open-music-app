@@ -1,10 +1,10 @@
 import { AiOutlineClose } from 'react-icons/ai';
-import styles from '../../_styles/track.module.css';
+import styles from '../../_styles/queue.module.css';
 
 function QueueItem({ id, title, artist, onPlay, onDelete, currentlyPlaying }) {
   return (
-    <div className={styles.track_item} onClick={() => onPlay(id)}>
-      <div className={styles.track_info}>
+    <div className={`${styles.queue_item} ${currentlyPlaying.id === id ? styles.playing : ''}`} onClick={() => onPlay(id)}>
+      <div className={styles.queue_info}>
         <strong>{title}</strong>
         <p>{artist}</p>
       </div>

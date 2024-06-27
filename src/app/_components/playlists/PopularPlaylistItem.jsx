@@ -17,7 +17,7 @@ function PopularPlaylistItem({ id, username, name, owner, cover }) {
         />
       </Link>
       <p>{name}</p>
-      <Link href={`/artist/${owner}`}>{username}</Link>
+      <Link href={`/artist/${owner}`}>@{username}</Link>
     </div>
   );
 }

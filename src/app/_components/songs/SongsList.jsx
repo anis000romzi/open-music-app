@@ -1,18 +1,9 @@
-// hooks
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-
-// components
 import Modal from '../Modal';
 import SongItem from './SongItem';
-
-// redux actions
 import { asyncAddSongToPlaylist, asyncDeleteSongFromPlaylist } from '@/app/_states/playlists/action';
-
-// icons
 import { BsCheckSquareFill, BsSquare } from 'react-icons/bs';
-
-// styles
 import styles from '../../_styles/song.module.css';
 import modalStyles from '../../_styles/modal.module.css';
 
