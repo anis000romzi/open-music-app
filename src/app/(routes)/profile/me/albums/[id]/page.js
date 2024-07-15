@@ -10,6 +10,7 @@ import {
   asyncDeleteSongFromAlbum,
   asyncAddSongsToAlbum,
 } from '@/app/_states/albumDetail/action';
+import { toast } from 'react-toastify';
 import api from '@/app/_utils/api';
 import { FaRegTrashCan } from "react-icons/fa6";
 import styles from '../../../../../_styles/style.module.css';
@@ -37,7 +38,7 @@ function EditAlbumDetail() {
       setCheckedState(new Array(songs.length).fill(false));
       setIsModalOpen(true);
     } catch (error) {
-      alert(error.message);
+      toast.error(error.message);
     }
   };
 

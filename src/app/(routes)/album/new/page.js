@@ -2,7 +2,9 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import AlbumInput from '@/app/_components/inputs/AlbumInput';
+import { toast } from 'react-toastify';
 import api from '@/app/_utils/api';
 import styles from '../../../_styles/style.module.css';
 
@@ -30,9 +32,10 @@ function NewAlbum() {
       }
 
       router.push('/');
+      toast.success(<Link href={`/album/${albumId}`} style={{ textDecoration: 'underline' }}>Album created: {name}</Link>);
     } catch (error) {
       setCreating(false)
-      alert(error.message);
+      toast.error(error.message);
     }
   };
 

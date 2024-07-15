@@ -1,3 +1,4 @@
+import { toast } from 'react-toastify';
 import api from '@/app/_utils/api';
 
 const ActionType = {
@@ -89,7 +90,7 @@ function asyncReceiveAlbumDetail(albumId) {
       const albumDetail = await api.getAlbumById(albumId);
       dispatch(receiveAlbumDetailActionCreator(albumDetail));
     } catch (error) {
-      alert(error.message);
+      toast.error(error.message);
     }
   };
 }
@@ -101,7 +102,7 @@ function asyncLikeAlbumDetail(albumId) {
     try {
       await api.likeAlbum(albumId);
     } catch (error) {
-      alert(error.message);
+      toast.error(error.message);
       dispatch(deleteLikeAlbumDetailActionCreator(authUser.id));
     }
   };
@@ -114,7 +115,7 @@ function asyncDeleteLikeAlbumDetail(albumId) {
     try {
       await api.deleteLikeAlbum(albumId);
     } catch (error) {
-      alert(error.message);
+      toast.error(error.message);
       dispatch(likeAlbumDetailActionCreator(authUser.id));
     }
   };
@@ -127,7 +128,7 @@ function asyncAlbumDetailLikeSong(songId) {
     try {
       await api.likeSong(songId);
     } catch (error) {
-      alert(error.message);
+      toast.error(error.message);
       dispatch(deleteAlbumDetailLikeSongActionCreator(songId, authUser.id));
     }
   };
@@ -140,7 +141,7 @@ function asyncDeleteAlbumDetailLikeSong(songId) {
     try {
       await api.deleteLikeSong(songId);
     } catch (error) {
-      alert(error.message);
+      toast.error(error.message);
       dispatch(likeAlbumDetailSongActionCreator(songId, authUser.id));
     }
   };
@@ -162,7 +163,7 @@ function asyncDeleteSongFromAlbum(songId) {
       });
       dispatch(deleteSongFromAlbumActionCreator(songId));
     } catch (error) {
-      alert(error.message);
+      toast.error(error.message);
     }
   };
 }
@@ -186,7 +187,7 @@ function asyncAddSongsToAlbum(songs) {
       );
       dispatch(addSongsToAlbumActionCreator(songs));
     } catch (error) {
-      alert(error.message);
+      toast.error(error.message);
     }
   };
 }

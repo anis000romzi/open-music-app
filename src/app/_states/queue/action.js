@@ -1,3 +1,4 @@
+import { toast } from "react-toastify";
 const ActionType = {
   RECEIVE_QUEUE: 'RECEIVE_QUEUE',
   SET_PLAYING_SONG_IN_QUEUE: 'SET_PLAYING_SONG_IN_QUEUE',
@@ -52,7 +53,7 @@ function setNewTracksQueue(queue) {
         })
       );
     } catch (error) {
-      alert(error.message);
+      toast.error(error.message);
     }
   };
 }
@@ -62,7 +63,7 @@ function setPlayingSongInQueue(songId) {
     try {
       dispatch(setPlayingSongInQueueActionCreator(songId));
     } catch (error) {
-      alert(error.message);
+      toast.error(error.message);
     }
   };
 }
@@ -72,7 +73,7 @@ function deleteSongFromQueue(songId) {
     try {
       dispatch(deleteSongFromQueueActionCreator(songId));
     } catch (error) {
-      alert(error.message);
+      toast.error(error.message);
     }
   };
 }
@@ -82,7 +83,7 @@ function setIsPlaying(status) {
     try {
       dispatch(setIsPlayingActionCreator(status));
     } catch (error) {
-      alert(error.message);
+      toast.error(error.message);
     }
   };
 }

@@ -1,3 +1,4 @@
+import { toast } from 'react-toastify';
 import api from '@/app/_utils/api';
 
 const ActionType = {
@@ -69,7 +70,7 @@ function asyncReceiveUserDetail(userId) {
       const userDetail = await api.getUserById(userId);
       dispatch(receiveUserDetailActionCreator(userDetail));
     } catch (error) {
-      alert(error.message);
+      toast.error(error.message);
     }
   };
 }
@@ -81,7 +82,7 @@ function asyncFollowUserDetail(userId) {
     try {
       await api.followUser(userId);
     } catch (error) {
-      alert(error.message);
+      toast.error(error.message);
       dispatch(unfollowUserDetailActionCreator(authUser.id));
     }
   };
@@ -94,7 +95,7 @@ function asyncUnfollowUserDetail(userId) {
     try {
       await api.unfollowUser(userId);
     } catch (error) {
-      alert(error.message);
+      toast.error(error.message);
       dispatch(followUserDetailActionCreator(authUser.id));
     }
   };
@@ -107,7 +108,7 @@ function asyncUserDetailLikeSingle(songId) {
     try {
       await api.likeSong(songId);
     } catch (error) {
-      alert(error.message);
+      toast.error(error.message);
       dispatch(deleteUserDetailLikeSingleActionCreator(songId, authUser.id));
     }
   };
@@ -120,7 +121,7 @@ function asyncDeleteUserDetailLikeSingle(songId) {
     try {
       await api.deleteLikeSong(songId);
     } catch (error) {
-      alert(error.message);
+      toast.error(error.message);
       dispatch(likeUserDetailSingleActionCreator(songId, authUser.id));
     }
   };
