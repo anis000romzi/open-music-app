@@ -2,6 +2,7 @@
 import Link from 'next/link';
 import { useDispatch } from 'react-redux';
 import { asyncSetAuthUser } from '@/app/_states/authUser/action';
+import { toast } from 'react-toastify';
 import api from '@/app/_utils/api';
 import RegisterInput from '@/app/_components/inputs/RegisterInput';
 import styles from '../../_styles/style.module.css';
@@ -14,7 +15,7 @@ function Register() {
       await api.register({ email, username, fullname, password });
       dispatch(asyncSetAuthUser({ usernameOrEmail: email, password }));
     } catch (error) {
-      alert(error.message);
+      toast.error(error.message);
     }
   };
 

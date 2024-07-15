@@ -1,5 +1,5 @@
 import QueueItem from './QueueItem';
-import styles from '../../_styles/queue.module.css'
+import styles from '../../_styles/queue.module.css';
 
 function QueueList({
   queue,

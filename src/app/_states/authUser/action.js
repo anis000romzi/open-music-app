@@ -1,3 +1,4 @@
+import { toast } from 'react-toastify';
 import api from '@/app/_utils/api';
 
 const ActionType = {
@@ -73,7 +74,7 @@ function asyncSetAuthUser({ usernameOrEmail, password }) {
 
       dispatch(setAuthUserActionCreator(authUser));
     } catch (error) {
-      alert(error.message);
+      toast.error(error.message);
     }
   };
 }
@@ -87,7 +88,7 @@ function asyncUnsetAuthUser() {
       dispatch(unsetAuthUserActionCreator());
       api.putRefreshToken('');
     } catch (error) {
-      alert(error.message);
+      toast.error(error.message);
     }
   };
 }
@@ -96,11 +97,11 @@ function asyncActivateUser(userId, otp) {
   return async (dispatch) => {
     try {
       const message = await api.activateUser(userId, otp);
-      alert(message);
+      toast.success(message);
 
       dispatch(activateAuthUserActionCreator(userId));
     } catch (error) {
-      alert(error.message);
+      toast.error(error.message);
     }
   };
 }
@@ -112,7 +113,7 @@ function asyncChangeEmailUser(userId, email) {
 
       dispatch(changeEmailAuthUserActionCreator(email));
     } catch (error) {
-      alert(error.message);
+      toast.error(error.message);
     }
   };
 }
@@ -124,7 +125,7 @@ function asyncEditAuthUser({ id, fullname, description }) {
 
       dispatch(editAuthUserActionCreator(fullname, description));
     } catch (error) {
-      alert(error.message);
+      toast.error(error.message);
     }
   };
 }
@@ -136,7 +137,7 @@ function asyncChangePictureAuthUser(id, file) {
 
       dispatch(changePictureAuthUserActionCreator(fileLocation));
     } catch (error) {
-      alert(error.message);
+      toast.error(error.message);
     }
   };
 }

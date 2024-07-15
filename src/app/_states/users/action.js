@@ -1,3 +1,4 @@
+import { toast } from 'react-toastify';
 import api from '@/app/_utils/api';
 
 const ActionType = {
@@ -26,7 +27,7 @@ function asyncGetUsers(query) {
       const artists = await api.getUsers(query);
       dispatch(receiveUsersActionCreator(artists));
     } catch (error) {
-      alert(error.message);
+      toast.error(error.message);
     }
   };
 }
@@ -38,7 +39,7 @@ function asyncGetPopularArtists() {
       const artists = await api.getPopularArtists();
       dispatch(receiveUsersActionCreator(artists));
     } catch (error) {
-      alert(error.message);
+      toast.error(error.message);
     }
   };
 }
@@ -50,7 +51,7 @@ function asyncGetFollowedArtists() {
       const artists = await api.getFollowedArtists();
       dispatch(receiveUsersActionCreator(artists));
     } catch (error) {
-      alert(error.message);
+      toast.error(error.message);
     }
   };
 }
@@ -60,7 +61,7 @@ function asyncRegisterUser({ email, username, fullname, password }) {
     try {
       await api.register({ email, username, fullname, password });
     } catch (error) {
-      alert(error.message);
+      toast.error(error.message);
     }
   };
 }

@@ -1,29 +1,18 @@
 'use client';
-// hooks
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import useInput from '@/app/_hooks/useInput';
-
-// components
 import Image from 'next/image';
 import Link from 'next/link';
-
-// redux actions
 import {
   asyncEditAuthUser,
   asyncChangePictureAuthUser,
 } from '@/app/_states/authUser/action';
 import { asyncGetOwnedSongs } from '@/app/_states/songs/action';
 import { asyncGetOwnedAlbums } from '@/app/_states/albums/action';
-
-//utils
 import { redirect } from 'next/navigation';
-
-// icons
 import { FaPen } from 'react-icons/fa6';
 import { FaChartSimple } from 'react-icons/fa6';
-
-//styles
 import styles from '../../../_styles/style.module.css';
 
 function Profile() {
@@ -131,12 +120,16 @@ function Profile() {
           </div>
         </Link>
       </div>
-      {/* <div className={styles.statistics}>
+      <div className={styles.statistics}>
         <div>
-          <FaChartSimple />
-          <h2>Statistics</h2>
+          <h2>
+            <FaChartSimple /> Statistics
+          </h2>
+          <span>{authUser.followers.length} followers</span>
+          <span>{authUser.listenedCount} total listeners</span>
+          <span>{authUser.likedCount} total likes</span>
         </div>
-      </div> */}
+      </div>
     </main>
   );
 }

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import useInput from '../../_hooks/useInput';
 import Image from 'next/image';
 import Modal from '../Modal';
+import { FileUploader } from 'react-drag-drop-files';
 import { FaPen } from 'react-icons/fa6';
 import { LuFileAudio } from 'react-icons/lu';
 import styles from '../../_styles/input.module.css';
@@ -28,10 +29,8 @@ function SongInput({ creating, addSong, ownedAlbums, genres }) {
   const openAlbumModal = () => setIsAlbumModalOpen(true);
   const closeAlbumModal = () => setIsAlbumModalOpen(false);
 
-  const handleAudioChange = (event) => {
-    if (event.target.files) {
-      setAudio(event.target.files[0]);
-    }
+  const handleAudioChange = (file) => {
+    setAudio(file);
   };
 
   const handleCoverChange = (event) => {
@@ -64,6 +63,7 @@ function SongInput({ creating, addSong, ownedAlbums, genres }) {
             width={200}
             height={200}
             alt="Song cover"
+            priority
           />
           <div className={styles.overlay}>
             <div className={styles.text}>
@@ -94,17 +94,19 @@ function SongInput({ creating, addSong, ownedAlbums, genres }) {
               ? 'Select Genre'
               : genres.find((genre) => genre.id === selectedGenre).name}
           </button>
-          <input
-            type="file"
-            id="audio"
-            name="audio"
-            style={{ display: 'none' }}
-            onChange={handleAudioChange}
-            accept=".mp3, .ogg, .wav, .opus, .aac|audio/*"
-          />
-          <label className={styles.audio_input} htmlFor="audio">
-            <LuFileAudio /> {audio ? audio.name : 'Choose audio file'}
-          </label>
+          <div className={styles.audio_input} htmlFor="audio">
+            <FileUploader
+              handleChange={handleAudioChange}
+              types={['MP3', 'OGG', 'WAV', 'OPUS']}
+            >
+              <div className={styles.audio_input_label} htmlFor="audio">
+                <span>
+                  <LuFileAudio />{' '}
+                  {audio ? audio.name : 'Choose audio file (max 100mb)'}
+                </span>
+              </div>
+            </FileUploader>
+          </div>
           <button
             type="button"
             onClick={openAlbumModal}

@@ -1,3 +1,4 @@
+import { toast } from 'react-toastify';
 import api from '@/app/_utils/api';
 
 const ActionType = {
@@ -59,7 +60,7 @@ function asyncGetAlbums(name) {
       const albums = await api.getAlbums(name);
       dispatch(receiveAlbumsActionCreator(albums));
     } catch (error) {
-      alert(error.message);
+      toast.error(error.message);
     }
   };
 }
@@ -71,7 +72,7 @@ function asyncGetPopularAlbums() {
       const albums = await api.getPopularAlbums();
       dispatch(receiveAlbumsActionCreator(albums));
     } catch (error) {
-      alert(error.message);
+      toast.error(error.message);
     }
   };
 }
@@ -83,7 +84,7 @@ function asyncGetLikedAlbums() {
       const albums = await api.getLikedAlbums();
       dispatch(receiveAlbumsActionCreator(albums));
     } catch (error) {
-      alert(error.message);
+      toast.error(error.message);
     }
   };
 }
@@ -95,7 +96,7 @@ function asyncGetOwnedAlbums() {
       const albums = await api.getOwnedAlbums();
       dispatch(receiveAlbumsActionCreator(albums));
     } catch (error) {
-      alert(error.message);
+      toast.error(error.message);
     }
   };
 }
@@ -106,7 +107,7 @@ function asyncEditAlbum({ id, name, year }) {
       await api.editAlbum({ id, name, year });
       dispatch(editAlbumsActionCreator({ id, name, year }));
     } catch (error) {
-      alert(error.message);
+      toast.error(error.message);
     }
   };
 }
@@ -117,7 +118,7 @@ function asyncDeleteAlbum(id) {
       await api.deleteAlbum(id);
       dispatch(deleteAlbumsActionCreator(id));
     } catch (error) {
-      alert(error.message);
+      toast.error(error.message);
     }
   };
 }
@@ -129,7 +130,7 @@ function asyncChangeCoverAlbums(id, file) {
 
       dispatch(changeCoverAlbumsActionCreator(id, fileLocation));
     } catch (error) {
-      alert(error.message);
+      toast.error(error.message);
     }
   };
 }

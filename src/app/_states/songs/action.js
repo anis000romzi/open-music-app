@@ -1,3 +1,4 @@
+import { toast } from 'react-toastify';
 import api from '@/app/_utils/api';
 
 const ActionType = {
@@ -96,7 +97,7 @@ function asyncGetSongs(title) {
       const songs = await api.getSongs(title);
       dispatch(receiveSongsActionCreator(songs));
     } catch (error) {
-      alert(error.message);
+      toast.error(error.message);
     }
   };
 }
@@ -108,7 +109,7 @@ function asyncGetSongsByGenre(genre) {
       const songs = await api.getSongsByGenre(genre);
       dispatch(receiveSongsActionCreator(songs));
     } catch (error) {
-      alert(error.message);
+      toast.error(error.message);
     }
   };
 }
@@ -120,7 +121,7 @@ function asyncGetLikedSongs() {
       const songs = await api.getLikedSongs();
       dispatch(receiveSongsActionCreator(songs));
     } catch (error) {
-      alert(error.message);
+      toast.error(error.message);
     }
   };
 }
@@ -132,7 +133,7 @@ function asyncGetOwnedSongs() {
       const songs = await api.getOwnedSongs();
       dispatch(receiveSongsActionCreator(songs));
     } catch (error) {
-      alert(error.message);
+      toast.error(error.message);
     }
   };
 }
@@ -144,7 +145,7 @@ function asyncLikeSong(songId) {
     try {
       await api.likeSong(songId);
     } catch (error) {
-      alert(error.message);
+      toast.error(error.message);
       dispatch(deleteLikeSongActionCreator(songId, authUser.id));
     }
   };
@@ -157,7 +158,7 @@ function asyncDeleteLikeSong(songId) {
     try {
       await api.deleteLikeSong(songId);
     } catch (error) {
-      alert(error.message);
+      toast.error(error.message);
       dispatch(likeSongActionCreator(songId, authUser.id));
     }
   };
@@ -196,7 +197,7 @@ function asyncEditSong({
         })
       );
     } catch (error) {
-      alert(error.message);
+      toast.error(error.message);
     }
   };
 }
@@ -207,7 +208,7 @@ function asyncDeleteSong(id) {
       await api.deleteSong(id);
       dispatch(deleteSongsActionCreator(id));
     } catch (error) {
-      alert(error.message);
+      toast.error(error.message);
     }
   };
 }
@@ -219,7 +220,7 @@ function asyncChangeCoverSongs(id, file) {
 
       dispatch(changeCoverSongsActionCreator(id, fileLocation));
     } catch (error) {
-      alert(error.message);
+      toast.error(error.message);
     }
   };
 }

@@ -304,7 +304,7 @@
   margin-top: 5px;
   border: #ffe74c 1px solid;
   font-size: 1em;
-  width: 35%;
+  width: 40%;
   font-weight: bold;
   font-family: inherit;
   border-radius: 10px;
@@ -781,6 +781,7 @@
 
 .profile_page .statistics > div {
   display: flex;
+  flex-direction: column;
   align-items: center;
   gap: 10px;
 }
@@ -1012,6 +1013,10 @@
 
   .register_page {
     padding-left: 0;
+  }
+
+  .activate_page > .activate_page__send {
+    width: 25%;
   }
 
   .forgot_password_page {

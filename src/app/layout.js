@@ -3,6 +3,8 @@ import { ReduxProvider } from './ReduxProvider';
 import ProgressBarProvider from './ProgressBarProvider';
 import AudioPlayerWrapper from './_components/audio-player/AudioPlayerWrapper';
 import AuthWrapper from './_components/AuthWrapper';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.min.css';
 import './globals.css';
 
 const outfit = Outfit({ subsets: ['latin'] });
@@ -24,6 +26,18 @@ export default function RootLayout({ children }) {
               <AudioPlayerWrapper />
             </AuthWrapper>
           </ProgressBarProvider>
+          <ToastContainer
+            position="bottom-left"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="dark"
+          />
         </body>
       </html>
     </ReduxProvider>

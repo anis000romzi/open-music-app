@@ -1,3 +1,4 @@
+import { toast } from 'react-toastify';
 import api from '@/app/_utils/api';
 
 const ActionType = {
@@ -94,7 +95,7 @@ function asyncReceivePlaylistDetail(playlistId) {
       const playlistDetail = await api.getPlaylistById(playlistId);
       dispatch(receivePlaylistDetailActionCreator(playlistDetail));
     } catch (error) {
-      alert(error.message);
+      toast.error(error.message);
     }
   };
 }
@@ -105,7 +106,7 @@ function asyncEditPlaylistDetail({ playlistId, name, isPublic }) {
       await api.editPlaylist({ id: playlistId, name, isPublic });
       dispatch(editPlaylistDetailActionCreator(name, isPublic));
     } catch (error) {
-      alert(error.message);
+      toast.error(error.message);
     }
   };
 }
@@ -117,7 +118,7 @@ function asyncChangeCoverPlaylistDetail(id, file) {
 
       dispatch(changeCoverPlaylistDetailActionCreator(fileLocation));
     } catch (error) {
-      alert(error.message);
+      toast.error(error.message);
     }
   };
 }
@@ -129,7 +130,7 @@ function asyncPlaylistDetailLikeSong(songId) {
     try {
       await api.likeSong(songId);
     } catch (error) {
-      alert(error.message);
+      toast.error(error.message);
       dispatch(deletePlaylistDetailLikeSongActionCreator(songId, authUser.id));
     }
   };
@@ -142,7 +143,7 @@ function asyncDeletePlaylistDetailLikeSong(songId) {
     try {
       await api.deleteLikeSong(songId);
     } catch (error) {
-      alert(error.message);
+      toast.error(error.message);
       dispatch(likePlaylistDetailSongActionCreator(songId, authUser.id));
     }
   };
@@ -154,7 +155,7 @@ function asyncAddPlaylistCollaborator({ playlistId, userId, userName }) {
     try {
       await api.addPlaylistCollaborator(playlistId, userId);
     } catch (error) {
-      alert(error.message);
+      toast.error(error.message);
     }
   };
 }
@@ -165,7 +166,7 @@ function asyncDeletePlaylistCollaborator(playlistId, userId) {
     try {
       await api.deletePlaylistCollaborator(playlistId, userId);
     } catch (error) {
-      alert(error.message);
+      toast.error(error.message);
     }
   };
 }

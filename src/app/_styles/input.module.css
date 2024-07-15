@@ -260,13 +260,21 @@
 }
 
 .new_song_input .audio_input {
-  display: flex;
+  width: 100%;
+}
+
+.new_song_input .audio_input > label {
+  width: 100%;
+}
+
+.new_song_input .audio_input .audio_input_label {
   height: 100px;
+  border-radius: 10px;
+  text-align: center;
+  border: dashed 1px gray;
+  display: flex;
   justify-content: center;
   align-items: center;
-  width: 100%;
-  border-radius: 10px;
-  border: dashed 1px gray;
 }
 
 .new_song_input .select_album {

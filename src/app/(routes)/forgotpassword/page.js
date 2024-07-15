@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { useRouter, redirect } from 'next/navigation';
 import Link from 'next/link';
 import ForgotPasswordInput from '@/app/_components/inputs/ForgotPasswordInput';
+import { toast } from 'react-toastify';
 import api from '@/app/_utils/api';
 import { FaAngleLeft } from 'react-icons/fa6';
 import styles from '../../_styles/style.module.css';
@@ -18,7 +19,7 @@ function ForgotPassword() {
       const id = await api.requestResetPassword(email);
       setUserId(id);
     } catch (error) {
-      alert(error.message);
+      toast.error(error.message);
     }
   };
 
@@ -27,7 +28,7 @@ function ForgotPassword() {
       await api.resetPassword({ userId, password, otp: code });
       router.push('/login');
     } catch (error) {
-      alert(error.message);
+      toast.error(error.message);
     }
   };
 

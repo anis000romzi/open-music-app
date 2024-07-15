@@ -1,3 +1,4 @@
+import { toast } from 'react-toastify';
 import api from '@/app/_utils/api';
 
 const ActionType = {
@@ -69,7 +70,7 @@ function asyncGetPlaylists() {
       const playlists = await api.getPlaylists();
       dispatch(receivePlaylistsActionCreator(playlists));
     } catch (error) {
-      alert(error.message);
+      toast.error(error.message);
     }
   };
 }
@@ -81,7 +82,7 @@ function asyncGetPopularPlaylists() {
       const playlists = await api.getPopularPlaylists();
       dispatch(receivePlaylistsActionCreator(playlists));
     } catch (error) {
-      alert(error.message);
+      toast.error(error.message);
     }
   };
 }
@@ -93,7 +94,7 @@ function asyncAddPlaylist(name, isPublic) {
       const playlists = await api.getPlaylists();
       dispatch(receivePlaylistsActionCreator(playlists));
     } catch (error) {
-      alert(error.message);
+      toast.error(error.message);
     }
   };
 }
@@ -104,7 +105,7 @@ function asyncDeletePlaylist(playlistId) {
       await api.deletePlaylist(playlistId);
       dispatch(deletePlaylistActionCreator(playlistId));
     } catch (error) {
-      alert(error.message);
+      toast.error(error.message);
     }
   };
 }
@@ -115,7 +116,7 @@ function asyncAddSongToPlaylist(playlistId, songId) {
     try {
       await api.addSongToPlaylist(playlistId, songId);
     } catch (error) {
-      alert(error.message);
+      toast.error(error.message);
       dispatch(deleteSongFromPlaylistActionCreator(playlistId, songId));
     }
   };
@@ -127,7 +128,7 @@ function asyncDeleteSongFromPlaylist(playlistId, songId) {
     try {
       await api.deleteSongFromPlaylist(playlistId, songId);
     } catch (error) {
-      alert(error.message);
+      toast.error(error.message);
       dispatch(addSongToPlaylistActionCreator(playlistId, songId));
     }
   };

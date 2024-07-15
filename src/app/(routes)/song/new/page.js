@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSelector } from 'react-redux';
 import SongInput from '@/app/_components/inputs/SongInput';
+import { toast } from 'react-toastify';
 import api from '@/app/_utils/api';
 import styles from '../../../_styles/style.module.css';
 
@@ -57,7 +58,7 @@ function NewSong() {
       router.push('/');
     } catch (error) {
       setCreating(false);
-      alert(error);
+      toast.error(error.message);
     }
   };
 
