@@ -25,7 +25,7 @@ export default function About() {
               </a>
             </div>
             <div>
-              <p>Source Code</p>
+              <p>Source code</p>
               <a href="https://github.com/anis000romzi/open-music-app" target="_blank">
                 <IoCodeSlash /> :{' '}
                 <p>https://github.com/anis000romzi/open-music-app</p>

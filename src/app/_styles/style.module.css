@@ -327,6 +327,49 @@
   border: none;
 }
 
+.banned_page {
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  padding-left: 0;
+}
+
+.banned_page h1 {
+  font-size: 1.5em;
+  margin-bottom: 20px;
+}
+
+.banned_page > p {
+  font-size: 1em;
+  margin-bottom: 20px;
+}
+
+.banned_page > p > a {
+  color: #ffe74c;
+  margin-top: 10px;
+  font-size: 0.9em;
+  font-weight: bold;
+  margin: 0;
+  text-decoration: underline;
+}
+
+.banned_page > .banned_page__logout {
+  font-size: 25px;
+  position: absolute;
+  top: 10px;
+  left: 16px;
+  border: 0;
+  border-radius: 50%;
+  width: 55px;
+  height: 55px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  border: none;
+}
+
 .change_email_page {
   align-items: center;
   text-align: center;

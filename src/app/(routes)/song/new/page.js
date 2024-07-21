@@ -35,11 +35,11 @@ function NewSong() {
     try {
       setCreating(true);
       if (!audio) {
-        throw new Error('Audio cannot be empty');
+        throw new Error('Audio file cannot be empty');
       }
 
-      if (audio.size > 51200000) {
-        throw new Error('Audio is too big');
+      if (audio.size > 100 * 1024 * 1024) {
+        throw new Error('Audio file is too big');
       }
 
       const { songId } = await api.createSong({
