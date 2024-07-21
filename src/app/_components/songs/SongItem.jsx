@@ -25,7 +25,8 @@ function SongItem({
   likes,
   cover,
   onPlay,
-  onOpen,
+  onOpenPlaylistModal,
+  onOpenReportModal,
   setSong,
   authUser,
   onLike,
@@ -79,7 +80,13 @@ function SongItem({
   };
 
   const handleAddToPlaylistClick = () => {
-    onOpen();
+    onOpenPlaylistModal();
+    setSong(id);
+    setDropdownOpen(false);
+  };
+
+  const handleReportSongClick = () => {
+    onOpenReportModal();
     setSong(id);
     setDropdownOpen(false);
   };
@@ -127,11 +134,11 @@ function SongItem({
                 <LiaDownloadSolid /> Download
               </button>
             )}
-            {/* {authUser && (
-              <button onClick={(event) => event.stopPropagation()}>
+            {authUser && (
+              <button onClick={handleReportSongClick}>
                 <CiFlag1 /> Report
               </button>
-            )} */}
+            )}
           </div>
         </span>
       </div>

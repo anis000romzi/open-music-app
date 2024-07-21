@@ -1152,6 +1152,27 @@ const api = (() => {
     }
   }
 
+  async function report({ songId, reason, detail }) {
+    const response = await _fetchWithAuth(`${BASE_URL}/reports`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        songId,
+        reason,
+        detail,
+      }),
+    });
+
+    const responseJson = await response.json();
+    const { status, message } = responseJson;
+
+    if (status !== 'success') {
+      throw new Error(message);
+    }
+  }
+
   return {
     putRefreshToken,
     getRefreshToken,
@@ -1212,6 +1233,7 @@ const api = (() => {
     getPlaylistById,
     addSongToPlaylist,
     deleteSongFromPlaylist,
+    report,
   };
 })();
 

@@ -18,6 +18,12 @@ function AuthWrapper({ children }) {
     }
   }
 
+  if (authUser && authUser.is_banned) {
+    if (pathname !== '/banned') {
+      redirect('/banned');
+    }
+  }
+
   return (
     <>
       {[
@@ -26,6 +32,7 @@ function AuthWrapper({ children }) {
         '/activate',
         '/changeemail',
         '/forgotpassword',
+        '/banned',
       ].includes(pathname) ? null : (
         <HeaderBar authUser={authUser} logOut={logOut} />
       )}
