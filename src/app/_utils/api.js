@@ -1,5 +1,5 @@
 const api = (() => {
-  const BASE_URL = 'http://localhost:5000';
+  const BASE_URL = 'https://api.myfreetunes.xyz';
   let accessToken = null;
 
   function putRefreshToken(token) {
