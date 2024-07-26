@@ -45,6 +45,23 @@
   justify-content: center;
 }
 
+.custom_drag_layer {
+  position: fixed;
+  pointer-events: none;
+  z-index: 100;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.no_select {
+  user-select: none;
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+}
+
 @media screen and (min-width: 700px) {
   .queue_list {
     width: 100%;

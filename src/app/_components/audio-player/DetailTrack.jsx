@@ -3,9 +3,12 @@ import { useDispatch } from 'react-redux';
 import MediaSession from '@mebtte/react-media-session';
 import Volume from './Volume';
 import QueueList from '../queue/QueueList';
+import QueueItemDragLayer from '../queue/QueueItemDragLayer';
 import ProgressBar from './ProgressBar';
 import Image from 'next/image';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import { DndProvider } from 'react-dnd';
+import { TouchBackend } from 'react-dnd-touch-backend';
 import {
   setNewTracksQueue,
   setPlayingSongInQueue,
@@ -48,6 +51,13 @@ function DetailTrack({
     if (progressBarRef.current) progressBarRef.current.max = duration;
   }, [progressBarRef.current, duration]);
 
+  if (isDetailOpen !== true) {
+    document.getElementsByTagName("BODY")[0].style.overflow = 'auto';  
+    return null;
+    } else {
+    document.getElementsByTagName("BODY")[0].style.overflow = 'hidden';
+  }
+
   return (
     <div
       onClick={(event) => event.stopPropagation()}
@@ -83,12 +93,15 @@ function DetailTrack({
               </p>
             </div>
             <div className={styles.queue_detail}>
-              <QueueList
-                queue={queue}
-                onPlayHandler={playTrack}
-                onDeleteHandler={deleteTrackFromQueue}
-                currentlyPlaying={currentlyPlaying}
-              />
+              <DndProvider backend={TouchBackend} options={{ enableMouseEvents: true, delayTouchStart: 200 }}>
+                <QueueList
+                  queue={queue}
+                  onPlayHandler={playTrack}
+                  onDeleteHandler={deleteTrackFromQueue}
+                  currentlyPlaying={currentlyPlaying}
+                />
+                <QueueItemDragLayer />
+              </DndProvider>
             </div>
             <div className={styles.progress_bar_detail}>
               <ProgressBar
@@ -132,12 +145,15 @@ function DetailTrack({
           </div>
         </TabPanel>
         <TabPanel>
-          <QueueList
-            queue={queue}
-            onPlayHandler={playTrack}
-            onDeleteHandler={deleteTrackFromQueue}
-            currentlyPlaying={currentlyPlaying}
-          />
+          <DndProvider backend={TouchBackend} options={{ enableMouseEvents: true, delayTouchStart: 200 }}>
+            <QueueList
+              queue={queue}
+              onPlayHandler={playTrack}
+              onDeleteHandler={deleteTrackFromQueue}
+              currentlyPlaying={currentlyPlaying}
+            />
+            <QueueItemDragLayer />
+          </DndProvider>
         </TabPanel>
       </Tabs>
       <MediaSession

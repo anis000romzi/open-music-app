@@ -16,6 +16,19 @@ function queueReducer(queue = {}, action = {}) {
         ...queue,
         isPlaying: action.payload.status,
       };
+    case ActionType.SET_QUEUE_POSITION:
+      // Create a shallow copy of the queue array
+      const newQueue = [...queue.queue];
+
+      // Remove the element from the dragIndex
+      const [removedElement] = newQueue.splice(action.payload.dragIndex, 1);
+
+      // Insert the removed element at the hoverIndex
+      newQueue.splice(action.payload.hoverIndex, 0, removedElement);
+      return {
+        ...queue,
+        queue: newQueue,
+      };
     case ActionType.DELETE_SONG_FROM_QUEUE:
       return {
         ...queue,

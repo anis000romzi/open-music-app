@@ -47,8 +47,12 @@ function AudioPlayer() {
 
   useEffect(() => {
     const fetchData = async () => {
-      if (currentlyPlaying.id) {
-        await api.addHistory(currentlyPlaying.id);
+      try {
+        if (currentlyPlaying.id) {
+          await api.addHistory(currentlyPlaying.id);
+        }
+      } catch (error) {
+        return;
       }
     };
 

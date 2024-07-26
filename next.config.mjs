@@ -24,6 +24,7 @@ const withPWA = withPWAInit({
 const nextConfig = {
   swcMinify: true,
   images: {
+    dangerouslyAllowSVG: true,
     remotePatterns: [
       {
         protocol: 'http',
