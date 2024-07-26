@@ -84,9 +84,31 @@
   background-color: transparent;
 }
 
+.detail_track_info {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+}
+
+.detail_track_info .info {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
 .detail_track .detail_track_title {
   font-weight: bold;
   font-size: 2em;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 90%;
 }
 
 .detail_track .detail_track_artist {
@@ -152,15 +174,6 @@
 .detail_track .progress_bar_detail .progress .time_mobile {
   display: flex;
   justify-content: space-between;
-}
-
-.detail_track_info {
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 15px;
 }
 
 .time {
@@ -270,6 +283,10 @@
 
   .detail_track_info {
     flex-direction: row;
+  }
+
+  .detail_track_info .info {
+    width: 50%;
   }
 
   .detail_track .queue_detail {
