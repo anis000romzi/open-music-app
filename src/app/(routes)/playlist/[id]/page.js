@@ -49,10 +49,7 @@ function PlaylistDetail() {
   const [shuffleSongs, setShuffleSongs] = useState(false);
 
   useEffect(() => {
-    if (!authUser || !authUser.is_active) {
-      redirect('/');
-    }
-    dispatch(asyncGetPlaylists());
+    if (authUser) dispatch(asyncGetPlaylists());
     dispatch(asyncReceivePlaylistDetail(id));
   }, [dispatch, id, authUser]);
 
@@ -316,7 +313,7 @@ function PlaylistDetail() {
           </form>
           <div className={modalStyles.collaborators_container}>
             {users.map((user) => {
-              if (user.id === authUser.id) {
+              if (user.id === authUser?.id) {
                 return;
               }
 

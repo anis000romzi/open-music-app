@@ -25,16 +25,16 @@ export default function Home() {
   const [history, setHistory] = useState([]);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchHistory = async () => {
       const history = await api.getHistory();
       setHistory(history);
     };
 
     dispatch(asyncGetPopularAlbums());
     dispatch(asyncGetPopularArtists());
+    dispatch(asyncGetPopularPlaylists());
     if (authUser) {
-      dispatch(asyncGetPopularPlaylists());
-      fetchData();
+      fetchHistory();
     }
   }, [dispatch, authUser]);
 
@@ -64,7 +64,7 @@ export default function Home() {
           <ArtistsList artists={users} />
         </section>
       )}
-      {authUser && playlists.length > 0 && (
+      {playlists.length > 0 && (
         <section className="popular-playlist">
           <h2 className={styles.popular_album}>Popular playlists</h2>
           <PopularPlaylistsList playlists={playlists} />

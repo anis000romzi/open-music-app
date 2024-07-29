@@ -15,13 +15,20 @@ const api = (() => {
       if (isTokenExpired(accessToken)) {
         await generateAccessToken(getRefreshToken());
       }
+
+      return fetch(url, {
+        ...options,
+        headers: {
+          ...options.headers,
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
     }
 
     return fetch(url, {
       ...options,
       headers: {
         ...options.headers,
-        Authorization: `Bearer ${accessToken}`,
       },
     });
   }
