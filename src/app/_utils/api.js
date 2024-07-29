@@ -2,18 +2,10 @@ const api = (() => {
   const BASE_URL = 'https://api.myfreetunes.xyz';
   let accessToken = null;
 
-  function putRefreshToken(token) {
-    localStorage.setItem('refresh-token', token);
-  }
-
-  function getRefreshToken() {
-    return localStorage.getItem('refresh-token');
-  }
-
   async function _fetchWithAuth(url, options = {}) {
     if (accessToken) {
       if (isTokenExpired(accessToken)) {
-        await generateAccessToken(getRefreshToken());
+        await generateAccessToken();
       }
 
       return fetch(url, {
@@ -50,15 +42,13 @@ const api = (() => {
     return expired > 1800;
   }
 
-  async function generateAccessToken(refreshToken) {
+  async function generateAccessToken() {
     const response = await fetch(`${BASE_URL}/authentications`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        refreshToken,
-      }),
+      credentials: 'include',
     });
 
     const responseJson = await response.json();
@@ -198,6 +188,7 @@ const api = (() => {
         usernameOrEmail,
         password,
       }),
+      credentials: 'include',
     });
 
     const responseJson = await response.json();
@@ -208,23 +199,21 @@ const api = (() => {
     }
 
     const {
-      data: { accessToken: token, refreshToken },
+      data: { accessToken: token },
     } = responseJson;
 
     accessToken = token;
 
-    return { token, refreshToken };
+    return token;
   }
 
-  async function logout(refreshToken) {
+  async function logout() {
     const response = await fetch(`${BASE_URL}/authentications`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        refreshToken,
-      }),
+      credentials: 'include',
     });
 
     const responseJson = await response.json();
@@ -1181,8 +1170,6 @@ const api = (() => {
   }
 
   return {
-    putRefreshToken,
-    getRefreshToken,
     generateAccessToken,
     register,
     editUser,

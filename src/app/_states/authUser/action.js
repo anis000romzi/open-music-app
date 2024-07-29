@@ -68,8 +68,7 @@ function changePictureAuthUserActionCreator(file) {
 function asyncSetAuthUser({ usernameOrEmail, password }) {
   return async (dispatch) => {
     try {
-      const { refreshToken } = await api.login({ usernameOrEmail, password });
-      api.putRefreshToken(refreshToken);
+      await api.login({ usernameOrEmail, password });
       const authUser = await api.getOwnProfile();
 
       dispatch(setAuthUserActionCreator(authUser));
@@ -82,11 +81,9 @@ function asyncSetAuthUser({ usernameOrEmail, password }) {
 function asyncUnsetAuthUser() {
   return async (dispatch) => {
     try {
-      const refreshToken = api.getRefreshToken();
-      api.logout(refreshToken);
+      await api.logout();
 
       dispatch(unsetAuthUserActionCreator());
-      api.putRefreshToken('');
     } catch (error) {
       toast.error(error.message);
     }
