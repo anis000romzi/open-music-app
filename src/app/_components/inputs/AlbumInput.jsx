@@ -51,7 +51,10 @@ function AlbumInput({ creating, addAlbum }) {
           onChange={onYearChange}
           placeholder="Year"
         />
-        <button type="button" onClick={creating ? null : () => addAlbum(name, year, file)}>
+        <button type="submit" onClick={creating ? null : (event) => {
+          event.preventDefault();
+          addAlbum(name, year, file)
+        }}>
           {creating ? 'Creating...' : 'Create Album'}
         </button>
       </div>

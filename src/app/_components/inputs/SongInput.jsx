@@ -134,11 +134,12 @@ function SongInput({ creating, addSong, ownedAlbums, genres }) {
             )}
           </button>
           <button
-            type="button"
+            type="submit"
             onClick={
               creating
                 ? null
-                : () =>
+                : (event) => {
+                    event.preventDefault();
                     addSong({
                       title,
                       year,
@@ -147,7 +148,8 @@ function SongInput({ creating, addSong, ownedAlbums, genres }) {
                       albumId: selectedAlbum || null,
                       audio,
                       cover,
-                    })
+                    });
+                  }
             }
             className={styles.create_song}
           >

@@ -27,8 +27,11 @@ function ForgotPasswordInput({ userId, resetPassword, submitEmail }) {
             placeholder="Enter OTP"
           />
           <button
-            type="button"
-            onClick={() => resetPassword({ userId, password, code })}
+            type="submit"
+            onClick={(event) => {
+              event.preventDefault();
+              resetPassword({ userId, password, code });
+            }}
           >
             Reset Password
           </button>
@@ -45,7 +48,13 @@ function ForgotPasswordInput({ userId, resetPassword, submitEmail }) {
         onChange={onEmailChange}
         placeholder="Registered email"
       />
-      <button type="button" onClick={() => submitEmail(email)}>
+      <button
+        type="submit"
+        onClick={(event) => {
+          event.preventDefault();
+          submitEmail(email);
+        }}
+      >
         Submit
       </button>
     </form>
