@@ -160,6 +160,18 @@
   font-family: inherit;
 }
 
+.modal_children .new_playlist_form .is_public {
+  display: flex;
+  width: 50%;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal_children .new_playlist_form .is_public input {
+  width: 15%;
+}
+
 .modal_children .new_playlist_form button {
   background-color: #ffe74c;
   color: #111111;
@@ -167,7 +179,6 @@
   border: none;
   font-size: 1em;
   font-weight: bold;
-  margin-top: 10px;
   border-radius: 10px;
   font-family: inherit;
 }
