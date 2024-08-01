@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 import useInput from '@/app/_hooks/useInput';
 import DataTable, { createTheme } from 'react-data-table-component';
 import Image from 'next/image';
@@ -8,127 +8,209 @@ import styles from '../../_styles/song.module.css';
 import modalStyles from '../../_styles/modal.module.css';
 import defaultImage from '../../_assets/default-image.png';
 
-createTheme('musictheme', {
-  text: {
-    primary: '#FFFFFF',
-    secondary: '#FFFFFF',
+createTheme(
+  'musictheme',
+  {
+    text: {
+      primary: '#FFFFFF',
+      secondary: '#FFFFFF',
+    },
+    background: {
+      default: '#000000',
+    },
+    context: {
+      background: '#cb4b16',
+      text: '#FFFFFF',
+    },
+    divider: {
+      default: '#303030',
+    },
+    sortFocus: {
+      default: '#2aa198',
+    },
   },
-  background: {
-    default: '#000000',
-  },
-  context: {
-    background: '#cb4b16',
-    text: '#FFFFFF',
-  },
-  divider: {
-    default: '#303030',
-  },
-  sortFocus: {
-    default: '#2aa198',
-  },
-}, 'dark');
+  'dark'
+);
 
-function EditableSongsList({ songs, changeCover, editSong, deleteSong, albumsOption, genresOption }) {
+function EditableSongsList({
+  songs,
+  changeCover,
+  editSong,
+  deleteSong,
+  albumsOption,
+  genresOption,
+}) {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedRows, setSelectedRows] = useState([]);
+  const [toggleCleared, setToggleCleared] = useState(false);
   const [songEdit, setSongEdit] = useState('');
   const [titleInput, onTitleChange, setTitleInput] = useInput('');
   const [yearInput, onYearChange, setYearInput] = useInput('');
   const [genreInput, onGenreChange, setGenreInput] = useInput({});
   const [albumInput, onAlbumChange, setAlbumInput] = useInput({});
+  const [searchQuery, setSearchQuery] = useState('');
 
-  const columns = useMemo(() => [
-    {
-      name: 'Cover',
-      selector: (row) => row.cover,
-    },
-    {
-      name: 'Title',
-      selector: (row) => row.title,
-      sortable: true,
-    },
-    {
-      name: 'Album',
-      selector: (row) => row.album,
-      sortable: true,
-    },
-    {
-      name: 'Genre',
-      selector: (row) => row.genre,
-      sortable: true,
-    },
-    {
-      name: 'Year',
-      selector: (row) => row.year,
-      sortable: true,
-    },
-    {
-      name: '',
-      selector: (row) => row.actions,
-    },
-  ], []);
+  const handleRowSelected = useCallback((state) => {
+    setSelectedRows(state.selectedRows);
+  }, []);
 
-  const filteredSongs = useMemo(() => songs.map((song) => ({
-    id: song.id,
-    cover: (
-      <div className={styles.edit_image}>
-        <label htmlFor={`cover-${song.id}`}>
-          <Image
-            src={song.cover || defaultImage}
-            width={60}
-            height={60}
-            alt="Song cover"
-            priority
-          />
-        </label>
-        <input
-          style={{ display: 'none' }}
-          type="file"
-          id={`cover-${song.id}`}
-          name={`cover-${song.id}`}
-          onChange={(event) => changeCover(song.id, event.target.files[0])}
-        />
-      </div>
+  const handleDelete = useCallback(() => {
+    if (
+      window.confirm(
+        `Are you sure you want to delete:\r ${selectedRows.map(
+          (r) => r.title
+        )}?`
+      )
+    ) {
+      setToggleCleared(!toggleCleared);
+      selectedRows.forEach((r) => deleteSong(r.id));
+    }
+  }, [deleteSong, selectedRows, toggleCleared]);
+
+  const contextActions = useMemo(
+    () => (
+      <button
+        type="button"
+        className={styles.delete_song}
+        onClick={handleDelete}
+      >
+        Delete
+      </button>
     ),
-    title: song.title,
-    album: song.album || 'Single',
-    genre: song.genre,
-    year: song.year,
-    actions: (
-      <div className={styles.actions_buttons}>
-        <button
-          className={styles.edit_song_button}
-          type="button"
-          onClick={() => {
-            setSongEdit(song);
-            setTitleInput(song.title);
-            setYearInput(song.year);
-            setGenreInput({ genre_id: song.genre_id, genre: song.genre});
-            setAlbumInput({ album_id: song.album_id, album: song.album});
-            setIsModalOpen(true);
-          }}
-        >
-          <FaPen />
-        </button>
-        <button type="button" onClick={() => {
-          if (window.confirm('Are you sure you want to delete this song?')) {
-            deleteSong(song.id)
-          }
-        }}>
-          <FaRegTrashCan />
-        </button>
-      </div>
-    ),
-  })), [songs, changeCover, deleteSong, setTitleInput, setYearInput, setAlbumInput, setGenreInput]);
+    [handleDelete]
+  );
+
+  const columns = useMemo(
+    () => [
+      {
+        name: 'Cover',
+        selector: (row) => row.cover,
+      },
+      {
+        name: 'Title',
+        selector: (row) => row.title,
+        sortable: true,
+      },
+      {
+        name: 'Album',
+        selector: (row) => row.album,
+        sortable: true,
+      },
+      {
+        name: 'Genre',
+        selector: (row) => row.genre,
+        sortable: true,
+      },
+      {
+        name: 'Year',
+        selector: (row) => row.year,
+        sortable: true,
+      },
+      {
+        name: '',
+        selector: (row) => row.actions,
+      },
+    ],
+    []
+  );
+
+  const filteredSongs = useMemo(() => {
+    const lowercasedQuery = searchQuery.toLowerCase();
+    return songs
+      .filter(
+        (song) =>
+          song.title.toLowerCase().includes(lowercasedQuery) ||
+          song.album?.toLowerCase().includes(lowercasedQuery) ||
+          song.genre.toLowerCase().includes(lowercasedQuery) ||
+          song.year.toString().includes(lowercasedQuery)
+      )
+      .map((song) => ({
+        id: song.id,
+        cover: (
+          <div className={styles.edit_image}>
+            <label htmlFor={`cover-${song.id}`}>
+              <Image
+                src={song.cover || defaultImage}
+                width={60}
+                height={60}
+                alt="Song cover"
+                priority
+              />
+            </label>
+            <input
+              style={{ display: 'none' }}
+              type="file"
+              id={`cover-${song.id}`}
+              name={`cover-${song.id}`}
+              onChange={(event) => changeCover(song.id, event.target.files[0])}
+            />
+          </div>
+        ),
+        title: song.title,
+        album: song.album || 'Single',
+        genre: song.genre,
+        year: song.year,
+        actions: (
+          <div className={styles.actions_buttons}>
+            <button
+              className={styles.edit_song_button}
+              type="button"
+              onClick={() => {
+                setSongEdit(song);
+                setTitleInput(song.title);
+                setYearInput(song.year);
+                setGenreInput({ genre_id: song.genre_id, genre: song.genre });
+                setAlbumInput({ album_id: song.album_id, album: song.album });
+                setIsModalOpen(true);
+              }}
+            >
+              <FaPen />
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                if (
+                  window.confirm('Are you sure you want to delete this song?')
+                ) {
+                  deleteSong(song.id);
+                }
+              }}
+            >
+              <FaRegTrashCan />
+            </button>
+          </div>
+        ),
+      }));
+  }, [
+    songs,
+    changeCover,
+    deleteSong,
+    setTitleInput,
+    setYearInput,
+    setAlbumInput,
+    setGenreInput,
+    searchQuery,
+  ]);
 
   return (
     <>
       <div className={styles.editable_song_list}>
+        <input
+          type="text"
+          placeholder="Search..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className={styles.search_input}
+        />
         <DataTable
           title={`Your Songs: ${songs.length} songs`}
           columns={columns}
           data={filteredSongs}
           pagination
           selectableRows
+          contextActions={selectedRows.length <= 1 ? '' : contextActions}
+          onSelectedRowsChange={handleRowSelected}
+          clearSelectedRows={toggleCleared}
           theme="musictheme"
         />
       </div>
