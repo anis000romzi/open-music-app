@@ -21,10 +21,10 @@ function Login() {
 
   return (
     <main className={styles.login_page}>
-      <h1>Login</h1>
       <Link className={styles.login_back} href="/">
         <FaAngleLeft />
       </Link>
+      <h1>Login</h1>
       <LoginInput login={onLogin} />
       <Link className={styles.forgot_password} href="/forgotpassword">
         Forgot password?

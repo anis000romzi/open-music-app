@@ -1,11 +1,18 @@
+import { useState } from 'react';
+import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import useInput from '../../_hooks/useInput';
-import styles from '../../_styles/input.module.css'
+import styles from '../../_styles/input.module.css';
 
 function RegisterInput({ register }) {
   const [email, onEmailChange] = useInput('');
   const [username, onUsernameChange] = useInput('');
   const [fullname, onFullnameChange] = useInput('');
   const [password, onPasswordChange] = useInput('');
+  const [showPassword, setShowPassword] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
 
   return (
     <form className={styles.register_input}>
@@ -27,16 +34,28 @@ function RegisterInput({ register }) {
         onChange={onFullnameChange}
         placeholder="Fullname"
       />
-      <input
-        type="password"
-        value={password}
-        onChange={onPasswordChange}
-        placeholder="Password"
-        autoComplete="on"
-      />
+      <div className={styles.password_container}>
+        <input
+          type={showPassword ? 'text' : 'password'}
+          value={password}
+          onChange={onPasswordChange}
+          placeholder="Password"
+          autoComplete="on"
+        />
+        <button
+          type="button"
+          className={styles.toggle_password_button}
+          onClick={togglePasswordVisibility}
+        >
+          {showPassword ? <FaRegEyeSlash /> : <FaRegEye />}
+        </button>
+      </div>
       <button
-        type="button"
-        onClick={() => register({ email, username, fullname, password })}
+        type="submit"
+        onClick={(event) => {
+          event.preventDefault();
+          register({ email, username, fullname, password });
+        }}
       >
         Register
       </button>

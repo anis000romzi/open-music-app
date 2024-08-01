@@ -44,6 +44,27 @@
   border-radius: 10px;
 }
 
+.login_input .password_container {
+  position: relative;
+  width: 100%;
+}
+
+.login_input .toggle_password_button {
+  position: absolute;
+  right: 10px; /* Adjust this value to position the button where you want */
+  top: 50%; /* Adjust this value to vertically center the button */
+  transform: translateY(-50%);
+  background: none;
+  margin: 0;
+  width: 44px;
+  display: flex;
+  align-items: center;
+  font-size: 1.2em;
+  border: none;
+  color: #ededed; /* Adjust color as needed */
+  cursor: pointer;
+}
+
 .register_input {
   display: flex;
   flex-direction: column;
@@ -77,6 +98,27 @@
   margin-top: 10px;
   border-radius: 10px;
   font-family: inherit;
+}
+
+.register_input .password_container {
+  position: relative;
+  width: 100%;
+}
+
+.register_input .toggle_password_button {
+  position: absolute;
+  right: 10px; /* Adjust this value to position the button where you want */
+  top: 50%; /* Adjust this value to vertically center the button */
+  transform: translateY(-50%);
+  background: none;
+  margin: 0;
+  width: 44px;
+  display: flex;
+  align-items: center;
+  font-size: 1.2em;
+  border: none;
+  color: #ededed; /* Adjust color as needed */
+  cursor: pointer;
 }
 
 .search_input {
