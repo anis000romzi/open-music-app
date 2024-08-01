@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import useInput from '../../_hooks/useInput';
 import Image from 'next/image';
+import Cropper from 'react-easy-crop';
 import Modal from '../Modal';
 import { FileUploader } from 'react-drag-drop-files';
 import { FaPen } from 'react-icons/fa6';
 import { LuFileAudio } from 'react-icons/lu';
+import { getCroppedImg } from '@/app/_utils/get-cropped-img';
 import styles from '../../_styles/input.module.css';
 import modalStyles from '../../_styles/modal.module.css';
 import defaultImage from '../../_assets/default-image.png';
@@ -20,6 +22,14 @@ function SongInput({ creating, addSong, ownedAlbums, genres }) {
   const [isGenreModalOpen, setIsGenreModalOpen] = useState(false);
   const [isAlbumModalOpen, setIsAlbumModalOpen] = useState(false);
 
+  // image crop states
+  const [imageSrc, setImageSrc] = useState(null);
+  const [crop, setCrop] = useState({ x: 0, y: 0 });
+  const [zoom, setZoom] = useState(1);
+  const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+  const [croppedImage, setCroppedImage] = useState(null);
+  const [showCropModal, setShowCropModal] = useState(false);
+
   const selectedAlbumInfo = ownedAlbums.find(
     (album) => album.id === selectedAlbum
   );
@@ -34,8 +44,30 @@ function SongInput({ creating, addSong, ownedAlbums, genres }) {
   };
 
   const handleCoverChange = (event) => {
-    if (event.target.files) {
-      setCover(event.target.files[0]);
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImageSrc(reader.result);
+        setShowCropModal(true); // Show the crop modal when an image is selected
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const onCropComplete = (croppedArea, croppedAreaPixels) => {
+    setCroppedAreaPixels(croppedAreaPixels);
+  };
+
+  const handleCrop = async () => {
+    try {
+      const croppedImage = await getCroppedImg(imageSrc, croppedAreaPixels);
+      setCroppedImage(croppedImage);
+      setCover(croppedImage);
+      setImageSrc(null);
+      setShowCropModal(false); // Hide the crop modal after cropping
+    } catch (e) {
+      console.error(e);
     }
   };
 
@@ -71,7 +103,32 @@ function SongInput({ creating, addSong, ownedAlbums, genres }) {
             </div>
           </div>
         </label>
-        <div>
+
+        {showCropModal && (
+          <div className={styles.crop_modal}>
+            <div className={styles.crop_modal_content}>
+              <Cropper
+                image={imageSrc}
+                crop={crop}
+                zoom={zoom}
+                aspect={1}
+                onCropChange={setCrop}
+                onZoomChange={setZoom}
+                onCropComplete={onCropComplete}
+              />
+            </div>
+            <div className={styles.crop_buttons}>
+              <button type="button" onClick={handleCrop}>
+                Crop and Save
+              </button>
+              <button type="button" onClick={() => setShowCropModal(false)}>
+                Cancel
+              </button>
+            </div>
+          </div>
+        )}
+
+        <div className={styles.new_song_form}>
           <input
             type="text"
             value={title}
