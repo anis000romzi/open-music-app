@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import useInput from '@/app/_hooks/useInput';
 import Image from 'next/image';
 import Link from 'next/link';
+import Cropper from 'react-easy-crop';
 import {
   asyncEditAuthUser,
   asyncChangePictureAuthUser,
@@ -11,8 +12,8 @@ import {
 import { asyncGetOwnedSongs } from '@/app/_states/songs/action';
 import { asyncGetOwnedAlbums } from '@/app/_states/albums/action';
 import { redirect } from 'next/navigation';
-import { FaPen } from 'react-icons/fa6';
-import { FaChartSimple } from 'react-icons/fa6';
+import { getCroppedImg } from '@/app/_utils/get-cropped-img';
+import { FaPen, FaChartSimple } from 'react-icons/fa6';
 import styles from '../../../_styles/style.module.css';
 
 function Profile() {
@@ -25,6 +26,12 @@ function Profile() {
   const [description, onDescriptionChange] = useInput(
     authUser?.description || ''
   );
+  const [imageSrc, setImageSrc] = useState(null);
+  const [crop, setCrop] = useState({ x: 0, y: 0 });
+  const [zoom, setZoom] = useState(1);
+  const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+  const [croppedImage, setCroppedImage] = useState(null);
+  const [showCropModal, setShowCropModal] = useState(false);
 
   if (!authUser || !authUser.is_active) {
     redirect('/');
@@ -43,7 +50,28 @@ function Profile() {
   const handleChangePicture = (event) => {
     const file = event.target.files[0];
     if (file) {
-      dispatch(asyncChangePictureAuthUser(authUser.id, file));
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImageSrc(reader.result);
+        setShowCropModal(true); // Show the crop modal when an image is selected
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const onCropComplete = (croppedArea, croppedAreaPixels) => {
+    setCroppedAreaPixels(croppedAreaPixels);
+  };
+
+  const handleCrop = async () => {
+    try {
+      const croppedImage = await getCroppedImg(imageSrc, croppedAreaPixels);
+      setCroppedImage(croppedImage);
+      dispatch(asyncChangePictureAuthUser(authUser.id, croppedImage));
+      setImageSrc(null);
+      setShowCropModal(false); // Hide the crop modal after cropping
+    } catch (e) {
+      console.error(e);
     }
   };
 
@@ -71,6 +99,27 @@ function Profile() {
           </div>
         </div>
       </label>
+
+      {showCropModal && (
+        <div className={styles.crop_modal}>
+          <div className={styles.crop_modal_content}>
+            <Cropper
+              image={imageSrc}
+              crop={crop}
+              zoom={zoom}
+              aspect={1}
+              onCropChange={setCrop}
+              onZoomChange={setZoom}
+              onCropComplete={onCropComplete}
+            />
+          </div>
+          <div className={styles.crop_buttons}>
+            <button onClick={handleCrop}>Crop and Save</button>
+            <button onClick={() => setShowCropModal(false)}>Cancel</button>
+          </div>
+        </div>
+      )}
+
       {edit ? (
         <form className={styles.edit_profile_input}>
           <input

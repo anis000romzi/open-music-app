@@ -8,6 +8,7 @@ import {
   asyncChangeCoverSongs,
 } from '@/app/_states/songs/action';
 import { asyncGetOwnedAlbums } from '@/app/_states/albums/action';
+import { redirect } from 'next/navigation';
 import api from '@/app/_utils/api';
 import EditableSongsList from '@/app/_components/songs/EditableSongsList';
 
@@ -18,6 +19,10 @@ function EditSongs() {
   const authUser = useSelector((states) => states.authUser);
 
   const [genres, setGenres] = useState([]);
+
+  if (!authUser || !authUser.is_active) {
+    redirect('/');
+  }
 
   useEffect(() => {
     const fetchData = async () => {

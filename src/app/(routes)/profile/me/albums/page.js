@@ -7,11 +7,17 @@ import {
   asyncDeleteAlbum,
   asyncChangeCoverAlbums,
 } from '@/app/_states/albums/action';
+import { redirect } from 'next/navigation';
 import EditableAlbumsList from '@/app/_components/albums/EditableAlbumsList';
 
 function EditAlbums() {
   const dispatch = useDispatch();
   const albums = useSelector((states) => states.albums);
+  const authUser = useSelector((states) => states.authUser);
+
+  if (!authUser || !authUser.is_active) {
+    redirect('/');
+  }
 
   useEffect(() => {
     dispatch(asyncGetOwnedAlbums());

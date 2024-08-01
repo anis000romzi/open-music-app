@@ -44,6 +44,27 @@
   border-radius: 10px;
 }
 
+.login_input .password_container {
+  position: relative;
+  width: 100%;
+}
+
+.login_input .toggle_password_button {
+  position: absolute;
+  right: 10px; /* Adjust this value to position the button where you want */
+  top: 50%; /* Adjust this value to vertically center the button */
+  transform: translateY(-50%);
+  background: none;
+  margin: 0;
+  width: 44px;
+  display: flex;
+  align-items: center;
+  font-size: 1.2em;
+  border: none;
+  color: #ededed; /* Adjust color as needed */
+  cursor: pointer;
+}
+
 .register_input {
   display: flex;
   flex-direction: column;
@@ -77,6 +98,27 @@
   margin-top: 10px;
   border-radius: 10px;
   font-family: inherit;
+}
+
+.register_input .password_container {
+  position: relative;
+  width: 100%;
+}
+
+.register_input .toggle_password_button {
+  position: absolute;
+  right: 10px; /* Adjust this value to position the button where you want */
+  top: 50%; /* Adjust this value to vertically center the button */
+  transform: translateY(-50%);
+  background: none;
+  margin: 0;
+  width: 44px;
+  display: flex;
+  align-items: center;
+  font-size: 1.2em;
+  border: none;
+  color: #ededed; /* Adjust color as needed */
+  cursor: pointer;
 }
 
 .search_input {
@@ -123,7 +165,7 @@
   width: 100%;
 }
 
-.new_album_input > div {
+.new_album_input > .new_album_form {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -205,7 +247,7 @@
   gap: 5px;
 }
 
-.new_song_input > div {
+.new_song_input > .new_song_form {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -326,6 +368,55 @@
   text-align: center;
 }
 
+.crop_modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.crop_modal_content {
+  position: relative;
+  background: transparent;
+  padding: 20px;
+  max-width: 600px;
+  height: 80%;
+  width: 100%;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.crop_buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.crop_buttons button {
+  background-color: #ffe74c;
+  color: #111111;
+  padding: 10px;
+  border: none;
+  font-size: 1em;
+  font-weight: bold;
+  font-family: inherit;
+  width: 50%;
+  border-radius: 10px;
+}
+
+.crop_buttons button:nth-child(2) {
+  background-color: black;
+  color: #ffe74c;
+  border: #ffe74c 1px solid;
+}
+
 .verification_input {
   display: flex;
   flex-direction: column;
@@ -410,7 +501,7 @@
     gap: 10px;
   }
 
-  .new_album_input > div {
+  .new_album_input > .new_album_form {
     width: 40%;
     align-items: flex-start;
   }
@@ -421,7 +512,7 @@
     align-items: flex-start;
   }
 
-  .new_song_input > div {
+  .new_song_input > .new_song_form {
     width: 40%;
     align-items: flex-start;
     margin-top: 0px;

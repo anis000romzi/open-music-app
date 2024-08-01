@@ -134,15 +134,17 @@ function Collections() {
               onChange={onNameChange}
               placeholder="Playlist name"
             />
-            <label htmlFor="is-public">Set as public</label>
-            <input
-              type="checkbox"
-              id="is-public"
-              name="is-public"
-              value={isPublic}
-              checked={isPublic}
-              onChange={() => setIsPublic((current) => !current)}
-            />
+            <div className={modalStyles.is_public}>
+              <label htmlFor="is-public">Set as public</label>
+              <input
+                type="checkbox"
+                id="is-public"
+                name="is-public"
+                value={isPublic}
+                checked={isPublic}
+                onChange={() => setIsPublic((current) => !current)}
+              />
+            </div>
             <button type="button" onClick={() => addPlaylist(name, isPublic)}>
               Submit
             </button>

@@ -9,6 +9,7 @@ function PlaylistItem({ authUser, owner, id, name, songs, cover, onDelete }) {
     <div className={styles.playlist_item}>
       {authUser.id === owner ? (
         <button
+          type="button"
           onClick={(event) => {
             onDelete(id);
             event.stopPropagation();
@@ -16,7 +17,7 @@ function PlaylistItem({ authUser, owner, id, name, songs, cover, onDelete }) {
         >
           <FaRegTrashCan />
         </button>
-      ) : null}
+      ) : <button></button>}
       <div className={styles.playlist_info}>
         <Image
           src={cover || defaultImage}

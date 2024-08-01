@@ -181,6 +181,11 @@ input[type='range']:active::-moz-range-thumb {
   transform: scale(1.2);
 }
 
+/* change pagination background color */
+.bOmZm {
+  background-color: black !important;
+}
+
 /** CUSTOM INPUT RANGE **/
 
 .Tabs {
