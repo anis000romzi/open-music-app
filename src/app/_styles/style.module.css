@@ -747,6 +747,17 @@
   font-size: 1em;
 }
 
+.preview_profile_page {
+  color: #ffe74c;
+  margin-top: 10px;
+  font-size: 1em;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-weight: bold;
+  text-decoration: underline;
+}
+
 .profile_page .edit_profile_input {
   display: flex;
   align-items: center;

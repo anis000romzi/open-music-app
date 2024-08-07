@@ -95,7 +95,7 @@ const api = (() => {
     return userId;
   }
 
-  async function editUser({ id, fullname, description }) {
+  async function editUser({ id, fullname, username, description }) {
     const response = await _fetchWithAuth(`${BASE_URL}/users/${id}`, {
       method: 'PUT',
       headers: {
@@ -103,6 +103,7 @@ const api = (() => {
       },
       body: JSON.stringify({
         fullname,
+        username,
         description,
       }),
     });
@@ -1276,7 +1277,6 @@ const api = (() => {
     deletePlaylistCollaborator,
     deletePlaylist,
     addPlaylistCover,
-    getPopularPlaylists,
     getPlaylists,
     searchPlaylists,
     getPlaylistById,

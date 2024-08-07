@@ -46,11 +46,12 @@ function changeEmailAuthUserActionCreator(email) {
   };
 }
 
-function editAuthUserActionCreator(fullname, description) {
+function editAuthUserActionCreator(fullname, username, description) {
   return {
     type: ActionType.EDIT_AUTH_USER,
     payload: {
       fullname,
+      username,
       description,
     },
   };
@@ -115,12 +116,12 @@ function asyncChangeEmailUser(userId, email) {
   };
 }
 
-function asyncEditAuthUser({ id, fullname, description }) {
+function asyncEditAuthUser({ id, fullname, username, description }) {
   return async (dispatch) => {
     try {
-      await api.editUser({ id, fullname, description });
+      await api.editUser({ id, fullname, username, description });
 
-      dispatch(editAuthUserActionCreator(fullname, description));
+      dispatch(editAuthUserActionCreator(fullname, username, description));
     } catch (error) {
       toast.error(error.message);
     }
