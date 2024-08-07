@@ -259,6 +259,10 @@
     gap: 10px;
   }
 
+  .track {
+    width: 20%;
+  }
+
   .track .title {
     font-weight: bold;
     font-size: 1em;
@@ -351,7 +355,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 80%;
+    width: 60%;
     gap: 5px;
   }
 
@@ -364,6 +368,7 @@
 
   .music_setting {
     display: flex;
+    width: 20%;
     align-items: center;
   }
 

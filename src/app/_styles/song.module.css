@@ -73,9 +73,22 @@
   display: block;
   color: #978e8e;
   font-size: 0.9em;
+  width: 150px;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+}
+
+.sliderContainer {
+  width: 100%;
+  padding: 20px 0;
+  box-sizing: border-box;
+}
+
+.songCard {
+  padding: 10px;
+  box-sizing: border-box;
+  text-align: center;
 }
 
 .dropdown {
@@ -158,5 +171,9 @@
   .song_item .song_duration {
     display: inline-block;
     color: #978e8e;
+  }
+
+  .sliderContainer {
+    padding: 20px 30px;
   }
 }

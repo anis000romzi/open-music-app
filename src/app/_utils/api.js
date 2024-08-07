@@ -576,6 +576,23 @@ const api = (() => {
     return songs;
   }
 
+  async function getPopularSongs() {
+    const response = await fetch(`${BASE_URL}/songs/popular`);
+
+    const responseJson = await response.json();
+    const { status, message } = responseJson;
+
+    if (status !== 'success') {
+      throw new Error(message);
+    }
+
+    const {
+      data: { songs },
+    } = responseJson;
+
+    return songs;
+  }
+
   async function getSongsByGenre(query) {
     const response = await fetch(
       `${BASE_URL}/songs?genre=${query}`
@@ -1198,6 +1215,7 @@ const api = (() => {
     getAlbumsByArtist,
     getOwnedAlbums,
     getSongs,
+    getPopularSongs,
     getSongsByGenre,
     getOwnedSongs,
     getLikedSongs,

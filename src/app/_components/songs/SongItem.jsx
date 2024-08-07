@@ -57,7 +57,7 @@ function SongItem({
     if ('caches' in window) {
       const cache = await caches.open('audio-cache');
       await cache.put(audio, new Response(blob));
-      await OfflineAudioIdb.putSong({ id, title, artist_id, artist, audio, likes, duration, cover });
+      await OfflineAudioIdb.putSong({ id, title, artist_id, artist, audio, likes, listened, duration, cover });
       setDownloaded(true);
     }
   };
@@ -121,21 +121,21 @@ function SongItem({
           </button>
           <div className={`${styles.dropdown_buttons} ${dropdownOpen ? styles.show : ''}`} id="myDropdown">
             {authUser && (
-              <button onClick={handleAddToPlaylistClick}>
-                <CgPlayListAdd /> Add to playlist
+              <button type="button" onClick={handleAddToPlaylistClick}>
+                <CgPlayListAdd /> Add to Playlist
               </button>
             )}
             {downloaded ? (
-              <button onClick={() => deleteDownloadedAudio()}>
+              <button type="button" onClick={() => deleteDownloadedAudio()}>
                 <LuTrash2 /> Delete Download
               </button>
             ) : (
-              <button onClick={() => downloadAudio()}>
+              <button type="button" onClick={() => downloadAudio()}>
                 <LiaDownloadSolid /> Download
               </button>
             )}
             {authUser && (
-              <button onClick={handleReportSongClick}>
+              <button type="button" onClick={handleReportSongClick}>
                 <CiFlag1 /> Report
               </button>
             )}
