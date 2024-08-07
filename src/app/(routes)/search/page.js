@@ -1,12 +1,10 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { usePathname, useSearchParams, useRouter } from 'next/navigation';
 import useInput from '@/app/_hooks/useInput';
 import Link from 'next/link';
-import SongsList from '@/app/_components/songs/SongsList';
-import AlbumsList from '@/app/_components/albums/AlbumsList';
-import ArtistsList from '@/app/_components/artists/ArtistsList';
+import dynamic from 'next/dynamic';
 import { asyncGetPlaylists } from '@/app/_states/playlists/action';
 import {
   asyncGetSongs,
@@ -25,6 +23,22 @@ import { FaSearch } from 'react-icons/fa';
 import styles from '../../_styles/style.module.css';
 import inputStyles from '../../_styles/input.module.css';
 
+const SongsList = dynamic(() => import('@/app/_components/songs/SongsList'), {
+  ssr: false,
+});
+const AlbumsList = dynamic(
+  () => import('@/app/_components/albums/AlbumsList'),
+  { ssr: false }
+);
+const ArtistsList = dynamic(
+  () => import('@/app/_components/artists/ArtistsList'),
+  { ssr: false }
+);
+const PopularPlaylistsList = dynamic(
+  () => import('@/app/_components/playlists/PopularPlaylistsList'),
+  { ssr: false }
+);
+
 function Search() {
   const searchParams = useSearchParams();
   const pathname = usePathname();
@@ -37,7 +51,13 @@ function Search() {
   const playlists = useSelector((state) => state.playlists);
   const authUser = useSelector((state) => state.authUser);
   const [genres, setGenres] = useState([]);
+  const [searchPlaylists, setSearchPlaylists] = useState([]);
   const [keyword, onKeywordChange] = useInput(searchParams.get('query') || '');
+
+  const fetchSearchPlaylists = async (query) => {
+    const playlists = await api.searchPlaylists(query);
+    setSearchPlaylists(playlists);
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -56,38 +76,51 @@ function Search() {
 
   useEffect(() => {
     const query = searchParams.get('query');
-    dispatch(asyncGetSongs(query));
-    dispatch(asyncGetAlbums(query));
-    dispatch(asyncGetUsers(query));
+    if (query) {
+      dispatch(asyncGetSongs(query));
+      dispatch(asyncGetAlbums(query));
+      dispatch(asyncGetUsers(query));
+      fetchSearchPlaylists(query);
+    }
   }, [searchParams, dispatch]);
 
-  const onSearch = (event) => {
-    event.preventDefault();
-    const queryParam = { query: keyword };
-    const params = new URLSearchParams(searchParams);
+  const onSearch = useCallback(
+    (event) => {
+      event.preventDefault();
+      const queryParam = { query: keyword };
+      const params = new URLSearchParams(searchParams);
 
-    Object.keys(queryParam).forEach((key) => {
-      if (queryParam[key]) {
-        params.set(key, queryParam[key]);
-      } else {
-        params.delete(key);
-      }
-    });
+      Object.keys(queryParam).forEach((key) => {
+        if (queryParam[key]) {
+          params.set(key, queryParam[key]);
+        } else {
+          params.delete(key);
+        }
+      });
 
-    const queryString = params.toString();
-    const updatedPath = queryString ? `${pathname}?${queryString}` : pathname;
-    router.push(updatedPath);
-  };
+      const queryString = params.toString();
+      const updatedPath = queryString ? `${pathname}?${queryString}` : pathname;
+      router.push(updatedPath);
+    },
+    [keyword, searchParams, pathname, router]
+  );
 
-  const playSong = (songId) => {
-    dispatch(setNewTracksQueue(songs.filter((song) => song.id === songId)));
-    dispatch(setPlayingSongInQueue(songId));
-    dispatch(setIsPlaying(true));
-  };
+  const playSong = useCallback(
+    (songId) => {
+      // dispatch(setNewTracksQueue(songs.filter((song) => song.id === songId)));
+      dispatch(setNewTracksQueue(songs));
+      dispatch(setPlayingSongInQueue(songId));
+      dispatch(setIsPlaying(true));
+    },
+    [dispatch, songs]
+  );
 
-  const handleLikeSong = (id, isLiked) => {
-    dispatch(isLiked ? asyncDeleteLikeSong(id) : asyncLikeSong(id));
-  };
+  const handleLikeSong = useCallback(
+    (id, isLiked) => {
+      dispatch(isLiked ? asyncDeleteLikeSong(id) : asyncLikeSong(id));
+    },
+    [dispatch]
+  );
 
   return (
     <main className={styles.search_page}>
@@ -114,6 +147,13 @@ function Search() {
         </div>
       ) : (
         <>
+          <div className={styles.genre_list_horizontal}>
+            {genres.map((genre) => (
+              <Link key={genre.id} href={`/song/${genre.name}`}>
+                <div>{genre.name}</div>
+              </Link>
+            ))}
+          </div>
           {albums.length > 0 && (
             <section>
               <h2>Albums</h2>
@@ -124,6 +164,12 @@ function Search() {
             <section>
               <h2>Artists</h2>
               <ArtistsList artists={users} />
+            </section>
+          )}
+          {searchPlaylists.length > 0 && (
+            <section>
+              <h2>Playlists</h2>
+              <PopularPlaylistsList playlists={searchPlaylists} />
             </section>
           )}
           {songs.length > 0 && (

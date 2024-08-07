@@ -75,6 +75,17 @@ function asyncGetPlaylists() {
   };
 }
 
+function asyncSearchPlaylists(name) {
+  return async (dispatch) => {
+    try {
+      const playlists = await api.searchPlaylists(name);
+      dispatch(receivePlaylistsActionCreator(playlists));
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+}
+
 function asyncGetPopularPlaylists() {
   return async (dispatch) => {
     dispatch(clearPlaylistsActionCreator());
@@ -141,6 +152,7 @@ export {
   addSongToPlaylistActionCreator,
   deleteSongFromPlaylistActionCreator,
   asyncGetPlaylists,
+  asyncSearchPlaylists,
   asyncGetPopularPlaylists,
   asyncAddPlaylist,
   asyncDeletePlaylist,

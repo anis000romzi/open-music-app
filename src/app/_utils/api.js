@@ -1067,6 +1067,25 @@ const api = (() => {
     return playlists;
   }
 
+  async function searchPlaylists(query) {
+    const response = await fetch(
+      `${BASE_URL}/playlists/search?name=${query}&username=${query}`
+    );
+
+    const responseJson = await response.json();
+    const { status, message } = responseJson;
+
+    if (status !== 'success') {
+      throw new Error(message);
+    }
+
+    const {
+      data: { playlists },
+    } = responseJson;
+
+    return playlists;
+  }
+
   async function getPopularPlaylists() {
     const response = await _fetchWithAuth(`${BASE_URL}/playlists/popular`);
 
@@ -1242,6 +1261,7 @@ const api = (() => {
     addPlaylistCover,
     getPopularPlaylists,
     getPlaylists,
+    searchPlaylists,
     getPlaylistById,
     addSongToPlaylist,
     deleteSongFromPlaylist,
