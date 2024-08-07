@@ -17,6 +17,16 @@ function playlistDetailReducer(playlistDetail = null, action = {}) {
         ...playlistDetail,
         cover: action.payload.file,
       };
+    case ActionType.LIKE_PLAYLIST_DETAIL:
+      return {
+        ...playlistDetail,
+        likes: playlistDetail.likes.concat([action.payload.userId]),
+      };
+    case ActionType.DELETE_LIKE_PLAYLIST_DETAIL:
+      return {
+        ...playlistDetail,
+        likes: playlistDetail.likes.filter((id) => id !== action.payload.userId),
+      };
     case ActionType.LIKE_PLAYLIST_DETAIL_SONG:
       return {
         ...playlistDetail,
