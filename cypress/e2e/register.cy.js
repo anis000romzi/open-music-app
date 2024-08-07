@@ -86,7 +86,7 @@ describe('Register spec', () => {
 
     cy.get('.Toastify__toast-body')
       .find('div:not([class])')
-      .should('have.text', 'Gagal menambahkan user. Email sudah digunakan.');
+      .should('have.text', 'Email is already in use');
   });
 
   it('should display alert when username already used', () => {
@@ -101,7 +101,7 @@ describe('Register spec', () => {
 
     cy.get('.Toastify__toast-body')
       .find('div:not([class])')
-      .should('have.text', 'Gagal menambahkan user. Username sudah digunakan.');
+      .should('have.text', 'Username is already in use');
   });
 
   it('should display homepage when username or email and password are correct', () => {
