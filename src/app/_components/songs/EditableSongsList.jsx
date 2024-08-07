@@ -127,16 +127,7 @@ function EditableSongsList({
       .map((song) => ({
         id: song.id,
         cover: (
-          <div className={styles.edit_image}>
-            <label htmlFor={`cover-${song.id}`}>
-              <Image
-                src={song.cover || defaultImage}
-                width={60}
-                height={60}
-                alt="Song cover"
-                priority
-              />
-            </label>
+          <>
             <input
               style={{ display: 'none' }}
               type="file"
@@ -144,7 +135,21 @@ function EditableSongsList({
               name={`cover-${song.id}`}
               onChange={(event) => changeCover(song.id, event.target.files[0])}
             />
-          </div>
+            <label htmlFor={`cover-${song.id}`} className={styles.container}>
+              <Image
+                src={song.cover || defaultImage}
+                width={60}
+                height={60}
+                alt="Song cover"
+                priority
+              />
+              <div className={styles.overlay}>
+                <div className={styles.text}>
+                  <FaPen />
+                </div>
+              </div>
+            </label>
+          </>
         ),
         title: song.title,
         album: song.album || 'Single',

@@ -119,7 +119,7 @@ function SongInput({ creating, addSong, ownedAlbums, genres }) {
             </div>
             <div className={styles.crop_buttons}>
               <button type="button" onClick={handleCrop}>
-                Crop and Save
+                Save
               </button>
               <button type="button" onClick={() => setShowCropModal(false)}>
                 Cancel

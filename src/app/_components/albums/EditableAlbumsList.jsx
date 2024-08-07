@@ -5,7 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import Modal from '../Modal';
 import { FaPen, FaRegTrashCan } from 'react-icons/fa6';
-import { FaExternalLinkAlt } from "react-icons/fa";
+import { FaExternalLinkAlt } from 'react-icons/fa';
 import styles from '../../_styles/album.module.css';
 import modalStyles from '../../_styles/modal.module.css';
 import defaultImage from '../../_assets/default-image.png';
@@ -111,16 +111,7 @@ const EditableAlbumsList = ({
       .map((album) => ({
         id: album.id,
         cover: (
-          <div className={styles.edit_image}>
-            <label htmlFor={`cover-${album.id}`}>
-              <Image
-                src={album.cover || defaultImage}
-                width={60}
-                height={60}
-                alt="Album cover"
-                priority
-              />
-            </label>
+          <>
             <input
               style={{ display: 'none' }}
               type="file"
@@ -128,7 +119,21 @@ const EditableAlbumsList = ({
               name={`cover-${album.id}`}
               onChange={(event) => changeCover(album.id, event.target.files[0])}
             />
-          </div>
+            <label htmlFor={`cover-${album.id}`} className={styles.container}>
+              <Image
+                src={album.cover || defaultImage}
+                width={60}
+                height={60}
+                alt="Album cover"
+                priority
+              />
+              <div className={styles.overlay}>
+                <div className={styles.text}>
+                  <FaPen />
+                </div>
+              </div>
+            </label>
+          </>
         ),
         name: album.name,
         year: album.year,
