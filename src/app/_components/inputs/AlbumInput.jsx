@@ -85,7 +85,7 @@ function AlbumInput({ creating, addAlbum }) {
             />
           </div>
           <div className={styles.crop_buttons}>
-            <button type="button" onClick={handleCrop}>Crop and Save</button>
+            <button type="button" onClick={handleCrop}>Save</button>
             <button type="button" onClick={() => setShowCropModal(false)}>Cancel</button>
           </div>
         </div>

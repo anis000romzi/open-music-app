@@ -95,7 +95,7 @@ const api = (() => {
     return userId;
   }
 
-  async function editUser({ id, fullname, description }) {
+  async function editUser({ id, fullname, username, description }) {
     const response = await _fetchWithAuth(`${BASE_URL}/users/${id}`, {
       method: 'PUT',
       headers: {
@@ -103,6 +103,7 @@ const api = (() => {
       },
       body: JSON.stringify({
         fullname,
+        username,
         description,
       }),
     });
@@ -561,6 +562,23 @@ const api = (() => {
     const response = await fetch(
       `${BASE_URL}/songs?title=${query}&artist=${query}`
     );
+
+    const responseJson = await response.json();
+    const { status, message } = responseJson;
+
+    if (status !== 'success') {
+      throw new Error(message);
+    }
+
+    const {
+      data: { songs },
+    } = responseJson;
+
+    return songs;
+  }
+
+  async function getPopularSongs() {
+    const response = await fetch(`${BASE_URL}/songs/popular`);
 
     const responseJson = await response.json();
     const { status, message } = responseJson;
@@ -1050,8 +1068,44 @@ const api = (() => {
     return playlists;
   }
 
+  async function searchPlaylists(query) {
+    const response = await fetch(
+      `${BASE_URL}/playlists/search?name=${query}&username=${query}`
+    );
+
+    const responseJson = await response.json();
+    const { status, message } = responseJson;
+
+    if (status !== 'success') {
+      throw new Error(message);
+    }
+
+    const {
+      data: { playlists },
+    } = responseJson;
+
+    return playlists;
+  }
+
   async function getPopularPlaylists() {
     const response = await _fetchWithAuth(`${BASE_URL}/playlists/popular`);
+
+    const responseJson = await response.json();
+    const { status, message } = responseJson;
+
+    if (status !== 'success') {
+      throw new Error(message);
+    }
+
+    const {
+      data: { playlists },
+    } = responseJson;
+
+    return playlists;
+  }
+
+  async function getLikedPlaylists() {
+    const response = await _fetchWithAuth(`${BASE_URL}/playlists/liked`);
 
     const responseJson = await response.json();
     const { status, message } = responseJson;
@@ -1198,6 +1252,7 @@ const api = (() => {
     getAlbumsByArtist,
     getOwnedAlbums,
     getSongs,
+    getPopularSongs,
     getSongsByGenre,
     getOwnedSongs,
     getLikedSongs,
@@ -1222,9 +1277,13 @@ const api = (() => {
     deletePlaylistCollaborator,
     deletePlaylist,
     addPlaylistCover,
-    getPopularPlaylists,
     getPlaylists,
+    searchPlaylists,
     getPlaylistById,
+    getPopularPlaylists,
+    getLikedPlaylists,
+    likePlaylist,
+    deleteLikePlaylist,
     addSongToPlaylist,
     deleteSongFromPlaylist,
     report,

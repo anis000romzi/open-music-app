@@ -622,7 +622,7 @@
   justify-content: center;
 }
 
-.playlist_buttons .save_playlist_button {
+.playlist_buttons .visibility_playlist_button {
   font-size: 25px;
   background-color: transparent;
   border: 0;
@@ -635,8 +635,21 @@
   justify-content: center;
 }
 
-.playlist_buttons .save_playlist_button > span {
+.playlist_buttons .visibility_playlist_button > span {
   font-size: 0.8em;
+}
+
+.playlist_buttons .like_playlist_button {
+  font-size: 25px;
+  background-color: transparent;
+  border: 0;
+  width: 44px;
+  height: 44px;
+  cursor: pointer;
+  gap: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .playlist_buttons .shuffle_button {
@@ -732,6 +745,17 @@
 
 .profile_info__description p {
   font-size: 1em;
+}
+
+.preview_profile_page {
+  color: #ffe74c;
+  margin-top: 10px;
+  font-size: 1em;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-weight: bold;
+  text-decoration: underline;
 }
 
 .profile_page .edit_profile_input {
@@ -1002,6 +1026,21 @@
   padding: 20px 10px;
   font-size: 1em;
   width: 40%;
+  border-radius: 10px;
+  background-color: #212121;
+}
+
+.search_page .genre_list_horizontal {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.search_page .genre_list_horizontal a {
+  padding: 10px;
+  font-size: 0.8em;
   border-radius: 10px;
   background-color: #212121;
 }

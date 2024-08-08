@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import useInput from '@/app/_hooks/useInput';
 import Image from 'next/image';
@@ -14,6 +14,7 @@ import { asyncGetOwnedAlbums } from '@/app/_states/albums/action';
 import { redirect } from 'next/navigation';
 import { getCroppedImg } from '@/app/_utils/get-cropped-img';
 import { FaPen, FaChartSimple } from 'react-icons/fa6';
+import { FaRegEye } from "react-icons/fa";
 import styles from '../../../_styles/style.module.css';
 
 function Profile() {
@@ -23,9 +24,8 @@ function Profile() {
   const songs = useSelector((state) => state.songs);
   const [edit, setEdit] = useState(false);
   const [fullname, onFullnameChange] = useInput(authUser?.fullname || '');
-  const [description, onDescriptionChange] = useInput(
-    authUser?.description || ''
-  );
+  const [username, onUsernameChange] = useInput(authUser?.username || '');
+  const [description, onDescriptionChange] = useInput(authUser?.description || '');
   const [imageSrc, setImageSrc] = useState(null);
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
@@ -42,12 +42,12 @@ function Profile() {
     dispatch(asyncGetOwnedAlbums());
   }, [dispatch]);
 
-  const handleEditUser = () => {
-    dispatch(asyncEditAuthUser({ id: authUser.id, fullname, description }));
+  const handleEditUser = useCallback(() => {
+    dispatch(asyncEditAuthUser({ id: authUser.id, fullname, username, description }));
     setEdit(false);
-  };
+  }, [dispatch, authUser.id, fullname, username, description]);
 
-  const handleChangePicture = (event) => {
+  const handleChangePicture = useCallback((event) => {
     const file = event.target.files[0];
     if (file) {
       const reader = new FileReader();
@@ -57,13 +57,13 @@ function Profile() {
       };
       reader.readAsDataURL(file);
     }
-  };
+  }, []);
 
-  const onCropComplete = (croppedArea, croppedAreaPixels) => {
+  const onCropComplete = useCallback((croppedArea, croppedAreaPixels) => {
     setCroppedAreaPixels(croppedAreaPixels);
-  };
+  }, []);
 
-  const handleCrop = async () => {
+  const handleCrop = useCallback(async () => {
     try {
       const croppedImage = await getCroppedImg(imageSrc, croppedAreaPixels);
       setCroppedImage(croppedImage);
@@ -73,7 +73,7 @@ function Profile() {
     } catch (e) {
       console.error(e);
     }
-  };
+  }, [dispatch, imageSrc, croppedAreaPixels, authUser.id]);
 
   return (
     <main className={styles.profile_page}>
@@ -114,7 +114,7 @@ function Profile() {
             />
           </div>
           <div className={styles.crop_buttons}>
-            <button onClick={handleCrop}>Crop and Save</button>
+            <button onClick={handleCrop}>Save</button>
             <button onClick={() => setShowCropModal(false)}>Cancel</button>
           </div>
         </div>
@@ -127,6 +127,12 @@ function Profile() {
             value={fullname}
             onChange={onFullnameChange}
             placeholder="Fullname"
+          />
+          <input
+            type="text"
+            value={username}
+            onChange={onUsernameChange}
+            placeholder="Username"
           />
           <textarea
             value={description}
@@ -157,6 +163,7 @@ function Profile() {
       >
         {edit ? 'Cancel' : 'Edit'}
       </button>
+      <Link className={styles.preview_profile_page} href={`/artist/${authUser?.id}`}>View profile <FaRegEye /></Link>
       <div className={styles.contents}>
         <Link href="/profile/me/albums">
           <div>

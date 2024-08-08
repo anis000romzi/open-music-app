@@ -20,6 +20,7 @@ function authUserReducer(authUser = null, action = {}) {
       return {
         ...authUser,
         fullname: action.payload.fullname,
+        username: action.payload.username,
         description: action.payload.description,
       };
     case ActionType.CHANGE_PICTURE_AUTH_USER:

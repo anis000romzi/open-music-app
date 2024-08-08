@@ -6,6 +6,8 @@ const ActionType = {
   CLEAR_PLAYLIST_DETAIL: 'CLEAR_PLAYLIST_DETAIL',
   EDIT_PLAYLIST_DETAIL: 'EDIT_PLAYLIST_DETAIL',
   CHANGE_PLAYLIST_DETAIL_COVER: 'CHANGE_PLAYLIST_DETAIL_COVER',
+  LIKE_PLAYLIST_DETAIL: 'LIKE_PLAYLIST_DETAIL',
+  DELETE_LIKE_PLAYLIST_DETAIL: 'DELETE_LIKE_PLAYLIST_DETAIL',
   LIKE_PLAYLIST_DETAIL_SONG: 'LIKE_PLAYLIST_DETAIL_SONG',
   DELETE_PLAYLIST_DETAIL_LIKE_SONG: 'DELETE_PLAYLIST_DETAIL_LIKE_SONG',
   ADD_PLAYLIST_COLLABORATOR: 'ADD_PLAYLIST_COLLABORATOR',
@@ -35,6 +37,24 @@ function changeCoverPlaylistDetailActionCreator(file) {
     type: ActionType.CHANGE_PLAYLIST_DETAIL_COVER,
     payload: {
       file,
+    },
+  };
+}
+
+function likePlaylistDetailActionCreator(userId) {
+  return {
+    type: ActionType.LIKE_PLAYLIST_DETAIL,
+    payload: {
+      userId,
+    },
+  };
+}
+
+function deletePlaylistDetailLikeActionCreator(userId) {
+  return {
+    type: ActionType.DELETE_LIKE_PLAYLIST_DETAIL,
+    payload: {
+      userId,
     },
   };
 }
@@ -123,6 +143,32 @@ function asyncChangeCoverPlaylistDetail(id, file) {
   };
 }
 
+function asyncLikePlaylistDetail(playlistId) {
+  return async (dispatch, getState) => {
+    const { authUser } = getState();
+    dispatch(likePlaylistDetailActionCreator(authUser.id));
+    try {
+      await api.likePlaylist(playlistId);
+    } catch (error) {
+      toast.error(error.message);
+      dispatch(deletePlaylistDetailLikeActionCreator(authUser.id));
+    }
+  };
+}
+
+function asyncDeleteLikePlaylistDetail(playlistId) {
+  return async (dispatch, getState) => {
+    const { authUser } = getState();
+    dispatch(deletePlaylistDetailLikeActionCreator(authUser.id));
+    try {
+      await api.deleteLikePlaylist(playlistId);
+    } catch (error) {
+      toast.error(error.message);
+      dispatch(likePlaylistDetailActionCreator(authUser.id));
+    }
+  };
+}
+
 function asyncPlaylistDetailLikeSong(songId) {
   return async (dispatch, getState) => {
     const { authUser } = getState();
@@ -182,6 +228,8 @@ export {
   asyncReceivePlaylistDetail,
   asyncEditPlaylistDetail,
   asyncChangeCoverPlaylistDetail,
+  asyncLikePlaylistDetail,
+  asyncDeleteLikePlaylistDetail,
   asyncPlaylistDetailLikeSong,
   asyncDeletePlaylistDetailLikeSong,
   asyncAddPlaylistCollaborator,

@@ -102,6 +102,18 @@ function asyncGetSongs(title) {
   };
 }
 
+function asyncGetPopularSongs() {
+  return async (dispatch) => {
+    dispatch(clearSongsActionCreator());
+    try {
+      const songs = await api.getPopularSongs();
+      dispatch(receiveSongsActionCreator(songs));
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+}
+
 function asyncGetSongsByGenre(genre) {
   return async (dispatch) => {
     dispatch(clearSongsActionCreator());
@@ -232,6 +244,7 @@ export {
   deleteSongsActionCreator,
   changeCoverSongsActionCreator,
   asyncGetSongs,
+  asyncGetPopularSongs,
   asyncGetSongsByGenre,
   asyncGetLikedSongs,
   asyncGetOwnedSongs,

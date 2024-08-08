@@ -63,7 +63,7 @@ describe('Register spec', () => {
   it('should display alert when fullname is empty', () => {
     cy.get('input[placeholder="Email"]').type('test@gmail.com');
     cy.get('input[placeholder="Username"]').type('tester_tester');
-    cy.get('input[placeholder="Password"]').type('123456');
+    cy.get('input[placeholder="Password"]').type('12345678');
 
     cy.get('button')
       .contains(/^Register$/)
@@ -78,7 +78,7 @@ describe('Register spec', () => {
     cy.get('input[placeholder="Email"]').type('testing@gmail.com');
     cy.get('input[placeholder="Username"]').type('tester_tester2');
     cy.get('input[placeholder="Fullname"]').type('Application Tester');
-    cy.get('input[placeholder="Password"]').type('123456');
+    cy.get('input[placeholder="Password"]').type('12345678');
 
     cy.get('button')
       .contains(/^Register$/)
@@ -86,14 +86,14 @@ describe('Register spec', () => {
 
     cy.get('.Toastify__toast-body')
       .find('div:not([class])')
-      .should('have.text', 'Gagal menambahkan user. Email sudah digunakan.');
+      .should('have.text', 'Email is already in use');
   });
 
   it('should display alert when username already used', () => {
     cy.get('input[placeholder="Email"]').type('test@gmail.com');
     cy.get('input[placeholder="Username"]').type('tester_tester');
     cy.get('input[placeholder="Fullname"]').type('Application Tester');
-    cy.get('input[placeholder="Password"]').type('123456');
+    cy.get('input[placeholder="Password"]').type('12345678');
 
     cy.get('button')
       .contains(/^Register$/)
@@ -101,14 +101,14 @@ describe('Register spec', () => {
 
     cy.get('.Toastify__toast-body')
       .find('div:not([class])')
-      .should('have.text', 'Gagal menambahkan user. Username sudah digunakan.');
+      .should('have.text', 'Username is already in use');
   });
 
   it('should display homepage when username or email and password are correct', () => {
     cy.get('input[placeholder="Email"]').type(`test${Date.now()}@example.com`);
     cy.get('input[placeholder="Username"]').type(`user${Date.now()}`);
     cy.get('input[placeholder="Fullname"]').type('Application Tester');
-    cy.get('input[placeholder="Password"]').type('123456');
+    cy.get('input[placeholder="Password"]').type('12345678');
 
     cy.get('button')
       .contains(/^Register$/)

@@ -81,6 +81,40 @@
   margin-top: 20px;
 }
 
+.editable_album_list .container {
+  position: relative;
+  display: flex;
+  margin: 5px 0;
+}
+
+.editable_album_list .container .overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+  opacity: 0;
+  background-color: black;
+}
+
+.editable_album_list .container:hover .overlay {
+  opacity: 0.7;
+}
+
+.editable_album_list .container .text {
+  color: white;
+  font-size: 1.5em;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
 .editable_album_list .delete_album {
   background-color: #ffffff;
   color: #fe0000;
