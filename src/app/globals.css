@@ -193,8 +193,9 @@ input[type='range']:active::-moz-range-thumb {
 }
 
 .slick-list {
-  overflow: visible !important;
-  overflow-x: clip !important;
+  padding: 60px 0 !important;
+  /* overflow: visible !important;
+  overflow-x: clip !important; */
 }
 
 .Tabs {
