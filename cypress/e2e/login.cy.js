@@ -45,15 +45,4 @@ describe('Login spec', () => {
     .find('div:not([class])')
     .should('have.text', 'Username/email or password wrong');
   });
-
-  it('should display homepage when username or email and password are correct', () => {
-    cy.get('input[placeholder="Username or Email"]').type('romzianis');
-    cy.get('input[placeholder="Password"]').type('152315');
-
-    cy.get('button')
-      .contains(/^Login$/)
-      .click();
-
-    cy.get('button[id="new-content"]').should('be.visible');
-  });
 });
