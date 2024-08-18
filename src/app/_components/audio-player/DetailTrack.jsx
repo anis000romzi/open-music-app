@@ -1,6 +1,5 @@
 'use client';
 import { useDispatch } from 'react-redux';
-import MediaSession from '@mebtte/react-media-session';
 import Volume from './Volume';
 import QueueList from '../queue/QueueList';
 import QueueItemDragLayer from '../queue/QueueItemDragLayer';
@@ -20,7 +19,7 @@ import { TfiLoop } from 'react-icons/tfi';
 import { LuShuffle } from 'react-icons/lu';
 import styles from '../../_styles/player.module.css';
 import defaultImage from '../../_assets/default-image.png';
-import { useEffect } from 'react';
+import { useEffect, useCallback } from 'react';
 
 function DetailTrack({
   currentlyPlaying,
@@ -32,6 +31,7 @@ function DetailTrack({
   handleNext,
   loop,
   setLoop,
+  handleShuffle,
   isPlaying,
   isDetailOpen,
   handleDetailOpen,
@@ -41,22 +41,26 @@ function DetailTrack({
 }) {
   const dispatch = useDispatch();
 
-  const playTrack = (songId) => {
+  const playTrack = useCallback((songId) => {
     dispatch(setNewTracksQueue(queue));
     dispatch(setPlayingSongInQueue(songId));
     dispatch(setIsPlaying(true));
-  };
+  }, [dispatch, queue]);
 
   useEffect(() => {
-    if (progressBarRef.current) progressBarRef.current.max = duration;
-  }, [progressBarRef.current, duration]);
+    if (progressBarRef.current) {
+      progressBarRef.current.max = duration;
+    }
+  }, [duration, progressBarRef.current]);
 
-  if (isDetailOpen !== true) {
-    document.getElementsByTagName("BODY")[0].style.overflow = 'auto';  
-    return null;
-    } else {
-    document.getElementsByTagName("BODY")[0].style.overflow = 'hidden';
-  }
+  useEffect(() => {
+    setTimeout(() => {
+      document.body.style.overflow = isDetailOpen ? 'hidden' : 'auto';
+    }, 300)
+    return () => {
+      document.body.style.overflow = 'auto'; // Reset overflow on cleanup
+    };
+  }, [isDetailOpen]);
 
   return (
     <div
@@ -70,82 +74,32 @@ function DetailTrack({
       >
         <FaAngleDown />
       </button>
-      <Tabs className="Tabs">
-        <TabList>
-          <Tab>Info</Tab>
-          <Tab>Queue</Tab>
-        </TabList>
-        <TabPanel>
-          <div className={styles.detail_track_info}>
-            <div className={styles.info}>
-              <Image
-                src={currentlyPlaying.cover || defaultImage}
-                width={200}
-                height={200}
-                alt="Cover"
-                priority
-              />
-              <p className={styles.detail_track_title}>
-                {currentlyPlaying.title || '--'}
-              </p>
-              <p className={styles.detail_track_artist}>
-                {currentlyPlaying.artist || '--'}
-              </p>
-            </div>
-            <div className={styles.queue_detail}>
-              <DndProvider backend={TouchBackend} options={{ enableMouseEvents: true, delayTouchStart: 200 }}>
-                <QueueList
-                  queue={queue}
-                  onPlayHandler={playTrack}
-                  onDeleteHandler={deleteTrackFromQueue}
-                  currentlyPlaying={currentlyPlaying}
-                />
-                <QueueItemDragLayer />
-              </DndProvider>
-            </div>
-            <div className={styles.progress_bar_detail}>
-              <ProgressBar
-                progressBarRef={progressBarRef}
-                audioRef={audioRef}
-                timeProgress={timeProgress}
-                duration={duration}
-              />
-            </div>
-            <div className={styles.controls_detail}>
-              <button
-                type="button"
-                className={styles.shuffle}
-                onClick={() => {}}
-              >
-                <LuShuffle />
-              </button>
-              <button type="button" onClick={handlePrevious}>
-                <BiSkipPrevious />
-              </button>
-              <button type="button" onClick={togglePlayPause}>
-                {isPlaying ? <FaPause /> : <FaPlay />}
-              </button>
-              <button type="button" onClick={handleNext}>
-                <BiSkipNext />
-              </button>
-              <button
-                type="button"
-                className={`${styles.loop} ${loop ? styles.active : ''}`}
-                onClick={(event) => {
-                  event.stopPropagation();
-                  setLoop((current) => !current);
-                }}
-              >
-                <TfiLoop />
-              </button>
-            </div>
-            <div className={styles.volume_detail}>
-              <Volume audioRef={audioRef} />
-            </div>
-          </div>
-        </TabPanel>
-        <TabPanel>
-          <DndProvider backend={TouchBackend} options={{ enableMouseEvents: true, delayTouchStart: 200 }}>
+      <DndProvider backend={TouchBackend} options={{ enableMouseEvents: true, delayTouchStart: 200 }}>
+        <Tabs className="Tabs">
+          <TabList>
+            <Tab>Info</Tab>
+            <Tab>Queue</Tab>
+          </TabList>
+          <TabPanel>
+            <TrackInfo
+              currentlyPlaying={currentlyPlaying}
+              queue={queue}
+              playTrack={playTrack}
+              deleteTrackFromQueue={deleteTrackFromQueue}
+              progressBarRef={progressBarRef}
+              audioRef={audioRef}
+              timeProgress={timeProgress}
+              duration={duration}
+              handleShuffle={handleShuffle}
+              handlePrevious={handlePrevious}
+              togglePlayPause={togglePlayPause}
+              handleNext={handleNext}
+              isPlaying={isPlaying}
+              loop={loop}
+              setLoop={setLoop}
+            />
+          </TabPanel>
+          <TabPanel>
             <QueueList
               queue={queue}
               onPlayHandler={playTrack}
@@ -153,18 +107,95 @@ function DetailTrack({
               currentlyPlaying={currentlyPlaying}
             />
             <QueueItemDragLayer />
-          </DndProvider>
-        </TabPanel>
-      </Tabs>
-      <MediaSession
-        title={currentlyPlaying.title}
-        artist={currentlyPlaying.artist}
-        album={currentlyPlaying.album}
-        onPlay={togglePlayPause}
-        onPause={togglePlayPause}
-        onPreviousTrack={handlePrevious}
-        onNextTrack={handleNext}
-      />
+          </TabPanel>
+        </Tabs>
+      </DndProvider>
+    </div>
+  );
+}
+
+function TrackInfo({
+  currentlyPlaying,
+  queue,
+  playTrack,
+  deleteTrackFromQueue,
+  progressBarRef,
+  audioRef,
+  timeProgress,
+  duration,
+  handleShuffle,
+  handlePrevious,
+  togglePlayPause,
+  handleNext,
+  isPlaying,
+  loop,
+  setLoop
+}) {
+  return (
+    <div className={styles.detail_track_info}>
+      <div className={styles.info}>
+        <Image
+          src={currentlyPlaying.cover || defaultImage}
+          width={200}
+          height={200}
+          alt="Cover"
+          priority
+        />
+        <p className={styles.detail_track_title}>
+          {currentlyPlaying.title || '--'}
+        </p>
+        <p className={styles.detail_track_artist}>
+          {currentlyPlaying.artist || '--'}
+        </p>
+      </div>
+      <div className={styles.queue_detail}>
+        <QueueList
+          queue={queue}
+          onPlayHandler={playTrack}
+          onDeleteHandler={deleteTrackFromQueue}
+          currentlyPlaying={currentlyPlaying}
+        />
+        <QueueItemDragLayer />
+      </div>
+      <div className={styles.progress_bar_detail}>
+        <ProgressBar
+          progressBarRef={progressBarRef}
+          audioRef={audioRef}
+          timeProgress={timeProgress}
+          duration={duration}
+        />
+      </div>
+      <div className={styles.controls_detail}>
+        <button
+          type="button"
+          className={styles.shuffle}
+          onClick={handleShuffle}
+        >
+          <LuShuffle />
+        </button>
+        <button type="button" onClick={handlePrevious}>
+          <BiSkipPrevious />
+        </button>
+        <button type="button" onClick={togglePlayPause}>
+          {isPlaying ? <FaPause /> : <FaPlay />}
+        </button>
+        <button type="button" onClick={handleNext}>
+          <BiSkipNext />
+        </button>
+        <button
+          type="button"
+          className={`${styles.loop} ${loop ? styles.active : ''}`}
+          onClick={(event) => {
+            event.stopPropagation();
+            setLoop((current) => !current);
+          }}
+        >
+          <TfiLoop />
+        </button>
+      </div>
+      <div className={styles.volume_detail}>
+        <Volume audioRef={audioRef} />
+      </div>
     </div>
   );
 }

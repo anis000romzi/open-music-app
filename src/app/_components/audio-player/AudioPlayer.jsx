@@ -9,8 +9,9 @@ import DetailTrack from './DetailTrack';
 import ProgressBar from './ProgressBar';
 import Controls from './Control';
 import Volume from './Volume';
-import { setPlayingSongInQueue, setIsPlaying, deleteSongFromQueue } from '@/app/_states/queue/action';
+import { setPlayingSongInQueue, setNewTracksQueue, setIsPlaying, deleteSongFromQueue } from '@/app/_states/queue/action';
 import api from '@/app/_utils/api';
+import shuffle from '@/app/_utils/shuffle';
 import { LuSettings } from 'react-icons/lu';
 import { RiSpeedLine } from 'react-icons/ri';
 import { FaAngleLeft } from 'react-icons/fa6';
@@ -111,6 +112,11 @@ function AudioPlayer() {
     }
   }, [dispatch, queue]);
 
+  const handleShuffleTrack = useCallback(() => {
+    dispatch(setNewTracksQueue(shuffle(queue)));
+    dispatch(setIsPlaying(true));
+  }, [dispatch, queue]);
+
   const handleNext = useCallback(() => handleTrackChange(trackIndex + 1), [handleTrackChange, trackIndex]);
   const handlePrevious = useCallback(() => handleTrackChange(trackIndex - 1), [handleTrackChange, trackIndex]);
   const togglePlayPause = useCallback(() => dispatch(setIsPlaying(!isPlaying)), [dispatch, isPlaying]);
@@ -144,6 +150,7 @@ function AudioPlayer() {
         audioRef={audioRef}
         loop={loop}
         setLoop={setLoop}
+        handleShuffle={handleShuffleTrack}
         handlePrevious={handlePrevious}
         handleNext={handleNext}
         isPlaying={isPlaying}
@@ -168,6 +175,7 @@ function AudioPlayer() {
           <Controls
             loop={loop}
             setLoop={setLoop}
+            handleShuffle={handleShuffleTrack}
             handlePrevious={handlePrevious}
             handleNext={handleNext}
             setTimeProgress={setTimeProgress}
