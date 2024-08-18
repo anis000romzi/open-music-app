@@ -87,7 +87,7 @@ export default function Home() {
       {playlists.length > 0 && (
         <section className={styles.popular_playlist_section}>
           <h2 className={styles.popular_album}>Popular Playlists</h2>
-          <PopularPlaylistsList playlists={playlists} />
+          <PopularPlaylistsList playlists={popularPlaylists} />
         </section>
       )}
     </main>
