@@ -192,6 +192,12 @@ input[type='range']:active::-moz-range-thumb {
   color: #e8f0f2 !important;
 }
 
+.slick-list {
+  padding: 60px 0 !important;
+  /* overflow: visible !important;
+  overflow-x: clip !important; */
+}
+
 .Tabs {
   width: 100%;
   height: auto;

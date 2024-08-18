@@ -76,7 +76,7 @@ describe('Register spec', () => {
 
   it('should display alert when email already used', () => {
     cy.get('input[placeholder="Email"]').type('testing@gmail.com');
-    cy.get('input[placeholder="Username"]').type('tester_tester2');
+    cy.get('input[placeholder="Username"]').type('tester_tester3');
     cy.get('input[placeholder="Fullname"]').type('Application Tester');
     cy.get('input[placeholder="Password"]').type('12345678');
 

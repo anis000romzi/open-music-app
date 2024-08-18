@@ -31,7 +31,7 @@ function DisplayTrack({
           <p className={styles.artist}>{currentlyPlaying.artist || '--'}</p>
         </div>
       </div>
-      <button className={styles.play_button_mobile} onClick={(event) => {
+      <button type="button" className={styles.play_button_mobile} onClick={(event) => {
         event.stopPropagation();
         togglePlayPause();
       }}>

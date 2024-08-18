@@ -8,6 +8,7 @@ import styles from '../../_styles/player.module.css';
 function Controls({
   loop,
   setLoop,
+  handleShuffle,
   handlePrevious,
   handleNext,
   setTimeProgress,
@@ -55,19 +56,24 @@ function Controls({
       onClick={(event) => event.stopPropagation()}
     >
       <div className={styles.control_buttons}>
-        <button className={styles.shuffle}>
+        <button
+          type="button"
+          className={styles.shuffle}
+          onClick={handleShuffle}
+        >
           <LuShuffle />
         </button>
-        <button onClick={handlePrevious}>
+        <button type="button" onClick={handlePrevious}>
           <BiSkipPrevious />
         </button>
-        <button onClick={togglePlayPause}>
+        <button type="button" onClick={togglePlayPause}>
           {isPlaying ? <FaPause /> : <FaPlay />}
         </button>
-        <button onClick={handleNext}>
+        <button type="button" onClick={handleNext}>
           <BiSkipNext />
         </button>
         <button
+          type="button"
           className={`${styles.loop} ${loop ? styles.active : ''}`}
           onClick={(event) => {
             event.stopPropagation();

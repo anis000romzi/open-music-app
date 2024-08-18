@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { asyncGetPopularSongs } from './_states/songs/action';
 import { asyncGetPopularAlbums } from './_states/albums/action';
 import { asyncGetPopularArtists } from './_states/users/action';
-import { asyncGetPopularPlaylists } from './_states/playlists/action';
+import { asyncGetPlaylists } from './_states/playlists/action';
 import {
   setNewTracksQueue,
   setPlayingSongInQueue,
@@ -25,6 +25,7 @@ export default function Home() {
   const albums = useSelector((state) => state.albums);
   const users = useSelector((state) => state.users);
   const playlists = useSelector((state) => state.playlists);
+  const [popularPlaylists, setPopularPlaylists] = useState([]);
   const [history, setHistory] = useState([]);
 
   const fetchHistory = useCallback(async () => {
@@ -34,13 +35,21 @@ export default function Home() {
     }
   }, [authUser]);
 
+  const fetchPopularPlaylists = useCallback(async () => {
+    const playlists = await api.getPopularPlaylists();
+    setPopularPlaylists(playlists);
+  }, []);
+
   useEffect(() => {
-    fetchHistory(); // Fetch history only if authUser changes
+    fetchHistory();
+    fetchPopularPlaylists();
     dispatch(asyncGetPopularSongs());
     dispatch(asyncGetPopularAlbums());
     dispatch(asyncGetPopularArtists());
-    dispatch(asyncGetPopularPlaylists());
-  }, [dispatch, fetchHistory]);
+    if (authUser) {
+      dispatch(asyncGetPlaylists());
+    }
+  }, [dispatch, fetchHistory, fetchPopularPlaylists, authUser]);
 
   const playSong = useCallback(
     (songId) => {
@@ -61,7 +70,7 @@ export default function Home() {
       )}
       <section className={styles.popular_song_section}>
         <h2 className={styles.popular_album}>Popular Songs</h2>
-        <PopularSongsList songs={songs} />
+        <PopularSongsList songs={songs} authUser={authUser} playlists={playlists} />
       </section>
       {albums.length > 0 && (
         <section className={styles.popular_album_section}>

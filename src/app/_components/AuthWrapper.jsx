@@ -1,12 +1,17 @@
 'use client';
+import { useSelector } from 'react-redux';
 import { redirect } from 'next/navigation';
 import { usePathname } from 'next/navigation';
 import useAuthUser from '../_hooks/useAuthUser';
+import useMediaSession from '../_hooks/useMediaSession';
 import HeaderBar from './HeaderBar';
 
 function AuthWrapper({ children }) {
   const pathname = usePathname();
   const { authUser, isPreload, logOut } = useAuthUser();
+  const { currentlyPlaying = {}, queue = [], isPlaying } = useSelector((state) => state.queue);
+
+  const { setCurrentTrack } = useMediaSession({ currentTrack: currentlyPlaying, queue });
 
   if (isPreload) {
     return null;

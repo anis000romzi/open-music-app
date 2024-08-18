@@ -32,6 +32,11 @@
   gap: 5px;
   align-items: center;
   padding: 0 10px;
+  width: 65%;
+}
+
+.track .info div {
+  width: 100%;
 }
 
 .track .title {
@@ -39,7 +44,7 @@
   font-size: 1.2em;
   overflow: hidden;
   white-space: nowrap;
-  width: 200px;
+  width: 100%;
   text-overflow: ellipsis;
 }
 
@@ -264,12 +269,7 @@
   }
 
   .track .title {
-    font-weight: bold;
     font-size: 1em;
-    overflow: hidden;
-    white-space: nowrap;
-    width: 80px;
-    text-overflow: ellipsis;
   }
 
   .track .artist {
